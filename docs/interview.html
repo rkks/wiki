@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Interview Questions | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+  <link rel="stylesheet" href="./css/solarized-light.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span7">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./software.html">Software/</a></li>
+            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
+            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+
+<!-- End _navigation.html -->
+
+<article>
+
+<!--This text is produced by a custom variable in the pandoc template called "category." The value is set by the shell script when processing posts.-->
+<div id="category">thoughts</div><!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Interview Questions</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="where-do-you-see-yourself-in-5-years-awesome">Where do you see yourself in 5 years? (Awesome)</h2>
+<p>Job Interview Questions: During an interview what’s an appropriate answer when asked “where do you see yourself in 5 years?”</p>
+<p>“That depends on where this company will be in four.”</p>
+<p>It’s honest, and it’s an opener to further questions about the company. you should come out of an interview knowing more about the company’s trajectory than when you entered. It’s also confronting. If they’ve given their response and still want you to answer theirs, then your final answer is inevitable:</p>
+<p>“Well, now it depends on whether you’ve just given me the job…”</p>
+<p>“If you can’t dazzle them with brilliance, baffle them with bullshit.” - W. C. Fields</p>
+<p>Caring about why every natural number is the sum of four squares requires nothing more than intellectual curiosity, and satisfying our desire to pursue such questions in the name of sheer curiosity is the “point” of pure mathematics. - Hardy</p>
+<h2 id="technical-questions">Technical Questions</h2>
+<h3 id="check-integer-overflow">1. Check integer overflow</h3>
+<p>If adding two positive values yields a negative output or adding two negative values yields a positive output, then it is an overflow.</p>
+<ul>
+<li><p>Time Complexity : O(1)</p></li>
+<li><p>Space Complexity: O(1)</p></li>
+</ul>
+<p>If one of the components (let’s say ‘a’) in addition is greater than INT_MAX - b, then it will be an overflow.</p>
+<ul>
+<li><p>Time Complexity : O(1)</p></li>
+<li><p>Space Complexity: O(1)</p></li>
+</ul>
+<h3 id="compute-integer-absolute-value">2. Compute integer absolute value</h3>
+<p>(( n &gt;&gt; 31 ) + n ) ^ ( n &gt;&gt; 31 ) OR (( n &gt;&gt; 31 ) ^ n) - ( n &gt;&gt; 31 )</p>
+<h3 id="count-the-number-of-bits-in-integer">3. Count the number of bits in integer</h3>
+<p>Simple method:<br />
+<code>for (; num; num »= 1) { count += (num &amp; 1); }</code></p>
+<p>Brian Kernighan’s Algorithm:<br />
+<code>for (; num; num &amp;= (num - 1)) { count++; }</code></p>
+<h3 id="find-intersection-two-linked-lists">4. Find intersection two linked lists</h3>
+<p>Given number of elements in first linked list be m and in second linked list be n, and m &gt; n. Then on first linked list start from (m - n)th element and on second linked list, from first element. If any of the pointers match during traversing, except NULL, then linked list intersects.</p>
+<h3 id="reverse-a-linked-list">5. Reverse a linked list</h3>
+<pre class="code"><code>Node *reverse(Node *x) {
+   Node *current = x;
+   Node *previous = NULL;
+   while (current != NULL) {
+      Node *next = current-&gt;next;
+      current-&gt;next = previous;
+      /* switch to new node */
+      previous = current;
+      current = next;
+   }
+   return previous;
+}</code></pre>
+<h3 id="reverse-the-string">6. Reverse the string</h3>
+<pre class="code"><code>void reverseString(char* str, int len)
+{
+    int i, j;
+    char temp;
+    i=j=temp=0;
+    j=len-1;
+    for (i=0; i&lt;j; i++, j--)
+    {
+        temp=str[i];
+        str[i]=str[j];
+        str[j]=temp;
+    }
+}</code></pre>
+<h3 id="find-loop-in-singly-linked-list">7. Find loop in singly linked list</h3>
+<p>Keep two pointers, first offsets by one and second offsets by two. If there is a loop, they two will intersect.</p>
+<pre class="code"><code>bool hasLoop( Node *startNode )
+{
+    Node *slowNode, *fastNode;
+    slowNode = fastNode = startNode;
+    while( slowNode &amp;&amp; fastNode &amp;&amp; fastNode-&gt;next )
+    {
+        if( slowNode == fastNode-&gt;next || slowNode == fastNode-&gt;next-&gt;next )
+        {
+            return true;
+        }
+        slowNode = slowNode-&gt;next;
+        fastNode = fastNode-&gt;next-&gt;next;
+    }
+    return false;
+}</code></pre>
+<h3 id="find-and-return-linked-list-from-nth-element-till-last-element">8. Find and return linked list from Nth element till last element</h3>
+<pre class="code"><code>Node * findNToLastNode( Node *head, int N )
+{
+    int i = 0;
+    Node *current, *behind;
+    current = head;
+    for( i = 0; i &lt; N; i++ ) {
+        if( current-&gt;next ) {
+            current = current-&gt;next;
+        } else {
+            return NULL;                  // Length of the list is less than N
+        }
+    }
+    behind = head;
+    while( current-&gt;next ) {
+        current = current-&gt;next;
+        behind = behind-&gt;next;
+    }
+    return behind;
+}</code></pre>
+<h3 id="dangling-pointer">9. Dangling Pointer</h3>
+<p>A pointer that either hasn’t been allocated any memory or allocated memory is freed while the pointer still points to same address.</p>
+<h3 id="memory-leak">10. Memory leak</h3>
+<p>The pointer pointing to allocated memory region has got corrupt or mis-assigned to some other location, and there is no way to recover back or free the previously allocated memory.</p>
+<h3 id="opaque-pointer">11. Opaque pointer</h3>
+<p>It is a pointer that doesn’t have associated type definition in the translation unit that it is used.</p>
+<h3 id="reverse-the-bits-in-integer">12. Reverse the bits in integer</h3>
+<p>Simple:</p>
+<pre class="code"><code>for (i = 0; i &lt; (sizeof(num) * 8); i++)
+{
+    if((num &amp; (1 &lt;&lt; i))) {
+        reverse_num |= (1 &lt;&lt; ((NO_OF_BITS - 1) - i));
+    }
+}</code></pre>
+<ul>
+<li><p>Time Complexity: O(log n)</p></li>
+<li><p>Space Complexity: O(1)</p></li>
+</ul>
+<p>Standard:</p>
+<pre class="code"><code>unsigned int count = sizeof(num) * 8 - 1;
+unsigned int reverse_num = num;
+for (num &gt;&gt;= 1; num; num &gt;&gt;= 1, reverse_num &lt;&lt;= 1, count--)
+{
+    reverse_num |= num &amp; 1; 
+}
+reverse_num &lt;&lt;= count;</code></pre>
+<ul>
+<li><p>Time Complexity: O(log n)</p></li>
+<li><p>Space Complexity: O(1)</p></li>
+</ul>
+<h3 id="check-endianness-of-machine">13. Check endianness of machine</h3>
+<pre class="code"><code>unsigned int i = 1;
+char *c = (char*)&amp;i;
+if (*c)
+    printf(&quot;Little endian&quot;);
+else
+    printf(&quot;Big endian&quot;);</code></pre>
+<h3 id="turn-off-the-rightmost-set-bit">14. Turn off the rightmost set bit</h3>
+<pre class="code"><code>n = n &amp; (n - 1);</code></pre>
+<h3 id="add-1-to-given-number-without-using---and-other-operators">15. Add 1 to given number without using +, -, ++ and other operators</h3>
+<p>Simple: To add 1 to a number x (say 0011000111), we need to flip all the bits after the rightmost 0 bit (we get 0011000000). Finally, flip the rightmost 0 bit also (we get 0011001000) and we are done.</p>
+<pre class="code"><code>int m = 1;
+/* Flip all the set bits until we find a 0 */
+while( x &amp; m )
+{
+  x = x^m;
+  m &lt;&lt;= 1;
+}
+/* flip the rightmost 0 bit */
+x = x^m;</code></pre>
+<h3 id="implement-spin-lock">16. Implement spin lock</h3>
+<p>Simple:</p>
+<pre class="code"><code>lock(l)
+{
+    lock:
+    while(l);
+    atomic_add(l);
+    if (l &gt; 1) {
+        atomic_sub(l);
+        goto lock;
+    }
+}
+unlock(l)
+{
+   atomic_sub(l);
+}</code></pre>
+<p>Intel:</p>
+<pre class="code"><code>lock:                        ; The lock variable. 1 = locked, 0 = unlocked.
+   dd      0
+spin_lock:
+   mov     eax, 1          ; Set the EAX register to 1.
+   xchg    eax, [lock]     ; Atomically swap EAX register with lock variable. This will always store 1 to the lock, leaving previous value in the EAX 
+   test    eax, eax        ; Test EAX with itself. Among other things, this will set the processor&#39;s Zero Flag if EAX is 0. If EAX is 0, then the lock was 
+                           ; unlocked and we just locked it. Otherwise, EAX is 1 and we didn&#39;t acquire the lock.
+   jnz     spin_lock       ; Jump back to the XCHG instruction if the Zero Flag is not set; the lock was previously locked, and so
+                           ; we need to spin until it becomes unlocked.
+   ret                     ; The lock has been acquired, return to the calling function.</code></pre>
+<p>spin_unlock:</p>
+<pre class="code"><code>   mov     eax, 0          ; Set the EAX register to 0.
+   xchg    eax, [lock]     ; Atomically swap the EAX register with the lock variable.
+   ret                     ; The lock has been released.</code></pre>
+<p>Other:</p>
+<pre class="code"><code>wait(s)
+{
+   while (atomic_add(s) != 1)
+   {
+      atomic_sub(s);
+   }
+}</code></pre>
+<pre class="code"><code>signal(s)
+{
+   atomic_zero(s); // release the lock
+}</code></pre>
+<h3 id="swap-an-integer-in-place">17. Swap an integer in place</h3>
+<pre class="code"><code>void xorSwap (int *x, int *y) {
+   if (x != y) {
+       *x ^= *y;
+       *y ^= *x;
+       *x ^= *y;
+   }
+}</code></pre>
+<p>Since XOR is an expensive operation, using temp register is far more efficient. These days processors provide native instructions (for eg. XCHG in x86) for swapping.</p>
+<pre class="code"><code>void addSwap (unsigned int *x, unsigned int *y)
+{
+   if (x != y) {
+       *x = *x + *y;
+       *y = *x - *y;
+       *x = *x - *y;
+   }
+}</code></pre>
+<h3 id="modulus-operation-without-modulus-operator">18. Modulus operation without modulus operator</h3>
+<p>Works only when divider is a power of 2.</p>
+<pre class="code"><code>N % 2 = N &amp; (2 - 1)
+N % 4 = N &amp; (4 - 1)
+N % 64 = N &amp; (64 - 1)</code></pre>
+<h3 id="find-smallest-of-three-integers-without-comparison-operators">19. Find smallest of three integers without comparison operators</h3>
+<pre class="code"><code>while ( x &amp;&amp; y &amp;&amp; z )
+{
+    x--;  y--; z--; count++;
+}</code></pre>
+<h3 id="given-an-array-arr-of-two-elements-having-value-0-and-1-make-both-elements-0">20. Given an array arr[] of two elements having value 0 and 1, make both elements 0</h3>
+<p>Catch is, though it is guaranteed that one element is 0 but we do not know its position, can only complement array elements, no other operation like and, or, multi, division, …. etc. allowed, can’t use if, else and loop constructs, and obviously can’t directly assign 0 to array elements</p>
+<pre class="code"><code>arr[ arr[1] ] = arr[ !arr[1] ];
+Or
+arr[ !arr[0] ] = arr[ !arr[1] ];
+Or
+arr[ arr[1] ] = arr[ arr[0] ];</code></pre>
+<h3 id="free-a-memory-allocated-using-malloc-without-using-free">21. Free a memory allocated using malloc() without using free()</h3>
+<pre class="code"><code>int *ptr = (int*)malloc(10);
+/* we are calling realloc with size = 0 */
+realloc(ptr, 0);</code></pre>
+<h3 id="cause-a-segfault-in-a-program">22. Cause a segfault in a program</h3>
+<p>*(int *) 0 = 0; #define CRASH() do { \\\ ((void(*)())0)(); \\\ } while(false)</p>
+<h3 id="bootstrap-code-before-and-after-main-function-in-gcc">23. Bootstrap code before and after main() function in GCC</h3>
+<pre class="code"><code>/* Apply the constructor attribute to startup() so that it is executed before main() */
+void startup (void) __attribute__ ((constructor));
+
+/* Apply the destructor attribute to cleanup() so that it is executed after main() */
+void cleanup (void) __attribute__ ((destructor));</code></pre>
+<p>There can be more than one functions with constructor attribute. But then order of execution of those functions is not defined.</p>
+<h3 id="calculate-log-n-in-one-line">24. Calculate log n in one line</h3>
+<pre class="code"><code>unsigned int logn(unsigned int n)
+{
+    return (n &gt; 1)? 1 + logn(n/2): 0;
+}</code></pre>
+<h3 id="remove-duplicates-from-a-sorted-linked-list">25. Remove duplicates from a sorted linked list</h3>
+<p>Traverse the list from the head (or start) node. While traversing, compare each node with its next node. If data of next node is same as current node then delete the next node. Before we delete a node, we need to store next pointer of the node</p>
+<h3 id="remove-duplicates-from-an-unsorted-linked-list">26. Remove duplicates from an unsorted linked list</h3>
+<p>Two loops are used. Outer loop is used to pick the elements one by one and inner loop compares the picked element with rest of the elements.</p>
+<h3 id="we-traverse-the-link-list-from-head-to-end.">27. We traverse the link list from head to end.</h3>
+<p>For the newly encountered element, we check whether it is in the hash table: if yes, we remove it; otherwise we put it in the hash table.</p>
+<h3 id="volatile-keyword-usage">28. Volatile keyword usage</h3>
+<ul>
+<li><ol style="list-style-type: lower-alpha">
+<li>For data accessed by different hardware threads or software threads locked onto different hardware threads.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-alpha">
+<li>For device registers accessed by kernel and subsystems.</li>
+</ol></li>
+</ul>
+<h3 id="const-keyword-usage">29. Const keyword usage</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Normal pointer - Both pointer can be modified to point to different object, and the object pointed to by the pointer can also be modified.</li>
+</ol>
+<pre class="code"><code>int *ptr, i;
+ptr = &amp;i;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Constant pointer - The pointer itself can’t be modified to point to any other object once assigned, though the object pointed by pointer could be modified.</li>
+</ol>
+<pre class="code"><code>const int *ptr;
+Or
+int const *ptr;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Pointer to constant object - Pointer can be modified to point to any of the objects, but the object pointed to by the pointer can’t be modified.</li>
+</ol>
+<pre class="code"><code>int *ptr;
+const int i;
+ptr = &amp;i;</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Constant pointer to constant object - Both the pointer and as well the object it is pointing to, can’t be modified.</li>
+</ol>
+<pre class="code"><code>const int *const ptr;
+int i;
+ptr = &amp;i;
+Or
+const int *ptr;
+const int i;
+ptr = &amp;i;</code></pre>
+<h3 id="is-given-integer-power-of-2">30. Is given integer power of 2?</h3>
+<pre class="code"><code>bool isPowerOfTwo (int x)
+{
+  /* First x in the below expression is for the case when x is 0 */
+  return x &amp;&amp; (!(x &amp; (x - 1)));
+}</code></pre>
+<h3 id="find-next-power-of-2">31. Find next power of 2</h3>
+<pre class="code"><code>unsigned int nextPowerOf2(unsigned int n)
+{
+  unsigned count = 0;
+  /* First n in the below condition is for the case where n is 0*/
+  if (n &amp; !(n&amp;(n-1)))
+    return n;
+  for(;n != 0; n &gt;&gt;= 1, count += 1);
+  return 1&lt;&lt;count;
+}</code></pre>
+<h3 id="rotate-bits-in-given-integer-by-number-of-bits-specified-towards-left">32. Rotate bits in given integer by number of bits specified towards left</h3>
+<pre class="code"><code>int leftRotate(int num, unsigned int num_bits)
+{
+   return (num &lt;&lt; num_bits)|(num &gt;&gt; ((sizeof(int) * 8) - d));
+}</code></pre>
+<h3 id="rotate-bits-in-given-integer-by-number-of-bits-specified-towards-right">33. Rotate bits in given integer by number of bits specified towards right</h3>
+<pre class="code"><code>int rightRotate(int num, unsigned int num_bits)
+{
+   return (num &gt;&gt; num_bits)|(num &lt;&lt; ((sizeof(int) * 8) - d));
+}</code></pre>
+<h3 id="given-only-a-pointer-to-a-node-to-be-deleted-in-a-singly-linked-list-how-do-you-delete-it">34. Given only a pointer to a node to be deleted in a singly linked list, how do you delete it?</h3>
+<p>Copy the data from the next node to the node to be deleted and delete the next node. This solution doesn’t work if the node to be deleted is the last node of the list.</p>
+<h3 id="count-number-of-bits-to-be-flipped-to-convert-a-to-b">35. Count number of bits to be flipped to convert A to B</h3>
+<pre class="code"><code>C = A ^ B;</code></pre>
+<p>count number of bits in C</p>
+<h3 id="multiply-a-number-by-7">36. Multiply a number by 7</h3>
+<pre class="code"><code>((n&lt;&lt;3) - n)</code></pre>
+<h3 id="find-parity-of-given-integer">37. Find parity of given integer</h3>
+<p>An integer is of odd parity if it has odd number of bits set, and is of even parity if even number of bits are set. Used in cryptography.</p>
+<pre class="code"><code>bool getParity(unsigned int n)
+{
+   bool parity = 0;
+   for (;n; parity = !parity, n = n &amp; (n - 1));
+   return parity;
+}</code></pre>
+<h3 id="return-height-of-a-binary-tree">38. Return height of a binary tree</h3>
+<pre class="code"><code>int height (node *tree)
+{
+   if (tree == NULL)
+      return 0;
+   else
+      return (1 + max(height(tree-&gt;left), height(tree-&gt;right)));
+}</code></pre>
+<h3 id="number-of-elements-in-the-tree">39. Number of elements in the tree</h3>
+<pre class="code"><code>int elems (node *tree)
+{
+   if (tree == NULL)
+      return 0;
+   else
+      return (1 + elems(tree-&gt;left) + elems(tree-&gt;right)));
+}</code></pre>
+<h3 id="count-non-leaf-nodes-in-tree">40. Count non-leaf nodes in tree</h3>
+<pre class="code"><code>int nonleaf-elems (node *tree)
+{
+   if (tree) {
+      return (!tree-&gt;lptr &amp;&amp; !tree-&gt;rptr)? 0 : (1 + nonleaf-elems(tree-&gt;left) + nonleaf-elems(tree-&gt;right));
+   else
+      return 0;
+}</code></pre>
+<h3 id="tree-traversal">41. Tree traversal</h3>
+<ul>
+<li><ol style="list-style-type: lower-alpha">
+<li>Preorder - root, left, then right.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-alpha">
+<li>Postorder - left, right, then root.</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-alpha">
+<li>Inorder - left, root, then right.</li>
+</ol></li>
+</ul>
+<h3 id="shallow-copy-versus-deep-copy">42. Shallow copy versus Deep copy</h3>
+<p>If only another pointer is updated to point to the given memory location, then it is shallow copy. If contents are all copied, then it is deep copy. Array copy is always a deep copy. For ex.</p>
+<pre class="code"><code>char a[20] = &quot;hello world&quot;;
+char b[20];
+b = a;  /* deep copy */</code></pre>
+<h3 id="memory-layout-of-c-programs">43. Memory layout of C programs</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Text segment</strong> - Often read only to prevent programs from accidentally modifying it.</p></li>
+<li><p><strong>Initialized data segment</strong> - Global variables, static variables, etc. that are initialized by programmer. Further divided into ‘initialized read-only area’ and ‘initialized read-write area’. For ex. ‘char s[] = “hello world”;’ will be kept in read-only area, and ‘int i = 10;’ will be in read-write area.</p></li>
+<li><p><strong>Uninitialized data segment</strong> - Also called ‘bss’ segment. Contains all the global variables, static variables, etc. not explicitly initialized by programmer. Generally set to 0 (zero) by kernel while loading.</p></li>
+<li><p><strong>Stack Segment</strong> - Traditionally adjoined to heap area, and grows in the opposite direction. Contains at minimum a return address, optionally automatic variables, local variables, etc. When stack meets heap, corruption happens. ‘stack pointer’ always points to top frame of the stack.</p></li>
+<li><p><strong>Heap Segment</strong> - Shared by all shared libraries and dynamically loaded modules in the process. Used by malloc()/free() and other routines. brk()/sbrk() syscalls used to change size of this area.</p></li>
+</ol>
+<h3 id="size-command">44. size command</h3>
+<p>‘size’ command in Linux reports sizes (in bytes) of text, data and bss segments.</p>
+<h3 id="how-many-number-of-processes-will-be-spawned-by-this-program">45. How many number of processes will be spawned by this program</h3>
+<pre class="code"><code>#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+int main()
+{
+   fork();
+   fork() &amp;&amp; fork() || fork();
+   fork();
+   printf(&quot;forked\n&quot;);
+   return 0;
+}</code></pre>
+<pre class="code"><code>(main)
+(main, fork)
+(main, fork), (fork, fork)
+(main, &amp;&amp; fork), (fork, &amp;&amp; fork), (fork, &amp;&amp; fork), (fork, &amp;&amp; fork)
+(main, || fork), (&amp;&amp; fork, || fork), (fork, || fork), (&amp;&amp; fork, || fork), (fork, || fork), (&amp;&amp; fork, || fork), (fork, || fork), (&amp;&amp; fork, || fork), 
+(main, fork), (|| fork, fork), (&amp;&amp; fork, fork), (|| fork, fork), (fork, fork), (|| fork, fork), (&amp;&amp; fork, fork), (|| fork, fork), (fork, fork), (|| fork, fork), (&amp;&amp; fork, fork), (|| fork, fork), (fork, fork), (|| fork, fork), (&amp;&amp; fork, fork), (|| fork, fork), (fork, fork), (|| fork, fork), (&amp;&amp; fork, fork), (|| fork, fork)</code></pre>
+<h3 id="ibm-questions">46. IBM Questions</h3>
+<ol style="list-style-type: decimal">
+<li><p>How Debugger works ? When you put a breakpoint, how is it enabled?</p></li>
+<li><p>How a packet type is registered with the kernel?</p></li>
+<li><p>How a skb is maintained and kept in kernel?</p></li>
+<li><p>How check for particular bit to be set in #define without arithmetic operators?</p></li>
+<li><p>When two threads are trying to use two pieces of data with seperate locks, how can you ensure that they won’t deadlock? – Ans: You need to put a constraint that they will alway take a lock on lowest/highest address first. For ex: If A &amp; B are 2 threads trying to use lock on the data regions C &amp; D. C is at lower address and D at higher address. Now if we put the constraint that One thread should always try to take a lock in order C-then-D, then the threads would never go into deadlock kind of a situation. Or even the oder of D-then-C will also work.</p></li>
+<li><p>How does a packet get transmitted between different layers of kernel? How can you send a packet to upper layer? What is netif_rx_schedule()?</p></li>
+</ol>
+<p>Answer Following:</p>
+<ol style="list-style-type: decimal">
+<li><p>Memory map of kernel ? No</p></li>
+<li><p>Modules load and place to see the module parameters - where can I see? No</p></li>
+<li><p>dev_register() .. what does it do ? No</p></li>
+<li><p>Interrupt sharing and how is it implemented ? Yes/No</p></li>
+<li><p>normal lock and spin lock - what is difference ? Yes/No</p></li>
+<li><p>how can you avoid deadlock ? Yes</p></li>
+<li><p>calloc for 1 GB ? No</p></li>
+<li><p>From where does kernel allocate memory for a module ? No</p></li>
+</ol>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<footer>
+    <ul class="nav nav-pills pull-right hidden-phone">
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+    </ul>
+
+    <ul class="unstyled">
+        <li class="transparent"><a href="about.html">About/</a></li>
+        <li class="transparent"><a rel="license" href="https://www.gnu.org/licenses/copyleft.en.html"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <li class="transparent"><a href="feed.xml">RSS/</a></li>
+    </ul>
+</footer>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

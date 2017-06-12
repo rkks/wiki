@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>How do you approach a new problem? | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+  <link rel="stylesheet" href="./css/solarized-light.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span7">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./software.html">Software/</a></li>
+            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
+            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+
+<!-- End _navigation.html -->
+
+<article>
+
+<!--This text is produced by a custom variable in the pandoc template called "category." The value is set by the shell script when processing posts.-->
+<div id="category">thoughts</div><!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>How do you approach a new problem?</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<p>By its very nature, problem determination is about dealing with the unknown and the unexpected. If you knew in advance everything about all the problems that you could encounter and exactly how they manifest themselves, then you would take measures to prevent them and wouldn’t have to investigate them. You cannot expect that problem determination should be a perfectly predictable process, but there are a number of common approaches that can make the process go smoother and be more effective.</p>
+<p>Common challenges that can make problem determination exercises difficult to resolve:</p>
+<ul>
+<li><p>Need for direction or What do I do next? - Problems can be complex and it is not always obvious how to approach them.</p></li>
+<li><p>Need for information, or What does it mean? - Sometimes what’s missing is simply information: you have data, but you don’t know how to interpret it or can’t understand how it relates to the problem at hand.</p></li>
+<li><p>Miscommunication and lack of organization, or “What was I doing? What were you doing” - Sometimes time is wasted or important clues are lost because of miscommunication, or because the investigation has dragged on for so long, making the collected information more difficult to manage.</p></li>
+<li><p>Dealing with multiple unrelated problems or symptoms, or “What are we looking for?” - A particular challenge in complex situations is not knowing whether you are dealing with a single problem or with multiple independent problems that happen to occur at the same time. Being able to distinguish between the “noise” and the real problems can go a long way to an timely resolution.</p></li>
+</ul>
+<h2 id="characterizing-the-problem">Characterizing the problem</h2>
+<p>Thumb rules of every news story - Who, What, When, Where, and Why.</p>
+<ul>
+<li><p>What happened?</p>
+<ol style="list-style-type: decimal">
+<li><p>What are the main symptoms that determine the problem? How would the system behave if the problem is not present?</p></li>
+<li><p>How would you recognize that the same problem happened again? How can you recreate it?</p></li>
+<li><p>What information is required to analyze this problem? What are unknowns?</p></li>
+</ol></li>
+<li><p>Where did it happen?</p>
+<ol style="list-style-type: decimal">
+<li><p>Precisely which machine, which application, which processes, and so on, the problem was observed on.</p></li>
+<li><p>Which logs and which screens should you look at to see the problems?</p></li>
+<li><p>What is network topology, system topology, software version, configurations, and other related factors.</p></li>
+</ol></li>
+<li><p>When did it happen?</p>
+<ol style="list-style-type: decimal">
+<li><p>Note time stamps of when problem happened, to look in the logs. Calculate time zone offsets. Check if dependent systems have clock synchronized.</p></li>
+<li><p>Are there any special timing circumstances? Is the problem repeatable? Is problem</p></li>
+<li><p>When does it needs to be fixed? What is the priority and whether that is valid?</p></li>
+</ol></li>
+<li><p>Why did it happen?</p>
+<ol style="list-style-type: decimal">
+<li><p>Why did the problem happen now, and not earlier? What has changed? Has it ever worked correctly in the past?</p></li>
+<li><p>Why does the problem happen only on this system, and not on other similar systems? What is different?</p></li>
+<li><p>Why should this problem be fixed? What will happen if we don’t fix it?</p></li>
+</ol></li>
+<li><p>Who is appropriate?</p>
+<ol style="list-style-type: decimal">
+<li>Which technology area does it come into? Who is better person to analyze this problem?</li>
+</ol></li>
+</ul>
+<p>&lt;note warning&gt;Be cautious about</p>
+<ul>
+<li><p>using vague terms like “hang,” “crash,” and “fail,” which are often generalizations, inaccurate, and distract attention away from important symptoms.</p></li>
+<li><p>in real-world situations, there can be several independent problems rather than just one. You need to recognize them and prioritize them.</p></li>
+<li><p>tangential problems that are consistent, well-known, and incidental. While source of problem lies elsewhere, these are mere consequences.</p></li>
+</ul>
+<p>&lt;/note&gt;</p>
+<h2 id="not-every-problem-is-difficult">Not every problem is difficult</h2>
+<p>Before jumping into complex analysis tasks:</p>
+<ul>
+<li><p>Phase 1 - perform a broad scan of the entire system to find any major error messages or dump files that have been generated in the recent past. Search those errors, dump traces, and initial symptoms across one or more knowledge bases of known problems.</p></li>
+<li><p>Phase 2 - do everything else</p></li>
+</ul>
+<h2 id="balancing-resolution-and-relief">Balancing resolution and relief</h2>
+<ul>
+<li><p>Resolution: Finding the root cause and ensuring that it will not happen again.</p></li>
+<li><p>Relief: Enabling your users to resume productive work.</p></li>
+</ul>
+<p>Unfortunately, these two goals are not always simultaneously attainable. A simple reboot is often enough to bring the system back, but it can destroy information needed to debug the problem. In some situations, like system testing, driving the problem to full resolution is required and relief is not an issue. Whereas in business-critical production systems, immediate relief is paramount. Once the system is back up, investigation can begin with whatever data is available/salvaged.</p>
+<p>&lt;note tip&gt;Person/team working on project must be clear about the business priorities and tradeoffs involved. While finding a frequently recurring problem might raise the importance of full resolution; however, finding a problem with too limited scope may tilt the scales toward simple relief.&lt;/note&gt;</p>
+<p>Hence, before launching an in-depth investigation, you need to consider the business context in which the problems and your investigation – occur.</p>
+<h2 id="fundamental-approaches-analysis-and-isolation">Fundamental approaches: analysis and isolation</h2>
+<p>While each problem and hence its investigation could be different, all troubleshooting exercises boil down to this: “you watch a system that exhibits an abnormal or undesirable behavior, make observations and perform a sequence of steps to obtain more information to understand the causing factors, then devise and test a solution”</p>
+<p>Two distinct but complementary approaches:</p>
+<ul>
+<li><strong>analysis approach</strong> - you pick one or more specific symptoms or anomalies observed in the system, and then drill down to gain more detailed information about these items and their causes. These, in turn, might lead to new, more specific symptoms or anomalies, which you further analyze until you reach a point where they are so simple or fundamental that it is clear what caused them.</li>
+</ul>
+<p>Techniques involved are reading source code/knowledge base, finding more specific symptoms, and research further.</p>
+<ul>
+<li><strong>isolation approach</strong> - rather than focusing on one particular symptom and analyzing it in greater detail, you look at the context in which each symptom occurs within the overall system and its relation to other symptoms, and then attempt to simplify and eliminate factors until you are left with a set of factors so small and simple that, it is clear what caused the problem.</li>
+</ul>
+<p>Techniques involved are performing specific experiments to observe system behavior for different inputs, narrow down the problem to few specific factors, reduce number of variables and inter-module dependencies in an attempt to see which parts are exactly contributing to the problem.</p>
+<p>Although a clear distinction is made here between the analysis and isolation approaches, in practice they are not mutually exclusive. In the course of a complex investigation, you will often take steps from both approaches, either in succession or in parallel, to pursue multiple avenues of investigation at the same time.</p>
+<h2 id="organizing-the-investigation">Organizing the investigation</h2>
+<p>Four types of information are generally required:</p>
+<h3 id="executive-summary">Executive summary</h3>
+<p>Summarizes the status of highest priority issues – what has been done, top action items, owners, approx. dates being chased, etc. This enables all stakeholders (not just executives) to understand the current status, helps focus the team, explains progress and next steps, and highlights any important discoveries, dependencies, and constraints.</p>
+<h3 id="table-of-problems-symptoms-and-actions">Table of problems, symptoms, and actions</h3>
+<p>Often problems are interlinked. While investigating one problem, several additional problems might surface. Record-keeping of these additional problems pays-off, especially when things are much more complicated than originally believed. Regardless of the exact format, this table should contain:</p>
+<ul>
+<li><p>Problems: One entry for each problem that you are attempting to resolve (OR each thing that needs to be changed).</p></li>
+<li><p>Symptoms: External manifestations of the underlying problem and anomalies that might provide a clue about the underlying problem. For ex. an error message observed in a log, or a particular pattern noticed in a system dump; the error condition or crash itself. They can be used as guide to verify the fix. Sometimes after fixing a problem, old symptoms go away, but new symptoms appear during an investigation.</p></li>
+<li><p>Actions: Tasks to be performed that may or may not be directly related to a particular symptom or problem, e.g. upgrading the software or preparing a new test environment.</p></li>
+<li><p>Fixes: Alternatives to be tried to achieve a resolution or workaround.</p></li>
+<li><p>Theories: It is useful to track ideas about why the problem is occurring or how it might be fixed. Noting which symptoms the theories are derived from can help rule out theories or draft new ones for the investigation.</p></li>
+</ul>
+<p>These tables should be constantly reviewed and updated to reflect current status of investigation. When there are multiple problems, it is also important to group symptoms with their corresponding problem, and to review these relationships frequently. Finally, each entry should be prioritized.</p>
+<pre class="code"><code>  +------+----------+-------+-------------+-------------+---------------+
+  |Prior | Problem  | #PR   | Symptoms    |  Status     | Actions       |
+  +------+----------|-------|-------------|-------------|---------------|
+  | #1   | App Crash|  123  |On Peak CPU  |Log Collected|Analyze logs   |
+  +------+----------+-------+-------------+-------------+---------------+</code></pre>
+<p>IMP: Do not attempt to use the table as a historical record of the progress and activities in the investigation. This table will typically be complex enough just keeping track of the current state of things. The timeline (covered next) will contain the historical information needed for most investigations.</p>
+<h3 id="timeline-of-events">Timeline of events</h3>
+<p>In any investigation that lasts more than a few days, or that involves more than a few individuals, there will invariably be questions about the results of some earlier experiment or trace, where some file was saved, and so on. Keep a log book in which you record a timeline of all major events that occurred during the investigation. A timeline will typically contain:</p>
+<ul>
+<li><p>One entry for each occurrence of any problem being investigated.</p></li>
+<li><p>One entry for each significant change made to the system (such as software upgrades, reinstalled applications, and so on).</p></li>
+<li><p>One entry for each major diagnostic step taken (such as a test to reproduce the problem or experiment with a solution, a trace, and so on).</p></li>
+<li><p>A precise date and time stamp.</p></li>
+<li><p>A note of the systems (machines, servers, and so on) that were involved.</p></li>
+<li><p>A note of where any diagnostic artifacts (logs, traces, dumps, and so on) were saved.</p></li>
+</ul>
+<!-- end list -->
+<pre class="code"><code>  +------+----------+-------+-------------+-------------+---------------+
+  |Event |Date/Time |      Details        |  Results    | Location      |
+  +------+----------+---------------------+-------------|---------------|
+  |Test#1|02/Sep 1PM|Analyze systest setup|Log Collected|/path/to/logs  |
+  +------+----------+---------------------+-------------+---------------+
+  |Test#2|4/Oct 5:00|Reproduce problem    |Register trac|               |
+  +------+----------+---------------------+-------------+---------------+</code></pre>
+<h3 id="inventory-of-the-diagnostic-artifacts">Inventory of the diagnostic artifacts</h3>
+<p>Over the course of an investigation, one ends up collecting a large number of diagnostic artifacts and files, some could be result of multiple spontaneous occurrences of the problem over time, and others could be the result of specific experiments conducted to try to solve the problem or to gather additional information. It is very important to manage various diagnostic artifacts collected during these experiments so that they can be consulted when additional info is required to pursue a line of investigation. For each artifact, you should be able to tell:</p>
+<ul>
+<li><p>Which event in the timeline does it correspond with?</p></li>
+<li><p>Which specific machine or process (among all of the machines and processes involved in a given event) did the artifact come from?</p></li>
+<li><p>What system or process configuration was in effect at the time the artifact was generated?</p></li>
+<li><p>What options were used specifically to generate that artifact, if appropriate (for example, which trace settings)?</p></li>
+<li><p>If the artifact is a log or trace file that could contain entries covering a long period of time, exactly at which time stamp(s) did something noteworthy happen in the overall system, that you might wish to correlate with entries in this log or trace file?</p></li>
+</ul>
+<p>Organize all artifacts into subdirectories, with one subdirectory corresponding to each major event from the timeline, and to give each artifact within a directory a meaningful file name that reflects its type and source (machine, process, and so on). When necessary, also create a small README file associated with each artifact or directory that provides additional details about the circumstances when that artifact was generated (for example, configuration, options, detailed timestamps, and so on).</p>
+<h2 id="avoiding-tunnel-vision">Avoiding tunnel vision</h2>
+<p>Failure to see the whole picture and not methodically evaluating all potential solutions can result in prolonged relief and recovery times. Here are some ideas to help you avoid this condition:</p>
+<ul>
+<li><p>Utilize checkpoints: Checkpoints are time-to-time team syncups required during the investigation. Create checkpoints for all team members to share all relevant findings since the last checkpoint. With this all team members will be in sync.</p></li>
+<li><p>Work in parallel: Different team members can work parallely on alternative theories to the root cause, it can benefit the investigation by expediting it.</p></li>
+<li><p>Regularly (re)ask the “big picture” questions: Keep asking “what is the problem?” and “are we solving the right problem?” One classic example of tunnel vision is thinking that you have reproduced a problem in a test environment only to discover later that it was actually a slight permutation of a production problem. Asking big picture questions can help contextualize problems and avoid chasing those that are of lesser priority.</p></li>
+</ul>
+<h2 id="peeling-the-onion-the-nature-of-complex-problems">Peeling the onion: The nature of complex problems</h2>
+<p>Often problems are relatively straightforward, with a single/small cluster of symptom(s) that lead more or less directly to an understanding of a single problem which, when fixed, resolves the entire situation. Sometimes, with more complex situations, a series of related symptoms or problems must be “peeled back” one-by-one to get to the root cause. The phenomenon of “peeling the onion” might manifest itself in a few different variations:</p>
+<ul>
+<li><p>Multiple problems or symptoms can be linked by a cause-and-effect relationship. Ex, web server is hung because it can’t create more connections, that is because of application server busy handling existing connections, that is because database server is slow, that is because network connection to db is slow, that is because an file-system replication is ongoing over that link.</p></li>
+<li><p>Encountering one problem might cause the system to enter a particular error recovery path, and during the execution of that path another problem might manifest itself.</p></li>
+<li><p>In other cases, one problem might simply mask another; the first problem does not let the system proceed past a certain point. But once that first problem is resolved, you get further into the processing and encounter a second independent problem.</p></li>
+</ul>
+<p>In all these cases, there is no choice but to address one problem at a time, in the order that they are encountered, while observing the operation of the system. Each problem could itself require a lengthy sequence of investigative steps before it is understood. Once one problem is understood, you can proceed to the next problem in the sequence, and so on. This method can be very frustrating, especially to those unfamiliar with the troubleshooting process, but effective communication can help keep morale high and build trust in the process by showing concrete progress and minimizing confusion.</p>
+<p>&lt;note important&gt;Maintaining and publishing a clear executive summary helps set the context of the overall situation, helps highlight each specific problem when it has been resolved so that progress is evident, and helps identify new (major) problems as they are discovered. The table of problems, symptoms and actions helps to keep track of the various layers and clarify the relationship between similar problems and symptoms.&lt;/note&gt;</p>
+<p>Problem determination is about dealing with the unknown and unexpected, and so it will probably never be an exact science – but it’s also not rocket science. By following more organized and systematic way to problem determination, in end it can be more effective and rewarding.</p>
+<p>Derived from <a href="http://www.ibm.com/developerworks/websphere/techjournal/0806_supauth/0806_supauth.html" title="http://www.ibm.com/developerworks/websphere/techjournal/0806_supauth/0806_supauth.html">here</a>.</p>
+<h1 id="ways-to-prepare-for-effective-troubleshooting">12 ways to prepare for effective troubleshooting</h1>
+<p>Preparing the environment so that troubleshooting can be performed more quickly and effectively if and when problems eventually do occur is key to quick diagnosis.</p>
+<h2 id="create-and-maintain-a-system-architecture-diagram">1. Create and maintain a system architecture diagram</h2>
+<p>Create an architecture diagram that shows all major components of the overall system, how they communicate, what is exchanged, and main/major flows for requests, data, info, being processed through the system. Diagram helps you to:</p>
+<ul>
+<li><p>Identify various points in system where to find information or clues about the cause of a problem.</p></li>
+<li><p>Clearly communicate (even complex) problems to various parties involved in troubleshooting (both inside &amp; outside org).</p></li>
+<li><p>Answer and verify a favorite question of all troubleshooters: What has changed recently?</p></li>
+</ul>
+<h2 id="create-and-track-an-inventory-of-all-problem-determination-artifacts">2. Create and track an inventory of all problem determination artifacts</h2>
+<p>Make an inventory of all the important problem determination artifacts (log files, coredumps, conf files, etc.) in the system:</p>
+<ul>
+<li><p>Note what each file is for, its name, location, purpose, typical contents, and its typical size.</p></li>
+<li><p>Use architecture diagram to review all useful problem determination artifacts.</p></li>
+<li><p>Simply “knowing” that the artifact exists doesn’t suffice. Though everything may be set-up &amp; documented perfectly in theory, check live system periodically to verify that all real-life artifacts are getting generated as expected. And that there are enough resources to hold artifacts like enough disk space, etc.</p></li>
+<li><p>Make sure that articfacts are not purged/overwritten too quickly, and are not accidentally deleted/overwritten if system is restarted after an incident.</p></li>
+</ul>
+<p>While having artifacts is useful. Having quality artifacts without much noise and useless/distracting info can ease the process considerably.</p>
+<h2 id="pay-special-attention-to-dumps-and-other-artifacts-that-are-only-generated-when-a-problem-occurs">3. Pay special attention to dumps and other artifacts that are only generated when a problem occurs</h2>
+<p>There are generally a variety of configuration options that control how and when these artifacts are generated:</p>
+<ul>
+<li><p>For any file that can be generated automatically when a problem is detected: carefully consider the potential benefit – and impact – of having this file produced automatically, and set up the configuration accordingly. If the potential benefit is high and the impact is low, make sure that this feature is enabled.</p></li>
+<li><p>Make sure that these configurations work as expected by testing them.</p></li>
+</ul>
+<h2 id="review-and-optimize-the-level-of-diagnostics-during-normal-operation">4. Review and optimize the level of diagnostics during normal operation</h2>
+<p>Effective serviceability is always a trade-off:</p>
+<ul>
+<li><p>On one hand, to maximize the chances of being able to determine the cause of a problem upon its first occurrence, one wants to gather maximum amount of diagnostic data from system at all times.</p></li>
+<li><p>But gathering very detailed diagnostics can cause a substantial performance overhead. Therefore, for performance reasons, one might be tempted to disable all diagnostics during normal operation of system.</p></li>
+</ul>
+<p>Its important to find the right balance between these two conflicting goals. By default, most products and environments tend to err on the conservative side with a relatively small set of diagnostics enabled at all times. However, it is quite worthwhile to examine the specific constraints of particular production environment, the likelihood of specific problems, and specific performance requirements, and then enable as many additional diagnostics as you can afford during normal steady-state operation.</p>
+<h2 id="watch-low-level-operating-system-and-network-metrics">5. Watch low-level operating system and network metrics</h2>
+<p>Such metrics are often overlooked, or considered only late in the course of a complex problem investigation, yet many of them are relatively easy and cheap to capture. In some particularly difficult cases, especially network-related problems, this information often plays a key role in tracking down the source. System level metrics are like:</p>
+<ul>
+<li><p>Overall CPU &amp; memory usage for the entire machine, CPU &amp; memory usage of individual processes, Paging and disk I/O activity</p></li>
+<li><p>Rate of network traffic between various components, reduction/total-loss of network connectivity between various components</p></li>
+</ul>
+<p>While it’s not practical to monitor every single system-level metric on a permanent basis, but where possible, pick a lightweight set of system-level metrics to monitor regularly, so that you have data both before a problem occurs, and when a problem does occur. It pays-off to write a few simple command scripts to run periodically and collect the most useful statistics.</p>
+<h2 id="be-prepared-to-actively-generate-additional-diagnostics-when-a-problem-occurs">6. Be prepared to actively generate additional diagnostics when a problem occurs</h2>
+<p>In addition to normal artifacts present at time of an incident, the troubleshooting plan should consider any additional explicit actions that should be performed to obtain additional information as soon as an incident is detected – before the data disappears or the system is restarted.</p>
+<ul>
+<li><p>Actively trigger various system dumps, if they have not been generated automatically - heap dump, system dump, etc.</p></li>
+<li><p>Take a snapshot of key Operating system metrics, such as process states, sizes, CPU usage, and so on.</p></li>
+<li><p>Dynamically enable a specific trace, and collect that trace for a given interval while the system is in the current unhealthy state.</p></li>
+<li><p>Actively test or “ping” various aspects of the system to see how their behavior has changed compared to normal conditions, to try to isolate the source of the problem in a multi-component system. – How can you independently verify if some sub-module is working fine?</p></li>
+</ul>
+<p>Clearly, there are potentially infinite variety of such actions, and it’s not possible to perform them all. A careful review of the application and the system architecture can help to anticipate the most likely failure modes, and decide which actions are very likely to yield most useful information on case-by-case basis.</p>
+<h2 id="define-a-diagnostic-collection-plan-and-practice-it">7. Define a diagnostic collection plan – and practice it</h2>
+<p>When a problem happens, too often there is confusion, along with great pressure to restore the system to normal operation, causing mistakes that lead to unnecessary delays or general difficulties in troubleshooting. Having a plan of action, ensuring that everyone is aware of the plan of action – and rehearsing the execution of the plan ahead of time – are critical. While simplest diagnostic collection plan can be a plain, written documentation that lists all the detailed manual steps that must be taken. To be more effective, try to automate as much as this plan as possible, by providing one or more command scripts that can be invoked to perform a complex set of actions, or by using more sophisticated system management tools</p>
+<h2 id="establish-baselines">8. Establish baselines</h2>
+<p>“What’s different now compared to yesterday when the problem was not occurring?” To answer this question, you must actively collect and maintain a baseline – an extensive info about state of system at a time when that system is operating normally. It includes:</p>
+<ul>
+<li><p>Copies of the various log files, trace files, etc., over a full day period of time in normal operation of the system.</p></li>
+<li><p>Copies of few heap dumps, system dumps, or other types of artifacts that are normally generated “on demand.”</p></li>
+</ul>
+<p>IMP: This activity can be combined with the earlier recommendation to test the generation of these artifacts on a healthy system before a problem occurs.</p>
+<ul>
+<li><p>Info about the normal transaction rates in the system, response times, and so on.</p></li>
+<li><p>Various operating system level stats on a healthy system, such as CPU usage for all processes, memory usage, network traffic, and so on.</p></li>
+<li><p>Copies of other artifacts of normal expected results from the special diagnostic collection actions, recommended earlier, for each anticipated type of problem.</p></li>
+</ul>
+<p>Systems evolve, the load changes, and so what is representative of the “normal” state will likely not remain constant over time. So, remember to refresh this baseline info periodically. If there is a pattern of changes in load throughout the day, keep different baselines for different times.</p>
+<h2 id="periodically-purge-archive-or-clean-up-old-logs-and-dumps">9. Periodically purge, archive, or clean-up old logs and dumps</h2>
+<p>Quantity is not always a good thing. This can actually hamper the troubleshooting process. Having too much logs will slow down artifact collection scripts, and thereby the entire troubleshooting process. In extreme cases, the system could run out of disk space and other system resources due to sheer volume of collected artifacts. So, the main objective should be to gather a maximum amount of diagnostic information just before and around the time of a problem. And keep or archive only sufficient amount of historical diagnostic information to serve as a baseline for comparison purposes.</p>
+<h2 id="eliminate-spurious-errors-and-other-noise-in-the-logs">10. Eliminate spurious errors and other “noise” in the logs</h2>
+<p>If system generates a large volume of error messages, even during normal operation; then such benign or common errors are clearly not significant, but they make it more difficult to spot unusual errors among all the noise. To simplify future troubleshooting, either eliminate all such common errors, Or find a way to filter them out.</p>
+<h2 id="keep-a-change-log">11. Keep a change log</h2>
+<p>While using a baseline is certainly one way of identifying the recent changes, keeping a rigorous log of all changes that have been applied to the system over time can simplify the process of identifying the difference. When a problem occurs, you can look back through the log for any recent changes that might have contributed to the problem. You can also map these changes to the various baselines that have been collected in the past to ascertain how to interpret differences in these baselines. Your log should at least track all upgrades and software fixes applied in every software component in the system, including both infrastructure products and application code. It should also track every configuration change in any component. Ideally, it should also track any known changes in the pattern of usage of the system; for example, expected increases in load, a different mix of operations invoked by users, and so on. IMP: Be aware that the concept of change control, and keeping a change log, is generally broader than the troubleshooting arena. It is also considered one of the key best practices for managing complex systems to prevent problems, as opposed to troubleshooting them.</p>
+<h2 id="setup-ongoing-system-health-monitoring">12. Setup ongoing system health monitoring</h2>
+<p>In a surprising number of real-life cases, the overall health or performance of the system might degrade slowly over a long period before it finally leads to a serious problem. Therefore, having a good policy for continuous monitoring of the overall health of the system is an important part of an overall troubleshooting plan. Rather than wait for a problem to be reported externally, system could be scanned for potential problems. Again, simple command scripts or sophisticated system management tools, if available, can be used to facilitate this monitoring. Things that might be monitored are:</p>
+<ul>
+<li><p>Significant errors in the logs emitted by the various components.</p></li>
+<li><p>Metrics produced by each component should remain within acceptable norms (Ex, CPU and memory stats, transaction rate, and so on).</p></li>
+<li><p>Spontaneous appearance of special artifacts that only get generated when a problem occurs, such as system dumps, heap dumps, and so on.</p></li>
+<li><p>Periodically send a “ping” through various system components or the application, verifying that it continues to respond as expected.</p></li>
+</ul>
+<p>Derived from <a href="http://www.ibm.com/developerworks/websphere/techjournal/0708_supauth/0708_supauth.html" title="http://www.ibm.com/developerworks/websphere/techjournal/0708_supauth/0708_supauth.html">here</a>.</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<footer>
+    <ul class="nav nav-pills pull-right hidden-phone">
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+    </ul>
+
+    <ul class="unstyled">
+        <li class="transparent"><a href="about.html">About/</a></li>
+        <li class="transparent"><a rel="license" href="https://www.gnu.org/licenses/copyleft.en.html"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <li class="transparent"><a href="feed.xml">RSS/</a></li>
+    </ul>
+</footer>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Debugging - 9 Indispensable rule for finding even the most elusive problems | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+  <link rel="stylesheet" href="./css/solarized-light.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span7">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./software.html">Software/</a></li>
+            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
+            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+
+<!-- End _navigation.html -->
+
+<article>
+
+<!--This text is produced by a custom variable in the pandoc template called "category." The value is set by the shell script when processing posts.-->
+<div id="category">reviews</div><!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Debugging - 9 Indispensable rule for finding even the most elusive problems</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<p>% Category - I</p>
+<p><strong>Author</strong>: <em>David J. Agans</em></p>
+<p>Website: <a href="http://www.amacombooks.org/" class="uri" title="http://www.amacombooks.org/">http://www.amacombooks.org/</a>, <a href="http://www.debuggingrules.com/" class="uri" title="http://www.debuggingrules.com/">http://www.debuggingrules.com/</a></p>
+<h2 id="understand-the-system">Understand the System</h2>
+<p>You need a working knowledge of what the system is supposed to do, how it’s designed, and, in some cases, why it was designed that way. If you don’t understand some part of the system, that always seems to be where the problem is. (This is not just Murphy’s Law; if you don’t understand it when you design it, you’re more likely to mess up.) By the way, understanding the system doesn’t mean understanding the problem. Of course you don’t understand the problem yet, but you have to understand how things are supposed to work if you want to figure out why they don’t.</p>
+<h3 id="read-the-manual">Read the Manual</h3>
+<p>The essence of “Understand the System” is, “Read the manual.” Sometimes you’ll find that it can’t do what you want—you bought the wrong thing. So, contrary to my earlier opinion, read the manual before you buy the useless piece of junk.</p>
+<p>If you’re an engineer debugging something your company made, you need to read your internal manual. What did your engineers design it to do? Read the functional specification. Read any design specs; study schematics, timing diagrams, and state machines. Study their code, and read the comments. (Ha! Ha! Read the comments! Get it?) Do design reviews. Figure out what the engineers who built it expected it to do, besides make them rich enough to buy a Beemer.</p>
+<p>&lt;note tip&gt;A caution here: Don’t necessarily trust this information. Manuals (and engineers with Beemers in their eyes) can be wrong, and many a difficult bug arises from this. But you still need to know what they thought they built, even if you have to take that information with a bag of salt. And sometimes, this information is just what you need to see.&lt;/note&gt;</p>
+<p>There’s a side benefit to understanding your own systems, too. When you do find the bugs, you’ll need to fix them without breaking anything else. Understanding what the system is supposed to do is the first step toward not breaking it.</p>
+<h3 id="read-everything-cover-to-cover">Read Everything, Cover to Cover</h3>
+<p>Programming guides and APIs can be very thick, but you have to dig in—the function that you assume you understand is the one that bites you. The parts of the schematic that you ignore are where the noise is coming from. That little line on the data sheet that specifies an obscure timing parameter can be the one that matters.</p>
+<p>Application notes and implementation guides provide a wealth of information, not only about how something works, but specifically about problems people have had with it before. Warnings about common mistakes are incredibly valuable.</p>
+<p>Reference designs and sample programs tell you one way to use a product, and sometimes this is all the documentation you get. Be careful with such designs, however; they are often created by people who know their product but don’t follow good design practices, or don’t design for real−world. Also, even the best reference design probably won’t match the specifics of your application, and that’s where it breaks applications.</p>
+<h3 id="know-whats-reasonable">Know What’s Reasonable</h3>
+<p>When you’re looking around in a system, you have to know how the system would normally work. If you don’t know that low−order bytes come first in Intel−based PC programs, you’re going to think that all your longwords got scrambled. If you don’t know what cache does, you’ll be very confused by memory writes that don’t seem to “take” right away. If you don’t understand how a tri−state data bus works, you’ll think those are mighty glitchy signals on that board. You have to know a little bit about the fundamentals of your technical field.</p>
+<p>Lack of fundamental understanding explains why so many people have trouble figuring out what’s wrong with their home computer: They just don’t understand the fundamentals about computers. If you can’t learn what you need to, you just have to follow debugging Rule 8 and Get a Fresh View from someone with more expertise or experience.</p>
+<h3 id="know-the-road-map">Know the Road Map</h3>
+<p>When you’re trying to navigate to where a bug is hiding, you have to know the lay of the land. Initial guesses about where to divide a system in order to isolate the problem depend on your knowing what functions are where. You need to understand, at least at the top level, what all the blocks and all the interfaces do. You should know what goes across all the APIs and communication interfaces in your system. You should know what each module or program is supposed to do with what it receives and transmits through those interfaces.</p>
+<p>When there are parts of the system that are “black boxes,”’ meaning that you don’t know what’s inside them, knowing how they’re supposed to interact with other parts allows you to at least locate the problem as being inside the box or outside the box. If the problem is inside the box, you have to replace the box, but if it’s outside, you can fix it.</p>
+<h3 id="know-your-tools">Know Your Tools</h3>
+<p>Your debugging tools are your eyes and ears into the system; you have to be able to choose the right tool, use the tool correctly, and interpret the results you get properly. Take the time to learn everything you can about your tools—often, the key to seeing what’s going on (see Rule 3, Quit Thinking and Look) is how well you set up your debugger or trigger your analyzer.</p>
+<p>You also have to know the limitations of your tools. Stepping through source code shows logic errors but not timing or multi-thread problems; profiling tools can expose timing problems but not logic flaws.</p>
+<p>You also have to know your development tools. This includes, of course, the language you’re writing software in—if you don’t know what the “ ” operator does in C, you’re going to screw up the code somewhere. But it also involves knowing more subtle things about what the compiler and linker do with your source code before the machine sees it. How data is aligned, references are handled, and memory is allocated will affect your program in ways that aren’t obvious from looking at the source program.</p>
+<h3 id="look-it-up">Look It Up</h3>
+<p>Don’t guess. Look it up. Detailed information has been written down somewhere, either by you or by someone who manufactured a chip or wrote a software utility, and you shouldn’t trust your memory about it. Pinouts of chips, parameters for functions, or even function names — look them up. Be like Einstein, who never remembered his own phone number. “Why bother?” he would ask. “It’s in the phone book.”</p>
+<p>Finally, for the sake of humanity, if you can’t fix the flood in your basement at 2 A. M. and decide to call the plumber, don’t guess the number. Look it up.</p>
+<h3 id="summary-understand-the-system">Summary: Understand the System</h3>
+<p>This is the first rule because it’s the most important. Understand?</p>
+<ol style="list-style-type: decimal">
+<li><p>Read the manual. It’ll tell you to lubricate the trimmer head on your weed whacker so that the lines don’t fuse together.</p></li>
+<li><p>Read everything in depth. The section about the interrupt getting to your microcomputer is buried on page 37.</p></li>
+<li><p>Know the fundamentals. Chain saws are supposed to be loud.</p></li>
+<li><p>Know the road map. Engine speed can be different from tire speed, and the difference is in the transmission.</p></li>
+<li><p>Understand your tools. Know which end of the thermometer is which, and how to use the fancy features on your Glitch−O−Matic logic analyzer.</p></li>
+<li><p>Look up the details. Even Einstein looked up the details. Kneejerk, on the other hand, trusted his memory.</p></li>
+</ol>
+<h2 id="make-it-fail">Make It Fail</h2>
+<p>There are three reasons for trying to make it fail:</p>
+<ol style="list-style-type: decimal">
+<li><p>So you can look at it. In order to see it fail, you have to be able to make it fail. You have to make it fail as regularly as possible. In my TV game situation, I was able to keep my bleary eyes on the scope at the moments the problem occurred.</p></li>
+<li><p>So you can focus on the cause. Knowing under exactly what conditions it will fail helps you focus on probable causes. (But be careful; sometimes this is misleading—for example, “The toast burns only if you put bread in the toaster; therefore the problem is with the bread.”)</p></li>
+<li><p>So you can tell if you’ve fixed it. Once you think you’ve fixed the problem, having a surefire way to make it fail gives you a surefire test of whether you fixed it. If without the fix it fails 100 percent of the time when you do X, and with the fix it fails zero times when you do X, you know you’ve really fixed the bug. (This is not silly. Many times an engineer will change the software to fix a bug, then test the new software under different conditions from those that exposed the bug. It would have worked even if he had typed limericks into the code, but he goes home happy. And weeks later, in testing or, worse, at the customer site, it fails again.)</p></li>
+</ol>
+<h3 id="do-it-again">Do It Again</h3>
+<p>The important part is to be able to make it fail again, after the first time. A well−documented test procedure is always a plus, but mainly you just have to have the attitude that one failure is not enough. Look at what you did and do it again. Write down each step as you go. Then follow your own written procedure to make sure it really causes the error.</p>
+<h3 id="start-at-the-beginning">Start at the Beginning</h3>
+<p>Often the steps required are short and few; Sometimes the sequence is simple, but there’s a lot of setup required. Because bugs can depend on a complex state of the machine, you have to be careful to note the state of the machine going into your sequence. Try to start the sequence from a known state.</p>
+<h3 id="stimulate-the-failure">Stimulate the Failure</h3>
+<p>When the failure sequence requires a lot of manual steps, it can be helpful to automate the process. In many cases, the failure occurs only after a large number of repetitions, so you want to run an automated tester all night. Software is happy to work all night, and you don’t even have to buy it pizza.</p>
+<p>If your Web server software is grabbing the wrong Web page occasionally, set up a Web browser to ask for pages automatically. If your network software gets errors under high−traffic conditions, run a network−loading tool to simulate the load, and thus stimulate the failure.</p>
+<h3 id="dont-simulate-the-failure">Don’t Simulate the Failure</h3>
+<p>There’s a big difference between stimulating the failure (good) and simulating the failure (not good). Simulating the conditions that stimulate the failure is okay. But try to avoid simulating the failure mechanism itself. If you have an intermittent bug, you might guess that a particular low−level mechanism was causing the failure, build a configuration that exercises that low−level mechanism, and then look for the failure to happen a lot. Or, you might deal with a bug found offsite by trying to set up an equivalent system in your own lab. In either case, you’re trying to simulate the failure—i.e., to re−create it, but in a different way or on a different system.</p>
+<p>In cases where you guess at the failure mechanism, simulation is often unsuccessful. Usually, either because the guess was wrong or because the test changes the conditions, your simulated system will work flawlessly all the time or, worse, fail in a new way that distracts you from the original bug you were looking for.</p>
+<p>You have enough bugs already; don’t try to create new ones. Use instrumentation to look at what’s going wrong (see Rule 3: Quit Thinking and Look), but don’t change the mechanism; that’s what’s causing the failure.</p>
+<p>Simulating a bug by trying to re−create it on a similar system is more useful, within limits. If a bug can be re−created on more than one system, you can characterize it as a design bug—it’s not just the one system that’s broken in some way. Being able to re−create it on some configurations and not on others helps you narrow down the possible causes. But if you can’t re−create it quickly, don’t start modifying your simulation to get it to happen. You’ll be creating new configurations, not looking at a copy of the one that failed. When you have a system that fails in any kind of regular manner, even intermittently, go after the problem on that system in that configuration.</p>
+<p>Your software fails in a particular machine when it’s driving a particular peripheral device. You may be able to simulate the failure at your site by setting up the same configuration. But if you don’t have the same equipment or the same conditions, and thus the software doesn’t fail, the temptation is to try to simulate the equipment or invent new test programs. Don’t do it—bite the bullet and either bring the equipment to your engineers or send an engineer to the equipment.</p>
+<p>The red flag to watch out for is substituting a seemingly identical environment and expecting it to fail in the same way. It’s not identical.</p>
+<p>Remember, this doesn’t mean you shouldn’t automate or amplify your testing in order to stimulate the failure. Automation can make an intermittent problem happen much more quickly, as in the TV game story. Amplification can make a subtle problem much more obvious, as in the leaky window example, where I could locate the leak better with a hose than with the occasional rainstorm. Both of these techniques help stimulate the failure, without simulating the mechanism that’s failing. Make your changes at a high enough level that they don’t affect how the system fails, just how often. Also, watch out that you don’t overdo it and cause new problems.</p>
+<h3 id="what-if-its-intermittent">What If It’s Intermittent?</h3>
+<p>The key here is that you don’t know exactly how you made it fail. You know exactly what you did, but you don’t know all of the exact conditions. There were other factors that you didn’t notice or couldn’t control—initial conditions, input data, timing, outside processes, electrical noise, temperature, vibration, network traffic, phase of the moon, and sobriety of the tester.</p>
+<p>What can you do to control these other conditions? First of all, figure out what they are. In software, look for uninitialized data (tsk, tsk!), random data input, timing variations, multi-thread synchronization, and outside devices (like the phone network or the six thousand kids clicking on your Web site). In hardware, look for noise, vibration, temperature, timing, and parts variations (type or vendor). In my all−wheel−drive example, the problem would have seemed intermittent if I hadn’t noticed the temperature and the speed.</p>
+<p>Once you have an idea of what conditions might be affecting the system, you simply have to try a lot of variations. Initialize those arrays and put a known pattern into the inputs of your erratic software. Try to control the timing and then vary it to see if you can get the system to fail at a particular setting.</p>
+<p>Sometimes you’ll find that controlling a condition makes the problem go away. You’ve discovered something—what condition, when random, is causing the failure. If this happens, of course, you want to try every possible value of that condition until you hit the one that causes the system to fail. Try every possible input data pattern if a random one fails occasionally and a controlled one doesn’t.</p>
+<h3 id="what-if-ive-tried-everything-and-its-still-intermittent">What If I’ve Tried Everything and It’s Still Intermittent?</h3>
+<p>Remember, problem doesn’t have a mind of its own—the failure has a cause, and you can find it. It’s just really well hidden behind a lot of random factors that you haven’t been able to unrandomize.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>A Hard Look at Bad Luck</strong> - If it doesn’t happen every time, you have to look at it each time it fails, while ignoring the many times it doesn’t fail. The key is to capture information on every run so you can look at it after you know that it’s failed. Do this by having the system output as much information as possible while it’s running and recording this information in a “debug log” file. By looking at captured information, you can easily compare a bad run to a good one (see Rule 5: Change One Thing at a Time). If you capture the right information, you will be able to see some difference between a good case and a failure case. Note carefully the things that happen only in the failure cases. This is what you look at when you actually start to debug.</p></li>
+<li><p><strong>Lies, Damn Lies, and Statistics</strong> - When a problem is intermittent, you may start to see patterns in your actions that seem to be associated with the failure. This is okay, but don’t get too carried away by it. When failures are random, you probably can’t take enough statistical samples to know whether clicking that button with your left hand instead of your right makes as big a difference as it seems to. A lot of times, coincidences will make you think that one condition makes the problem more likely to happen than some other condition. Then you start chasing “what’s the difference between those two conditions?” and waste a lot of time barking up the wrong tree. This doesn’t mean that those coincidental differences you’re seeing aren’t, in fact, connected to the bug in some way. But if they don’t have a direct effect, the connection will be hidden by other random factors, and your chances of figuring it out by looking at those differences are pretty slim. When you capture enough information, as described in the previous section, you can identify things that are always associated with the bug or never associated with the bug. Those are the things to look at as you focus on likely causes of the problem.</p></li>
+<li><p><strong>Did You Fix It, or Did You Get Lucky?</strong> - Randomness makes proving that you fixed it a lot harder, of course. If it failed one out of ten times in the test, and you “fix” it, and now it fails one out of thirty times but you give up testing after twenty−eight tries, you think you fixed it, but you didn’t. It’s far better to find a sequence of events that always goes with the failure—even if the sequence itself is intermittent, when it happens, you get 100 percent failure. Then when you think you’ve fixed the problem, run tests until the sequence occurs; if the sequence occurs but the failure doesn’t, you’ve fixed the bug. You don’t give up after twenty−eight tries, because you haven’t seen the sequence yet.</p></li>
+</ol>
+<h3 id="but-that-cant-happen">“But That Can’t Happen”</h3>
+<p>Now, you might be absolutely positive that the ice cream flavor could not affect the car. And you’d be right—that can’t happen. But buying an odd flavor of ice cream could affect the car, and only by accepting the data and looking further into the situation can you discover that “that.”</p>
+<h3 id="never-throw-away-a-debugging-tool">Never Throw Away a Debugging Tool</h3>
+<p>Sometimes a test tool can be reused in other debugging situations. Think about this when you design it, and make it maintainable and upgradeable. Don’t just code it like the throwaway tool you’re thinking it is—you may be wrong about throwing it away. Sometimes a tool is so useful you can actually sell it; many a company has changed its business after discovering that the tool it has developed is even more desirable than its products.</p>
+<h3 id="summary-make-it-fail">Summary: Make It Fail</h3>
+<p>It seems easy, but if you don’t do it, debugging is hard.</p>
+<ol style="list-style-type: decimal">
+<li><p>Do it again. Do it again so you can look at it, so you can focus on the cause, and so you can tell if you fixed it.</p></li>
+<li><p>Start at the beginning. The mechanic needs to know that the car went through the car wash before the windows froze.</p></li>
+<li><p>Stimulate the failure. Spray a hose on that leaky window.</p></li>
+<li><p>But don’t simulate the failure. Spray a hose on the leaky window, not on a different, “similar” one.</p></li>
+<li><p>Find the uncontrolled condition that makes it intermittent. Vary everything you can—shake it, rattle it, roll it, and twist it until it shouts.</p></li>
+<li><p>Record everything and find the signature of intermittent bugs. Our bonding system always and only failed on jumbled calls.</p></li>
+<li><p>Don’t trust statistics too much. The bonding problem seemed to be related to the time of day, but it was actually the local teenagers tying up the phone lines.</p></li>
+<li><p>Know that “that” can happen. Even the ice cream flavor can matter.</p></li>
+<li><p>Never throw away a debugging tool. A robot paddle might come in handy someday.</p></li>
+</ol>
+<h2 id="quit-thinking-and-look">Quit Thinking and Look</h2>
+<p>Continue …</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<footer>
+    <ul class="nav nav-pills pull-right hidden-phone">
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+    </ul>
+
+    <ul class="unstyled">
+        <li class="transparent"><a href="about.html">About/</a></li>
+        <li class="transparent"><a rel="license" href="https://www.gnu.org/licenses/copyleft.en.html"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <li class="transparent"><a href="feed.xml">RSS/</a></li>
+    </ul>
+</footer>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

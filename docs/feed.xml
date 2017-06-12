@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+	<title>Ravikiran K.S.</title>
+	<description>Posts on software, technology, book summaries, tips n tricks</description>
+	<link>http://rkks.github.io</link>
+	<atom:link href="http://rkks.github.io/feed.xml"
+	 rel="self" type="application/rss+xml" />
+	<item>
+		<title>Younger You</title>
+		<link>http://rkks.github.io/youngeryou.html</link>
+		<guid>http://rkks.github.io/youngeryou.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>[...]</description>
+	</item>
+	<item>
+		<title>Working on Large Codebase</title>
+		<link>http://rkks.github.io/largecode.html</link>
+		<guid>http://rkks.github.io/largecode.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>Step through code in debug mode to see how it works Pair up with someone more familiar with the code base than you, taking turns to be the person coding and the person watching/discussing. Rotate partners amongst team members so knowledge gets spread around. Write unit tests. Start with an assertion of how you think code will work. If it turns out as you expected, you’ve probably understood the code. If not, you’ve got a puzzle to solve and or an enquiry to make. (Thanks Donal, this is a great answer) Go through existing unit tests for functional code, in a similar fashion to above Read UML, Doxygen generated class diagrams and other documentation to get a broad feel of the code. Make small edits or bug fixes, then gradually build up Keep notes, and don’t jump in and start developing; it’s more valuable to spend time understanding than to generate messy or inappropriate code.</p>[...]</description>
+	</item>
+	<item>
+		<title>Work Habits</title>
+		<link>http://rkks.github.io/workhabits.html</link>
+		<guid>http://rkks.github.io/workhabits.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>Read something related to industry, business, technology regularly</p>[...]</description>
+	</item>
+	<item>
+		<title>Work Breakdown Structure Guidelines</title>
+		<link>http://rkks.github.io/wbsguidelines.html</link>
+		<guid>http://rkks.github.io/wbsguidelines.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>[...]</description>
+	</item>
+	<item>
+		<title>Wishlist</title>
+		<link>http://rkks.github.io/wishlist.html</link>
+		<guid>http://rkks.github.io/wishlist.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>A wish can enter into wishlist only if it passes the litmus test.</p>[...]</description>
+	</item>
+	<item>
+		<title>Wisdom Journal</title>
+		<link>http://rkks.github.io/wisdomjournal.html</link>
+		<guid>http://rkks.github.io/wisdomjournal.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description>[...]</description>
+	</item>
+	<item>
+		<title>Why would somebody pay money?</title>
+		<link>http://rkks.github.io/monetize.html</link>
+		<guid>http://rkks.github.io/monetize.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>People want to look professional, the BOSS, the master of field, an expert</p>[...]</description>
+	</item>
+	<item>
+		<title>Who Moved My Cheese - Dr. Richard Spencer</title>
+		<link>http://rkks.github.io/whomovedcheese.html</link>
+		<guid>http://rkks.github.io/whomovedcheese.html</guid>
+		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
+		<description><p>[...]</description>
+	</item>
+</channel>
+</rss>

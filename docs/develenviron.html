@@ -1,0 +1,667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Practical Development Environments by Matthew B. Doar | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+  <link rel="stylesheet" href="./css/solarized-light.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span7">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./software.html">Software/</a></li>
+            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
+            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+
+<!-- End _navigation.html -->
+
+<article>
+
+<!--This text is produced by a custom variable in the pandoc template called "category." The value is set by the shell script when processing posts.-->
+<div id="category">reviews</div><!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Practical Development Environments by Matthew B. Doar</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<p>% Category - J</p>
+<p><em>“Projects have Environments in which People produce Products.”</em></p>
+<h2 id="dirty-secrets-of-software-projects">Dirty Secrets of Software Projects</h2>
+<ol style="list-style-type: decimal">
+<li><p>We can’t rebuild the same product that we shipped to the customer, so we’ll ship her the latest version, just to be safe.</p></li>
+<li><p>Building from scratch (also known as a clean build) each time is often the only way to get the product to build reliably. This takes so long that the developer goes off and does something else. Consequently, every developer thinks that his build tool is too slow.</p></li>
+<li><p>Testers, technical writers, and managers can’t build the latest version of the product. Even if it has already been built for them by someone else, it’s unclear where to find the latest version.</p></li>
+<li><p>Fixes for known bugs are not released, because it’s too hard to properly test the required changes and they may break other parts of the product.</p></li>
+<li><p>Everyone finds the bug tracking tool awkward to use.</p></li>
+<li><p>The environment used by developers and the one in which the product is used by customers are different in some important ways, so the developers never actually see problems the same way that a customer does.</p></li>
+<li><p>Getting a product ready to release takes so long that any late-arriving changes don’t get tested or documented.</p></li>
+<li><p>The wrong set of bits gets shipped to the customer. This one should make anyone involved in developing software wince, but it does happen.</p></li>
+<li><p>Nobody knows when to remove a feature from a product, because no one knows whether the feature is actually being used.</p></li>
+<li><p>Communication between groups happens by reading printouts left at the printer nearest to the coffee machine.</p></li>
+</ol>
+<h2 id="three-strikes-and-you-automate">Three Strikes And You Automate</h2>
+<ol style="list-style-type: decimal">
+<li><p>The first time you do something, you just do it manually.</p></li>
+<li><p>The second time you do something similar, you wince at the repetition, but you do it anyway.</p></li>
+<li><p>The third time you do something similar, you automate.</p></li>
+</ol>
+<p>(Martin Fowler, Refactoring: Improving the Design of Existing Code, Addison-Wesley, 1999)</p>
+<h3 id="some-of-the-automation-environment-tasks-include">Some of the Automation Environment Tasks include</h3>
+<ol style="list-style-type: decimal">
+<li><p>Checking out the latest versions of source files</p></li>
+<li><p>Calculating the appropriate build or release number</p></li>
+<li><p>Tagging the source files</p></li>
+<li><p>Building one or more products from the virgin source code</p></li>
+<li><p>Testing the products with both unit tests and system tests</p></li>
+<li><p>Moving the generated release packages to a suitable location for other people’s use</p></li>
+<li><p>Marking certain bugs as having potential fixes available in this release</p></li>
+<li><p>Creating change logs and release notes about what changed in this release</p></li>
+<li><p>Notifying people when a release becomes available, and also notifying the responsible individuals when a build or test fails</p></li>
+<li><p>Publishing test reports and build logs to a web site</p></li>
+<li><p>Collecting project data and running static analyzers on the source code</p></li>
+<li><p>Regenerating the dynamic parts of a project web site</p></li>
+</ol>
+<p><strong>Some of public Automation Environments</strong>: Tinderbox (Mozilla), and CruiseControl.</p>
+<h2 id="whats-there-in-a-name">what’s there in a name</h2>
+<h3 id="a-build-label-should-include">A build label should include</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Build type</strong> - Was this build for internal testing (QA) or release (REL)?</p></li>
+<li><p><strong>Version</strong> - The major, minor, and patch numbers.</p></li>
+<li><p><strong>Build number</strong> - A number that uniquely identifies each build.</p></li>
+<li><p><strong>Date</strong> - The year, month, and day when the build was started, in that order so that builds can be sorted on this field.</p></li>
+<li><p><strong>Special</strong> - If the build is otherwise significant, add an optional field at the end. An example is BETA for a beta release.</p></li>
+</ol>
+<p><strong>Example</strong>: QA#1_3_0#129#2005_07_09#ALPHA A release number of the form major.minor.patch uses three separate integers; the major, minor, and patch release numbers. This scheme communicates something about the degree of change and maturity of each release. Generally, the patch number is changed for bug-fix releases, the minor number is changed for releases with new features, and the major number is changed for releases that break compatibility with prior releases in some significant manner.</p>
+<p>Another requirement for a build label is that it should not contain characters that are illegal in any of the contexts that the label will be used in-that is, SCM labels, file and directory names, field values in your bug tracking system, web pages, and documentation. Characters to avoid include $, &lt;, &gt;, |, /, \, spaces, and tabs. Underscores don’t show up in underlined links on web pages. Some SCM tools have their own restrictions as well. Build labels don’t need to have a branch name in them, since the version number and build number can tell you whether a branch was used for the source code.</p>
+<h3 id="choosing-project-names">Choosing Project Names</h3>
+<p>Project names are usually chosen by engineering groups, with one name for each significantly different version of the products that they are working on. Product names, on the other hand, are the names that customers see, and these names are usually chosen to help a product sell or to become popular. Some general guidelines for choosing names for projects are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Keep it short</p></li>
+<li><p>Use distinctive sounds</p></li>
+<li><p>Use low-frequency letters (the ones not common in normal english words)</p></li>
+<li><p>Make it unmarketable</p></li>
+</ol>
+<h3 id="choosing-machine-names">Choosing Machine Names</h3>
+<ol style="list-style-type: decimal">
+<li><p>Don’t overload other terms already in common use</p></li>
+<li><p>Don’t use your own name</p></li>
+<li><p>Don’t use long names (anything longer than 8 character irritates)</p></li>
+<li><p>Don’t use digits at the beginning of the name</p></li>
+<li><p>Don’t expect case to be preserved</p></li>
+</ol>
+<h3 id="naming-branches-and-tags">Naming Branches and Tags</h3>
+<ol style="list-style-type: decimal">
+<li><p>All branch names end in _branch or _b. Tag names do not.</p></li>
+<li><p>Private branches and tags should have _private in their name.</p></li>
+<li><p>Tag names that are connected to points where branches occurred should have _bp (for “branch point”) in their name. Another idea is to start the names of branch point tags with Root-of.</p></li>
+<li><p>Tag names that are connected to points where merges occurred should have _mp (for “merge point”) in their name.</p></li>
+<li><p>Non-private branch names created by users should be collection of username#feature#rfeId in case of feature development, username#issue#bugId in case of bugfix, and username#int#intId for integration branches. Any main branches created for product should have product#main for main branch, and product#test for test branches.</p></li>
+</ol>
+<h3 id="some-more-general-advice-about-the-naming-of-files-and-directories-in-a-project">Some more general advice about the naming of files and directories in a project</h3>
+<ol style="list-style-type: decimal">
+<li><p>When naming directories, make sure their names start with different characters. Then completing their names will be easier when using a shell prompt at the command line.</p></li>
+<li><p>Use common prefixes for the names of files within the same directory. The extra information can give you more of an idea about where to find the file.</p></li>
+<li><p>Don’t reuse directory names that are significant in your operating system (e.g., sys in Unix and system in Windows). It’s confusing, and one day some tool will pick up files from the wrong sys directory and you may not even realize it.</p></li>
+<li><p>Avoid embedding version numbers into the name of a file or directory that’s managed using an SCM tooltracking versions is what the SCM tool is for! Put a version into a filename only if there is an occasion when multiple versions might be used at the same time.</p></li>
+</ol>
+<h2 id="right-tool-for-right-use">Right Tool for Right Use</h2>
+<p>First, other members of the project are likely to have suggestions for different tools. Send out a request for information, making sure it has an obvious deadline for replies. Specify what the tool must do and what you would merely like it to do. Be sure to ask people about whether they have actually used their recommended tool, not just evaluated it. Make sure you ask them whether they have administered the tool since using and administering tools can be very different experiences.</p>
+<h3 id="steps-when-changing-tools">Steps When Changing Tools</h3>
+<ol style="list-style-type: decimal">
+<li><p>It is helpful to start with a clear and broadly agreed-on understanding of what the tool must do and not do, and what features would be useful but are not essential. These requirements will probably change as you investigate the available options, but they’re a good place from which to start.</p></li>
+<li><p>Create a document that summarizes the different choices and their perceived advantages and disadvantages, or rate them in a number of different areas. Make sure you know which requirements are mandatory and which are merely desirable. Propose some tentative schedules for how the tool could be introduced.</p></li>
+<li><p>Evaluate the two or three leading choices, ideally by installing them locally on a development machine and using them with your own data or files. Record all the key information about installing, configuring, and using a new tool while you are doing it and it is fresh in your mind. Other ways of evaluating an open source tool are reading the source code and looking at the number of bugs, the number of messages on mailing lists, the amount of recent SCM activity, and the download statistics, if available.</p></li>
+<li><p>Talk with senior developers on your project about their impressions of each tool. Ask the tool’s vendor or project administrators for names of people who already use the tool that you can talk to. Add all these comments to the document, but keep them separate from each other, since they come from different perspectives.</p></li>
+<li><p>Discuss the document with the senior members of the group and come to a decision. It helps if you can make a business case for the cost of each tool and the expected return on investment. Add people’s names and a date, and save this document for revisiting in the future when people ask why a particular tool was chosen.</p></li>
+<li><p>Document how you expect the new tool to be used and send this out to the whole project. Offer to describe it in person if your numbers and locations permit.</p></li>
+<li><p>If at all possible, bring up the new tool in parallel with an existing tool and migrate people to the new tool gradually. If a switchover date is necessary, publicize it well in advance and make sure that extra support is available for the tool when it goes live.</p></li>
+<li><p>Archive and move the old tool aside so that it isn’t used by mistake or ingrained habit. It may still occasionally need to be used in the future, it may still be required for generating patches for older releases. If the tool is installed on peoples’ individual machines, send detailed instructions about how to migrate safely from the old tool to the new one.</p></li>
+<li><p>Update the documents about the development environment, especially the documents for new developers.</p></li>
+</ol>
+<h3 id="authentication-authorization-and-accounting">Authentication, Authorization, and Accounting</h3>
+<p>Changes to a project should be made only by the people who have been both authenticated and authorized to make them.</p>
+<h3 id="some-practical-suggestions-for-securing-your-scm-tool">Some practical suggestions for securing your SCM tool</h3>
+<p>(CVS in particular)</p>
+<ol style="list-style-type: decimal">
+<li><p>Use separate and well-secured machines as SCM servers, which few or no developers can log in to directly. If you have secure server rooms, keep your SCM machines in there. Emergency power is often available in server rooms, which helps keep your filesystem intact, as do redundant disks.</p></li>
+<li><p>Use encrypted connections from SCM clients to SCM servers, especially if there is a wireless connection involved anywhere in the network. If people have to have accounts on the SCM server, use a secure shell such as smrsh to limit the commands that they are allowed to execute.</p></li>
+<li><p>Carefully guard the physical security of your backups of the repository. Destroy the physical media of outdated backups.[2]</p></li>
+<li><p>Track each change in the repository using notifications of commits and inspection of diffs. Train developers to expect to see email when they make changes and to occasionally confirm that the information in the email is also appearing in any change logs.</p></li>
+</ol>
+<h3 id="what-should-you-look-for-in-an-scm-tool">What should you look for in an SCM tool?</h3>
+<ol style="list-style-type: decimal">
+<li><p>Confidence in the integrity of your data</p></li>
+<li><p>Fast and simple creation of tags, extraction of tagged files, and generation of diffs</p></li>
+<li><p>Good support for branching and merging, ideally with both command-line and graphical interfaces</p></li>
+<li><p>Integration with other existing tools such as bug tracking systems</p></li>
+<li><p>A good web interface to let people browse the different versions of their files and also to search through earlier versions of the files</p></li>
+<li><p>Good support from the tool vendor or the tool’s community</p></li>
+</ol>
+<h3 id="what-should-you-look-for-in-a-build-tool">What should you look for in a build tool?</h3>
+<ol style="list-style-type: decimal">
+<li><p>It should have accurate dependency checking.</p></li>
+<li><p>Startup and dependency checking should be fast. The build tool should use tools such as compilers intelligently.</p></li>
+<li><p>Builds should be independent from the local user environment in which the build tool was started. This makes it easier to reproduce builds on different machines.</p></li>
+<li><p>Variant builds for debugging or with extra optimization should be easy to specify, preferably with a single argument to the build tool on the command line.</p></li>
+<li><p>It should include support for many platforms and languages, particularly if the product is open source. The ability to build using the same source tree on multiple platforms at the same time is helpful.</p></li>
+<li><p>It should be easy to write and read the build files, and the build tool should already be understood by many of the project members.</p></li>
+<li><p>It should be scalable, with support for parallel builds.</p></li>
+<li><p>It should have support for debugging builds and build file problems. Graphical display of the dependencies and changes in dependencies is a bonus. Clear output from a build tool about what command-line arguments were used and which user started the build is helpful. Minimizing the number of complete commands that are displayed can also make build logs easier to read, though the complete commands and their output should also be logged somewhere for each build.</p></li>
+</ol>
+<p><strong>Advised Tools</strong>: Ant or Jam, Autotools or SCons.</p>
+<h3 id="changing-your-build-tool">Changing Your Build Tool</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Search for advice</strong> - Search carefully for examples of how other people have used the new build tool. Create a few local prototypes before going to the effort of creating all of the new build files.</p></li>
+<li><p><strong>Start with a working build</strong> - Make sure that the existing build is working, at least for the major targets that are used by the project.</p></li>
+<li><p><strong>Capture all the output from a working build</strong> - Generate a text logfile that shows the complete details of every command that the build currently executes, including any warnings from compilers and other tools. Now make your new build tool do what the old one did, as closely as possible.</p></li>
+<li><p><strong>Use the existing directories</strong> - If at all possible, create the new build files for the new build tool using the existing directory structure. This is one less variable changing at the same time.</p></li>
+<li><p><strong>Use temporary scripts</strong> - If there are parts of the original build files that the new build tool doesn’t support until you customize it in some way, you can still make progress by hardcoding the old build commands into a script file and calling that with your new build tool.</p></li>
+<li><p><strong>Compare the results</strong> - If you run both the old and new build tool in parallel for a few days or weeks, then you can compare every generated file.</p></li>
+</ol>
+<h2 id="backups-and-scm">Backups and SCM</h2>
+<ol style="list-style-type: decimal">
+<li><p>Disaster recovery</p></li>
+<li><p>Corruption detection</p></li>
+<li><p>Intrusion detection</p></li>
+</ol>
+<h3 id="scm-checklist">SCM Checklist</h3>
+<ol style="list-style-type: decimal">
+<li><p>What is saved in your SCM system? What is not in your SCM system? Why?</p></li>
+<li><p>What have you overlooked? Often the only time this question is carefully answered is when a hard disk dies and you try to recreate your environment. List all the files, tools, and other pieces of your environment that you use to build a release.</p></li>
+<li><p>Can you still recreate older releases if a file is renamed?</p></li>
+<li><p>Can you still recreate older releases if a directory is renamed?</p></li>
+<li><p>How do you know the date on which a file was branched?</p></li>
+<li><p>How do you know the intended purpose of each branch?</p></li>
+<li><p>Who can change permissions for write and read access to the SCM tool?</p></li>
+<li><p>What happens with your SCM tool if two files in the same directory have the same name, but one is uppercase and one is lowercase? What happens if a filename has spaces in it?</p></li>
+<li><p>How does the backup size of your SCM tool’s files change over time? When will you next fill up a key disk, CD, DVD, or tape?</p></li>
+<li><p>Can you develop on a laptop on an airplane? How much of your SCM tool still works, and how do you resynchronize when you reconnect later on?</p></li>
+<li><p>How would you add a process to your SCM toolfor example, requiring each change to be reviewed by other people?</p></li>
+<li><p>Do you have good integration between your SCM tool and your bug tracking system?</p></li>
+<li><p>How do you decide when to upgrade your SCM tool, whether it’s to fix bugs in the tool or for extra functionality?</p></li>
+<li><p>What is the most common mistake that people using your SCM tool make? How could you help them to avoid doing that?</p></li>
+</ol>
+<h2 id="build-system">Build System</h2>
+<h3 id="the-different-stages-of-a-build">The Different Stages of a Build</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Define the targets</strong> - What would you like to build? Everything? Just one file? A subset of files?</p></li>
+<li><p><strong>Read the build files</strong> - The names of the executables and the source files for each executable are defined explicitly somewhere, often in build files.</p></li>
+<li><p><strong>Configuration</strong> - The build tool discovers which platform and tools are to be used.</p></li>
+<li><p><strong>Calculate the dependencies</strong> - The build tool scans the build files and source files to work out which parts of the program depend on which other parts. This stage also reports any errors such as circular dependencies, where the chain of dependencies has a loop in it.</p></li>
+<li><p><strong>Determine what to build</strong> - Using the dependencies, the build tool works out which files need to be updated or generated. It reports errors such as nonexistent source files or files that couldn’t be generated.</p></li>
+<li><p><strong>Construct the build commands</strong> - The build tool assembles the appropriate commands to update the out-of-date parts of the program.</p></li>
+<li><p><strong>Execute the build commands</strong> - The build tool runs the commands to update the files that need updating and reports any errors returned by the commands.</p></li>
+</ol>
+<h3 id="build-states">Build States</h3>
+<p>The build state is the state of the source files used by the build tool when it starts a build.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Virgin</strong> - A completely fresh set of source code files, never before used in any build.</p></li>
+<li><p><strong>Up-to-date</strong> - No changes have been made in the source code files (or in any generated files) since the last build.</p></li>
+<li><p><strong>Changed</strong> - Changes have been made in the set of source code files or generated files since the last time the build process was started.</p></li>
+<li><p><strong>Interrupted</strong> - The last time that the build tool was run it was interrupted, so some files may be incomplete or have unexpected contents.</p></li>
+<li><p><strong>Clean</strong> - All the files that were generated by a previous build have been deleted from the source files.</p></li>
+</ol>
+<h3 id="common-build-problems">Common Build Problems</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Command-line length</strong> - Some reasons for this are absolute pathnames being used for all files, or long file lists being used to maximize the number of files processed each time that a slow-to-start compiler is invoked. Build tools can sometimes avoid this problem by using a temporary file containing the list of files to be used by another tool.</p></li>
+<li><p><strong>Filename formats</strong> - If you want to build your project on multiple platforms, then a build tool with good support for avoiding filesystem-specific names is helpful. The easiest build tools to use are ones that allow you to specify a filename in one format and then automatically convert the filename to the appropriate format for the intended platform.</p></li>
+<li><p><strong>Unit tests for build tools</strong> - A collection of small test projects provides an excellent place to develop new techniques for using and testing your build tool.</p></li>
+<li><p><strong>Identifying builds</strong> - Unique identifiers for all builds that are to be used by other people helps clear communication within a project. A label such as QA#1_3_0#129#2005_07_09 can identify a build as build 129, for internal testing (QA), Version 1.3.0, which was built on July 9, 2005. This kind of build label has many uses for SCM tools, bug tracking systems, and file and directory names.</p></li>
+</ol>
+<h3 id="slow-builds">Slow Builds</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Profile the build</strong> - The first thing to do with a slow build is find out where most of the time is being spent. You can do something as simple as logging the current time at various interesting points in your build files. Some build tools such as SCons can provide more complete profiling information by treating the build tools as an application to be profiled just like any other application.</p></li>
+<li><p><strong>Build only once</strong> - Incorrect dependencies in build files may mean that files are built more than once or that other files that aren’t needed are being built. To make sure this isn’t happening to you, extract filenames from the build log and make sure each one is expected and occurs only once. Profiling can sometimes help here too.</p></li>
+<li><p><strong>Use a build server</strong> - If developers’ desktop machines seem underpowered for the size of the project, you can try using shared build machines with more disk space and RAM. If there are a lot of disk accesses during a build, then a RAM disk cache (a ramdisk) may help. Of course, using a single build server makes your development environment more vulnerable to a single point of failure.</p></li>
+<li><p><strong>Create staged builds</strong> - If the build for your product is taking more than an hour or two, it may be time to consider splitting it up into multiple builds, where each one builds a subsection of the product. The results of the builds can then be staged that is, made available for other people in the project to use as starting points for their own builds.</p></li>
+<li><p><strong>Use ccache</strong> - When you compile a C file, the C pre-processor first creates an expanded source file, which is what is actually compiled into an object file. ccache (<a href="http://ccache.samba.org" class="uri" title="http://ccache.samba.org">http://ccache.samba.org</a>) is an application that keeps a copy of the generated object file, and if the expanded source file hasn’t changed the next time that it needs to be compiled, then ccache just returns the saved copy instead of wasting time recompiling the file. If the file has changed, then ccache compiles it as usual. To do all this accurately, ccache has to also record which compiler flags were used when the saved object file was created. This idea is great for builds where you rebuild lots of files the same way every time (for instance, virgin builds), or if a build tool is rebuilding files by mistake.</p></li>
+<li><p><strong>Use parallel builds</strong> - Many build tools have arguments to run different parts of a build in parallel. Depending on how good the build tool is at separating the build into different parts, this may improve your build times, or it may not do much. The only way to find out is to try it, which is usually a straightforward matter of passing another command-line argument to your build tool. Another approach is to use a distributed compiler such as distcc instead of expecting the build tool to handle distributing the work for the build.</p></li>
+<li><p><strong>Use distributed compilation</strong> - Using a cluster of machines to build a product is sometimes helpful. One tool that does this is distcc (<a href="http://distcc.samba.org" class="uri" title="http://distcc.samba.org">http://distcc.samba.org</a>), an open source front-end to the GNU gcc compiler that distributes preprocessed files to remote machines for compilation. After being compiled remotely, the object files are then returned to the main build machine. distcc assumes that the build dependencies calculated by your build tool are correct and can be cleanly partitioned for a distributed compilation. Electric Make is another high-end distributed build tool.</p></li>
+</ol>
+<h2 id="building-software-checklist">Building Software Checklist</h2>
+<ol style="list-style-type: decimal">
+<li><p>When you build the product, do the generated files end up mixed in with the source files, or are they in a separate location?</p></li>
+<li><p>You made a small change to a few files, but then rebuilding the product took much longer than you expected. Can you find out why it took so long? Exactly which files were rebuilt, and why was each one rebuilt?</p></li>
+<li><p>How long does an up-to-date build take with your build tool? (As explained in the earlier Section 5.2, an up-to-date build is one where nothing has changed since the last build and so the generated files are already up-to-date.)</p></li>
+<li><p>How long do the other kinds of build (virgin, changed, interrupted, and clean) typically take for your product?</p></li>
+<li><p>How do you cause just a subset of your product to be rebuilt? Do you have to delete a magic file? Specify some target name to the build tool? Change to a special location in your source tree?</p></li>
+<li><p>How do you debug a build process? Can you debug where incorrect dependencies come from?</p></li>
+<li><p>Can you use different versions of your build tools on the same machine with confidence?</p></li>
+<li><p>Can you list all the other tools (and their versions) that your build tool depends on? Are they safely stored somewhere in such a way that you could recover them after a disaster? When was this backup last updated?</p></li>
+<li><p>Can you list all the operating systems (and their versions) that your build tool depends on? Are they safely stored somewhere in such a way you could recover them after a disaster? When was this backup last updated?</p></li>
+<li><p>How long did all the different kinds of builds take in the past? Can you predict when your build will become too slow?</p></li>
+<li><p>Do you think that a parallel build would improve your build times? How do you configure your build tool to run parallel builds?</p></li>
+<li><p>If you want to produce a different product using the same build tool and build files, in how many places do you have to add information about the new product?</p></li>
+<li><p>If you want to add a new type of build (e.g., with a different set of debugging arguments to a compiler or to generate PDF files instead of HTML), how many of the build files do you have to change? How many places do you have to make these changes in each build file?</p></li>
+<li><p>If you had to change the name of a product or a project, or the name of the company, how many build files would you have to change?</p></li>
+<li><p>Finally, the real motivation for this chapter: how much time per week do the project’s developers spend wrestling with the build tool, waiting for slow builds, and investigating phantom bugs that are due to inconsistent builds?</p></li>
+</ol>
+<h2 id="test-environment">Test Environment</h2>
+<h3 id="at-a-minimum-a-test-environment-should-allow-you-to">At a minimum, a test environment should allow you to</h3>
+<ol style="list-style-type: decimal">
+<li><p>Run a number of tests.</p></li>
+<li><p>Decide whether the tests ran properly and whether any tests hung. A hung test should not prevent other tests from being run.</p></li>
+<li><p>Determine what the result of each test waserror (in the test), failure, or successand also explain why.</p></li>
+<li><p>Summarize the results of the tests in a report.</p></li>
+</ol>
+<h3 id="a-good-test-environment-can-help-with-the-following-before-any-tests-are-run">A good test environment can help with the following before any tests are run</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Checking resources</strong> - If an external resource (such as a database or a web site) is a prerequisite for running a group of tests, then it often makes sense to check that the resource is available just once, not before every one of the tests.</p></li>
+<li><p><strong>Defining expected results</strong> - Defining the expected results is part of defining a test. Some tests may be expected to fail. This is true when a bug has been found and a test has been written to demonstrate this failure, but the bug has not yet been fixed. Other failing tests may be tests that are themselves waiting to be fixed.</p></li>
+<li><p><strong>Tracking primary owners</strong> - Test environments can make it easy to change who owns each test, ideally by using a UI or a simple text search and replace. It should always be easy to identify who will be asked to make a broken test work again. With bugs, even if it’s not clear until the bug has been investigated more thoroughly who really owns the faulty code, at least there’s a name to start from. If the same test keeps failing due to changes in an unrelated area, then the owner of the test can offer to let the owner of the other area own the test, without having to change who owns the source code.</p></li>
+<li><p><strong>Tracking secondary owners</strong> - Providing a secondary owner of a test in case the primary owner leaves the project is another useful idea. That way, email messages about failed tests should always reach someone, who may well feel motivated to reassign the tests to a new primary owner, if only to stop the email.</p></li>
+<li><p><strong>Generating test data</strong> - Some edge cases or boundary conditions can be tested for automatically. For instance, if a method accepts an integer as an argument, then values of 0, -1, and 1 are probably worth using in a unit test. Similarly, very short and very long strings, strings with spaces and punctuation, and non-ASCII strings are all good candidates for testing APIs that have string parameters. If your product uses text files, try passing an executable file to it as an input test.</p></li>
+<li><p><strong>Handling input data</strong> - If you are using fixed data, make sure it is stored in such a way that it is easy to change, such as in a file that’s used for input by the test, rather than being compiled into the test executable. This also implies that test environments should be able to read from data files.</p></li>
+<li><p><strong>Generating random numbers</strong> - A test environment should have a good random number generator for generating data and for making choices in tests. Good ones are hard to find, and they’re easy to use in ways that make the results decidedly nonrandom, so guidelines about using them properly are helpful. Somewhat paradoxically, if you do need a random number generator, you should make sure that its output can be precisely repeated, so that you can debug your tests. This is usually done by passing in a “seed value” to the function that initializes the random number generator. Using the same seed value will produce the same sequence of random numbers it’s where you start in the sequence that isn’t random.</p></li>
+</ol>
+<h3 id="some-aspects-of-a-test-environment-that-help-when-running-tests-are">Some aspects of a test environment that help when running tests are</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Single tests</strong> - The ability to run just one test quickly dramatically improves the turnaround time for retesting small parts of a product.</p></li>
+<li><p><strong>Groups of tests</strong> - Being able to refer to tests in groups and to have the same test be part of multiple groups means that you can run test groups such as “the ones that failed last time” or “just the tests for Windows.”</p></li>
+<li><p><strong>Independent, idempotent tests</strong> - Ideally, tests should have no side effects and should leave the environment in a known state. This means that you should be able to run the same test over and over again, or run the tests in any order. Test environments that help you get this right will save you hours of time trying to debug tests that failed only because the test that was run just before them failed. Running the tests in a different order also simulates more closely how customers may use the product.</p></li>
+<li><p><strong>Parallel processes</strong> - Tests that have to be run at the same time and be synchronized with each other are hard to run in most test environments. Most testers simply try to avoid these tests or design the product so that it can be put into states where it will wait for certain inputs for synchronization. The useful software clock resolution on many machines without real-time operating systems is only tens of milliseconds, so microsecond synchronization of software is most unlikely to be supported by test environments.</p></li>
+<li><p><strong>Background processes</strong> - Even if parallel processes don’t have to be synchronized with each other, some tests will need processes to run in the background, and output logging and deadlock detection should work for these processes just as they do for other tests. A test environment should also provide a clean way to check for orphaned background processes before the next test starts.</p></li>
+<li><p><strong>Multiple machines</strong> - The use of multiple machines for a test means that the test environment has to provide a way of executing commands on remote machines, and also a way to collect the results of the commands for processing as part of creating a report. The test itself may have to be written so that it can be started and then wait for a signal to proceed.</p></li>
+<li><p><strong>Multiple platforms</strong> - Tests that run on many different platforms (for example, both Unix and Windows) benefit greatly from a test environment that hides the differences between the platforms from the person writing tests.</p></li>
+<li><p><strong>Capturing output</strong> - Good test environments can make capturing both the output and any errors from each test much easier. Keeping textual output and errors in the same place makes it easier to see when errors occurred relative to other output. If they have to remain separate, then timestamps are required, with as much resolution as the platform will provide. It’s also helpful to be able to tee the output from each test to be able to monitor the progress of each test.</p></li>
+<li><p><strong>Scanning output</strong> - When the output of a test has been captured, usually into a file, the result of a test is often determined by searching for certain strings in the output. A good test environment can help by making the common cases simple to implement, while also supporting complex regular expressions or even state machines driven by the content of the output file. If there is some part of the output (such as the starting time or memory addresses) that changes every time a test is run, make sure that this output either is separate from other output or can be filtered by the comparison tools that are being used.</p></li>
+</ol>
+<h3 id="some-features-of-a-test-environment-that-are-helpful-after-tests-have-been-executed-include">Some features of a test environment that are helpful after tests have been executed include</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Distinguishing between failures and test errors</strong> - Tests can fail; this is expected when a product isn’t behaving as expected. Tests can also have errors that is, when the tests themselves fail to run correctly. Test environments that make a clear distinction in their test definitions and test reports between these two cases help reduce confusion. Test reports also have to make it clear when a test failure was expected. Of course, tests that fail intermittently without a clear explanation eventually tend to not get run.</p></li>
+<li><p><strong>Tracking which files were tested</strong> - Since tests may have names like test019 that are unrelated to the source code that they are testing, all other clues about which files, classes, methods, and functions a particular test was exercising are helpful. For instance, you could look at the definition of a test to see which methods it called; or your test environment could provide you with that information and maybe add links to those methods to the detailed parts of test reports.</p></li>
+<li><p><strong>Flexible report formats</strong> - A wide variety of ways of communicating results is useful. Generating a set of HTML web pages is one common way to present reports, but text-based email, PDF, Word, or spreadsheet files are sometimes more appropriate. To make generating test reports in a variety of formats easier, it’s often useful to store the results in a structured file format such as XML. Some test environments use databases to store their test results.</p></li>
+<li><p><strong>Storing test information</strong> - Once tests have become stable enough to be run automatically as part of a build, it’s a good idea to use an SCM tool to store both the source code for the tests and the test results. The tests and their results should be tagged with the same build label that the build was tagged with. That way, you know which tests were run against a particular build, and also which versions of those tests were used.</p></li>
+<li><p><strong>Historical reports</strong> - Some test environments provide tools to create historical reports about test results. Graphs showing the total number and proportion of tests that pass or fail against time can provide a sense of a product’s stability. Like any project statistic, these figures are useful only if you understand how the information was gathered and what kinds of errors exist in the data.</p></li>
+<li><p><strong>Creating bugs</strong> - Once a test has failed, it should be easy to create a bug about the failure. Creating a bug should always have a human involved to act as a filter for what is added to the bug tracking system. However, once the failure has been identified as a genuine bug, filling in the fields of the bug and attaching logfiles should be handled as automatically as possible.</p></li>
+</ol>
+<h3 id="testing-software-checklist">Testing Software Checklist</h3>
+<ol style="list-style-type: decimal">
+<li><p>Can you use your test environment to run just one test?</p></li>
+<li><p>How do you decide when to automate a test?</p></li>
+<li><p>Do you ever discard tests? If so, how do you decide when? If not, do all of your tests actually help you to test the product?</p></li>
+<li><p>When are automated tests run? Is someone automatically informed about failed tests?</p></li>
+<li><p>Can your test environment detect when a test has become deadlocked? Can you kill it, and can the other tests still be executed?</p></li>
+<li><p>How do you know who to contact about a particular test when it stops working?</p></li>
+<li><p>How do you know which parts of your product are the least tested?</p></li>
+<li><p>When was each aspect of the product last tested, and where are the results?</p></li>
+<li><p>What resources do each of your tests require?</p></li>
+<li><p>How could you change your product to make it easier to test?</p></li>
+<li><p>How much work would it be to test your product on a new platform? Does your test environment help you with this?</p></li>
+<li><p>When a bug is fixed, do you know which precise test will confirm that it is fixed?</p></li>
+<li><p>Which versions of the tests and test environment tools were used with which release?</p></li>
+<li><p>If your product uses color anywhere in it at all, have you had a color-blind person test those parts?</p></li>
+<li><p>Most importantly, does your test environment make testing your product easier?</p></li>
+</ol>
+<h2 id="tracking-bugs">Tracking Bugs</h2>
+<h3 id="a-number-of-characteristics-to-look-for-in-any-bug-tracking-system">A number of characteristics to look for in any bug tracking system</h3>
+<ol style="list-style-type: decimal">
+<li><p>Easy to enter new bugs - There should be a minimum number of fields that have to be filled in, just enough so that if any of them were empty, then the entire bug would be useless.</p></li>
+<li><p>Easy to change the state of a bug - The different states that a bug can be in varies widely with different products and projects, so a convenient state diagram that shows how bug states are expected (and permitted) to change is very useful.</p></li>
+<li><p>Easy to change many bugs - The ability to change a number of bugs with a single operation can save a lot of time, especially if the list of bugs is the result of running a report.</p></li>
+<li><p>Easy to review a particular bug - Given a particular bug identifier, you should be able to view and edit that bug quickly and intuitively.</p></li>
+<li><p>Easy to watch a bug - It should be easy to become aware that something in a bug has changed. Email is the usual way to notify people about this.</p></li>
+<li><p>Easy to search using brute force - When all other ways of finding a particular bug fail, you should be able to search all the text fields for a given string. It may not be efficient, but when you are stuck, you really need to be able to do this.</p></li>
+<li><p>Easy to trace the history of a bug - You should be able to see how a particular bug has changed over timewhat changed, who made the change, and when.</p></li>
+<li><p>Easy to connect to source code changes</p></li>
+</ol>
+<h3 id="characteristics-to-look-for-related-to-using-the-bug-tracking-system-to-manage-a-project-are">Characteristics to look for related to using the bug tracking system to manage a project are</h3>
+<ol style="list-style-type: decimal">
+<li><p>Easy to generate reports</p></li>
+<li><p>Easy to produce historical reports - Not all bug tracking systems let you produce reports about how the bugs have changed over time.</p></li>
+<li><p>Easy to connect to a schedule - The list of which bugs should be fixed for a particular release should be straightforward to enter and to create reports about. If one bug depends on another, then that also should be made very obvious.</p></li>
+</ol>
+<h3 id="desirable-features-that-are-more-closely-related-to-administering-a-bug-tracking-system-include">Desirable features that are more closely related to administering a bug tracking system include</h3>
+<ol style="list-style-type: decimal">
+<li><p>Easy to modify the definition of a bug -</p></li>
+<li><p>Easy to modify the workflow -</p></li>
+<li><p>Easy to manage the list of users -</p></li>
+<li><p>Scalable - As the number of bugs, groups, and users in a bug tracking system grows, the interface design must also scale well.</p></li>
+<li><p>Accessible through external clients; good API - You should be able to read and modify data in the bug tracking system from outside the GUI or browser.</p></li>
+<li><p>Easy to change the text displayed - It should be easy to change the text that is displayed onscreen for usernames, release numbers, and other field names.</p></li>
+<li><p>Easy to back up different parts of the bug tracking system - You should be able to save copies of reports and UI screens before modifying them, in case of errors.</p></li>
+</ol>
+<h3 id="bugs-tracker-checklist">Bugs Tracker Checklist</h3>
+<ol style="list-style-type: decimal">
+<li><p>How long does it take to enter a new bug? (More than a minute for a simple bug can seem like an awfully long time when you have do it over and over again.)</p></li>
+<li><p>Can you find the definitions of the reports that you regularly run?</p></li>
+<li><p>Can you make copies of these reports, edit the copies, or back up the definitions of the reports to somewhere outside the bug tracking system?</p></li>
+<li><p>How are bugs expected to progress through different states? Is there a diagram of this anywhere that users of the bug tracking system can easily find?</p></li>
+<li><p>How do you make sure that the correct people are aware of all changes to a bug?</p></li>
+<li><p>If you wanted to reassign 20 bugs to someone, would you have to do this one bug at a time, or is there an easier way?</p></li>
+<li><p>Can you change a comment field in a bug after the fact?</p></li>
+<li><p>How do you create historical reports using your bug tracking system?</p></li>
+<li><p>How do you add or remove values such as release names from a field?</p></li>
+<li><p>How do you modify the definition of a bug?</p></li>
+<li><p>When is the data in the bug tracking system backed up? When was the backup last tested by recovering it into a standby system?</p></li>
+<li><p>How big an attachment is deemed reasonable to add to a bug? 100KB? 1MB? 10MB?</p></li>
+<li><p>How regularly is your bug tracking system cleaned up?</p></li>
+<li><p>How will you move your current data to your next bug tracking system?</p></li>
+<li><p>Most importantly, does your current bug tracking system really help or hinder your project overall?</p></li>
+</ol>
+<h2 id="documentation-environments">Documentation Environments</h2>
+<h3 id="file-formats-for-documentation">File Formats for Documentation</h3>
+<p>Some common requirements of a file format and the tools that support it are:</p>
+<ol style="list-style-type: decimal">
+<li><p>Typeset printing, often using different file formats, sizes, and layouts</p></li>
+<li><p>Online viewing, often with hyperlinks</p></li>
+<li><p>Images interleaved with text</p></li>
+<li><p>Searching documents for text or formatting</p></li>
+<li><p>Support for non-English languages and characters</p></li>
+<li><p>Comments that can be mixed with text for reviews but that don’t appear in the final product</p></li>
+<li><p>Joining and splitting files</p></li>
+<li><p>Generating lists of the differences between versions of the document, or diffability</p></li>
+</ol>
+<h3 id="documentation-checklist">Documentation Checklist</h3>
+<ol style="list-style-type: decimal">
+<li><p>How do you tell someone that this error exists? Do you file a bug? Send her email? Annotate a printout?</p></li>
+<li><p>Can you easily find out who is responsible for the particular document?</p></li>
+<li><p>Where do you find the version number of each document?</p></li>
+<li><p>How do you know when to check for a corrected version?</p></li>
+<li><p>Where would you go to find the corrected version?</p></li>
+<li><p>Can you view and print the released documents from all the environments you work in?</p></li>
+<li><p>When do updates to the documentation appear?</p></li>
+<li><p>How is feedback from reviewers incorporated into your documentation? What sort of information do you imagine is lost or garbled during this process?</p></li>
+<li><p>When you want to resolve conflicting input from different reviewers, is there a record of who approved each change to the document? This is often available either as part of the document itself or by using an SCM tool.</p></li>
+<li><p>What file formats do you deliver to customers, and why?</p></li>
+<li><p>How long does it take to convert all the source files for your documentation to the formats that are delivered to customers?</p></li>
+<li><p>How much of the time generating the documentation is spent doing things manually that have to be repeated every time the documentation is generated?</p></li>
+<li><p>On how many different machines can you create the released versions of the documentation?</p></li>
+</ol>
+<h2 id="releasing-product">Releasing Product</h2>
+<h3 id="before-the-release">Before the Release</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>What are the user System Requirements</strong>? - Hardware, Operating system, Other software dependencies, License keys, Legal (GPL, Commercial, etc), Effort (Some indication of how long a simple installation should take, post install operations if any, like reboot etc.)</p></li>
+<li><p><strong>Build Numbers</strong> - major.minor.patch. Adding a suffix of “rcn” for “release candidate n.” Ex. 4.0.0-rc1</p></li>
+<li><p><strong>Release Information</strong> -</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Project name</strong> - The internal project name for this build.</p></li>
+<li><p><strong>Build number</strong> - The build number that makes each build unique for the same release number.</p></li>
+<li><p><strong>Build timestamps</strong> - The times the build started and finished, including the time zone.</p></li>
+<li><p><strong>User</strong> - The username of the account that was used for the build. If the build tool is configured correctly, the build should be independent of the user’s particular environment, so this is a safety check.</p></li>
+<li><p><strong>Build type</strong> - Was this build intended for internal testing or for customer use? Is it an official build by a release team, or an unofficial build? Is it for an alpha or a beta release, or some other kind of release-candidate build? Was it built with profiling, debugging, or optimizing enabled?</p></li>
+<li><p><strong>Build log</strong> - A link or location for the commands used during this build.</p></li>
+<li><p><strong>SCM details</strong> - The build label used to tag the source files for this build, and the name of an SCM branch if used. If confirmation of the SCM tool is required, then a manifest or BOM that lists all the source files and their versions can be added.</p></li>
+<li><p><strong>Bugs</strong> - Identifiers for any bugs that are related to this build.</p></li>
+<li><p><strong>Operating system and tools</strong> - If some parts of a release, such as a compiler or the operating system, are not controlled using the SCM tool, then you can at least record information about them here. Most tools will generate a version number if prompted correctly, and this can be generated as part of the build tool’s configuration stage, when it is making sure that it has the required tools for the build.</p></li>
+<li><p><strong>Size</strong> - Recording the size of a build is useful for tracking changes over time or checking that a build seems superficially complete.</p></li>
+<li><p><strong>Test results</strong> - The versions and results of all automated tests that have been run on this build should be easily available given a particular build label.</p></li>
+</ol></li>
+</ol>
+<h3 id="quick-fixes-and-engineering-specials">Quick Fixes and Engineering Specials</h3>
+<p>A minimal procedure for unsupported releases has the following requirements:</p>
+<ol style="list-style-type: decimal">
+<li><p>You should explain to the customer that this release is unsupported and what that means. Documenting the agreement in writing will help everyone later on.</p></li>
+<li><p>All source files involved in an unsupported release must be checked into the SCM tool and labeled before release. This is an appropriate case for using a suitably named private branch of just a small number of files.</p></li>
+<li><p>The labels for each unsupported release should be recorded somewhere, along with the customer’s name, the date, and any related bug numbers.</p></li>
+<li><p>The build information associated with the unsupported release should show who built it. This is useful for finding holes in the process if an unaccounted-for release turns up later on in the field.</p></li>
+<li><p>Once the customer is satisfied, you should tell her which official release will include the changes that she helped to test.</p></li>
+</ol>
+<h3 id="creating-the-release">Creating the Release</h3>
+<p>When a build is converted to a release for internal testing, or an internal release is converted into a customer release, the following steps are commonly followed:</p>
+<ol style="list-style-type: decimal">
+<li><p>Obtain virgin copies of the correct files using the local SCM tool. The version of the product that uses these files has already been built and tested.</p></li>
+<li><p>Set the release number and other build information, either in a file, a database, or on the command line.</p></li>
+<li><p>Build the product for each platform.</p></li>
+<li><p>Build the packages that are released to customers.</p></li>
+<li><p>Update the release notes as part of the packages.</p></li>
+<li><p>Retest the different packages prior to releasing them. Don’t just check that the installer worksrun as many of the unit and system tests as possible against the installed product.</p></li>
+<li><p>Use the SCM tool to tag all of the files that are part of the release, including all automated tests and test results.</p></li>
+<li><p>Archive all customer releases and any other important builds.</p></li>
+</ol>
+<p><strong>Packaging Formats</strong>: They should be a commonly available format on that platform. Windows - Zip, Unix - Tar.gz, or Tar.bz2</p>
+<h3 id="installation-tool-requirements">Installation Tool requirements</h3>
+<p>When evaluating an installation tool, be careful to distinguish between what the installation tool should do and what the installers that it produces should be able to do. For instance, you may want to produce installers that have Japanese text, but do you also need the installation tool to be localized for Japanese?</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Small, fast, repeatable</strong> - Just like a compiler, an installation tool should not produce overly large installers; it should run as fast as possible.</p></li>
+<li><p><strong>Portable</strong> - The configuration files for the installation tool should be portable to other machines, and ideally to other platforms.</p></li>
+<li><p><strong>Debuggable</strong> - Debugging how an installation tool creates an installer and debugging what an installer did when it ran are both tasks to consider when deciding how easy it is to work with each installation tool.</p></li>
+<li><p><strong>Automated</strong> - Integrating the installation tool with an automated build process should be possible, by using a command-line version of the tool, for example. This includes signing packages.</p></li>
+<li><p><strong>Multilingual</strong> - An installation tool should be able to produce installers that are localized for different languages while running on a non-localized machine.</p></li>
+<li><p><strong>Produces installers for updates</strong> - The installation tool should be able to produce installers to update products that have already been installed.</p></li>
+<li><p><strong>Supports different media</strong> - You should be able to create an installer suitable for download from a web site, as well as an installer for releasing on CDs or DVDs. The installation tool should be able to put the different files onto multiple CDs or DVDs in such an order that the most common installation sequences never require the customer to reinsert a disk.</p></li>
+<li><p><strong>Flexible</strong> - A good installation tool can be extended to do things during an install that no one imagined when the tool was designed.</p></li>
+<li><p><strong>Stable</strong> -</p></li>
+</ol>
+<h3 id="installer-requirements">Installer requirements</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Simple</strong> - The main purpose of an installer is to make a product work correctly on a customer’s machine and to do this as simply as possible.</p></li>
+<li><p><strong>Atomic</strong> - A failed installation should remove all traces that it was ever there. Leftover files can make subsequent installations fail in obscure and hard-to-debug ways.</p></li>
+<li><p><strong>Provides an installation summary</strong> - Before making any changes to the machine, the installer should show at least the product’s name and version, where it will be installed, how much space it will take up, and any other useful configuration details.</p></li>
+<li><p><strong>Supports unattended installs</strong> - System administrators installing your product on numerous machines will want two things: the ability to install it with no input, and the ability to customize the installer</p></li>
+</ol>
+<p><strong>Windows</strong> - Windows Installer, Installshield, InstallAnywhere, InnoSetup, NSIS. Unix - rpm, apt.</p>
+<h3 id="some-common-issues-with-installations-from-the-projects-point-of-view-worth-taking-care-are">Some common issues with installations from the project’s point of view worth taking care are</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Testing installs</strong> - Testing installs is hard since a single installer can change the entire environment of the machine on which it was run, and can do this in ways that are hard to revert.</p></li>
+<li><p><strong>Testing localization</strong> - Ideally, you want to test every localized installer on an appropriately localized machine.</p></li>
+<li><p><strong>Automating installer creation</strong> - Automation of the installation tool as part of a release process, to create the installers for the product, is also tricky. Command-line use of installation tools often doesn’t seem to have had the same amount of testing as the GUI versions of the same tools.</p></li>
+<li><p><strong>Installing third-party products</strong> - Bundling other products with your own product in the same installer is a common requirement, since it makes installations simpler for customers.</p></li>
+<li><p><strong>Installation chains</strong> - Identifying dependency chains is difficulty especially on Unix and Linux machines.</p></li>
+<li><p><strong>Inappropriate privileges</strong> - Why should a user have to be root to install a package to her own Unix home directory? Why should your child need to have Windows administrator privileges just to install a simple game? Too many products assume they have to be installed as the superuser on a machine when they don’t really need to be.</p></li>
+<li><p><strong>Corrupted installers</strong> - Adding a Virus or Trojan horse to a publicly available installer is a classic approach for infecting other machines. Consequently, making sure the installer you released is what customers actually download and run is going to become even more important.</p></li>
+<li><p><strong>Uninstallers</strong> - How does a customer know that uninstalling your product won’t damage some other vital part of his system? Just as installers describe what they are going to do before they do it, thus giving customers a chance to cancel the installation if they’re not comfortable about something, so uninstallers should provide detailed information about what they are going to change. Cryptic messages like “Couldn’t remove all the files” are really irritating they could at least say which files, and why they couldn’t be removed!</p></li>
+<li><p><strong>Lost data</strong> - No data generated by someone using your product should ever be deleted, even if she unwisely stored it in the same directory where the product was installed; all customer data is sacred.</p></li>
+<li><p><strong>Multiple versions</strong> - Make it very clear before an installer actually changes anything whether two versions of the same product can coexist on the same machine. If not, then explain how the customer would be able to restore the previous version if there are problems with the version currently being installed.</p></li>
+</ol>
+<h3 id="release-tools-checklist">Release Tools Checklist</h3>
+<ol style="list-style-type: decimal">
+<li><p>What’s the next version number that your product will use? Who decides when it’s time to make a change to each part of the version number?</p></li>
+<li><p>Where do you go to find the latest public release of your product?</p></li>
+<li><p>How large is the latest release of your product? Which part of the product creates most of the files that you deliver to your customers?</p></li>
+<li><p>What other software does your product depend on, and which versions?</p></li>
+<li><p>If your product needs license keys, where do you obtain these? How do customers obtain them? How long does it take for a customer to obtain a new license key?</p></li>
+<li><p>What kinds of changes are allowed in a patch release? In a minor release? In a major release?</p></li>
+<li><p>Which versions of your product will operate correctly with each previous version of your product? How does a customer know this?</p></li>
+<li><p>Are a customer’s data and configuration choices preserved when she upgrades your product?</p></li>
+<li><p>Can a customer downgrade your product to an earlier version?</p></li>
+<li><p>What’s different between how developers run the product, how testers run the product, and how customers actually install and use the product? Have these differences been the root cause of any recent bugs?</p></li>
+<li><p>If your product is available on the Internet, how does a customer prove that his downloaded package contains the same bits that you released?</p></li>
+<li><p>What help do you have in your product for supporting it once it has been released? Can a customer easily display installation and configuration information, along with the results of any diagnostic tests? Can you use this as part of a phone call or in email?</p></li>
+<li><p>How many releases can your group really work on at the same time?</p></li>
+</ol>
+<h2 id="developing-for-easier-maintenance">Developing for Easier Maintenance</h2>
+<ol style="list-style-type: decimal">
+<li><p>Remember that source code is a communication from human to human, as well as from human to machine.</p></li>
+<li><p>The less code there is, the less there is to maintain. Eliminate all commented-out code and code surrounded with the ugly #ifdef NOTDEF directive. It’s still in the SCM tool if you need it later. If it’s code for logging or debugging, use a proper framework for these, not ad hoc commented-out code.</p></li>
+<li><p>Avoid or clearly document functions and methods that need to be called in a certain order or that should not be called more than once. Treat functions with side effects with great caution; avoid writing them if at all possible.</p></li>
+<li><p>Describe the current implementation before you change it. This helps to make the changes clear for you, and it’s useful as a reminder later on of how it all used to work.</p></li>
+</ol>
+<h2 id="maintenance-checklist">Maintenance Checklist</h2>
+<ol style="list-style-type: decimal">
+<li><p>Who is responsible for deciding when tools or operating systems need to be upgraded or replaced?</p></li>
+<li><p>Who makes sure that new licenses are acquired for tools before the existing licenses expire or are exceeded?</p></li>
+<li><p>How much of your development environment can be controlled using your SCM tool? Can your SCM tool track changes to itself?</p></li>
+<li><p>How long does each release of your product last? How long is it supported by your project or company, and how long is it actually used by customers?</p></li>
+<li><p>Which areas of your product are the hardest ones to work on? Why? What could make them easier to maintain?</p></li>
+<li><p>Which parts of your product would you most like to refactor or rewrite? How do you know whether the time spent refactoring or rewriting them would actually make them easier for anyone else to maintain?</p></li>
+<li><p>What finite resources are used by your development environment? How long could you use your environment if nothing were ever discarded?</p></li>
+<li><p>Do you know who is permitted to make changes in product releases that are in maintenance mode?</p></li>
+<li><p>How confident are you that your unit and system tests let you know if your maintenance changes have broken something unexpectedly?</p></li>
+<li><p>How do you decide what to test in a maintenance release of your product?</p></li>
+<li><p>How do you know who to contact about each part of the product in earlier releases?</p></li>
+<li><p>Do you have processes defined for removing files, SCM tags, builds, test definitions and results, bug tracking information, and releases from your project?</p></li>
+</ol>
+<h2 id="tools-for-communication">Tools for Communication</h2>
+<p>Some of the most helpful tools for project communication have common characteristics. These characteristics are:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Easy to use</strong> - If a tool is hard to use, people will use other tools instead. Obvious, but often overlooked.</p></li>
+<li><p><strong>Context</strong> - Who is speaking? When did they speak? Who were they talking to? Without this kind of context, all communication becomes harder to understand.</p></li>
+<li><p><strong>Active and passive modes</strong> - Sometimes you want to find information or actively seek someone out. Other times you want the information to be sent to you, with no action needed on your part. A good environment can provide both kinds of communication.</p></li>
+<li><p><strong>Archives</strong> - Communications that can be stored, printed out, and searched are more useful than those that are ephemeral or just a mass of data.</p></li>
+</ol>
+<h3 id="some-communication-tools-that-are-commonly-used-in-software-projects-are">Some communication tools that are commonly used in software projects are</h3>
+<ol style="list-style-type: decimal">
+<li><p><strong>Web sites</strong> - Web sites, Wikis (which are web sites that anyone can edit, with the editing being done via a web page) and weblogs (online diaries, also known as blogs). These are all simple to browse actively (though they are not always easy to follow) and they can sometimes be searched.</p></li>
+<li><p><strong>Email</strong> - Email, mailing lists, web-based groups such as Yahoo! Groups, and newsgroups. Email is the common denominator, and everyone on the project already uses it. It’s easy to be a “lurker” and passively receive information. Messages are often archived, and following a conversation by subject or thread usually works well enough.</p></li>
+<li><p><strong>RSS feeds</strong> - RSS feeds are places that RSS reader applications can regularly poll for information. Most weblogs and many news sites already have RSS feeds. Some automation environments can provide RSS feeds about the state of the build. Many web browsers also have RSS readers already built in.</p></li>
+<li><p><strong>Messaging</strong> - Instant messaging (IM) and SMS text messages on mobile telephones are used by some groups for short conversations. Some IM conversations are archived for later reference.</p></li>
+<li><p><strong>Telephone</strong> - Telephones are easy enough to use, but they actively interrupt other people, and voicemail messages are tedious to search through.</p></li>
+<li><p><strong>Office navigation aids</strong> - The basics for finding people in an office are a list of telephone numbers that is regularly updated and name tags on cubicles and offices. A map of where people sit and a web page with photographs of people’s faces are even better.</p></li>
+</ol>
+<h2 id="different-areas-for-the-project-web-site">Different Areas for the Project Web Site</h2>
+<ol style="list-style-type: decimal">
+<li><p><strong>Home Page</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Messages about server outages and other current project-related news. When news items become old, move them to a separate location; don’t delete them.</p></li>
+<li><p>A link to FAQs.</p></li>
+<li><p>The current status of various important builds.</p></li>
+<li><p>A search box for different parts of the web site.</p></li>
+</ol></li>
+<li><p><strong>Getting Started</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Names, email addresses, and locations of IT people and toolsmiths</p></li>
+<li><p>A step-by-step guide to setting up an account on a machine and accessing email</p></li>
+<li><p>Names of important servers, what accounts or permissions to ask for, and a basic overview of the local network</p></li>
+<li><p>Which directories and files are backed up, and when</p></li>
+<li><p>How to find a list of contacts for each project</p></li>
+<li><p>A link to a map of where people are located, with their time zones if the project is global</p></li>
+</ol></li>
+<li><p><strong>Specifications</strong></p></li>
+<li><p><strong>SCM</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Files - Graphical browsing of the hierarchy of files managed by the SCM tool.</p></li>
+<li><p>Change logs -</p></li>
+<li><p>Branches - Change logs for the mainline and other branches, also arranged by project, showing the names, versions, commit messages, and usernames, grouped and sorted by time.</p></li>
+<li><p>A list of major branches, their names, purpose, and creation dates.</p></li>
+<li><p>SCM tool - More information about the SCM tool, including details about how to configure it for each project.</p></li>
+</ol></li>
+<li><p>Building</p>
+<ol style="list-style-type: decimal">
+<li><p>Current state - If automated builds are running, a web page is a great place to display the results, especially if there are many different platforms and products being built continuously.</p></li>
+<li><p>“How Not to Break the Build” - A document describing the minimal process to follow when committing changes to the source code.</p></li>
+<li><p>“How to Fix the Build” - The counterpart of “How Not to Break the Build,” this document describes where to find information about when the build broke, which files or tools changed since the build last succeeded, and who made those changes. This document should also describe how to rerun the unit tests.</p></li>
+<li><p>Supported environments - A single, authoritative place for project members to find out which machines, operating systems, and tools, and their versions, are supported for the project.</p></li>
+<li><p>Build tool - More information about the build tool and the specific details about how it is used in various projects goes here.</p></li>
+<li><p>Historical information - Tracking the size of the product and how long builds take can be useful information for finding out what’s making the product so large, or why builds take so long now.</p></li>
+</ol></li>
+<li><p>Testing</p>
+<ol style="list-style-type: decimal">
+<li><p>Current state - The latest results of running the system tests on different releases, including releases internal to the project and releases for customers. Test reports should include links to the definition of each test.</p></li>
+<li><p>“How to Fix a Test” - This document describes the processes for confirming that a test is failing and for escalating the problem appropriately.</p></li>
+<li><p>Test tools - A description of the tools used for testing, along with more information about using and modifying the tools.</p></li>
+</ol></li>
+<li><p><strong>Bug Tracking</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Bugs - Access to the bug tracking system.</p></li>
+<li><p>Common reports - Links to common reports for developers, testers, writers, and managers.</p></li>
+<li><p>Submitting a bug - Some guidelines for how to submit a bug for each project.</p></li>
+<li><p>Bug tracking system - More information about the bug tracking system and how it is configured locally for your projects.</p></li>
+</ol></li>
+<li><p><strong>Documentation</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Documents - Links to both released and latest versions of the product documentation. The release process should automatically update the links to the latest versions.</p></li>
+<li><p>Review process - A description of how the project usually reviews documents and provides feedback.</p></li>
+<li><p>Building the documentation - The tools required and the process to create the documentation as it is distributed to reviewers and customers.</p></li>
+<li><p>Documentation tools - More information about the documentation tools themselves.</p></li>
+</ol></li>
+<li><p><strong>Releases</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Releases - Instructions for finding and downloading internal and external releases, often using their build labels. The release process should automatically update this page as releases appear and are approved.</p></li>
+<li><p>Creating a release - A step-by-step description of the process of creating a release.</p></li>
+<li><p>Roadmap - A link to a description of the features planned for each future release.</p></li>
+<li><p>Release tools - More information about the release tools themselves.</p></li>
+</ol></li>
+<li><p><strong>Maintenance</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Design - A description of the architecture of the product, ideally including both the original design and subsequent modifications.</p></li>
+<li><p>Implementation - Notes about the intentions of various developers who have worked on each part of the product. Previous maintainers may have kept notes about their understanding of each part, too. A good description of the directory hierarchy for the source code and the intended use of each directory.</p></li>
+<li><p>Coding standards - Coding standards for the project, to be followed by future maintainers.</p></li>
+<li><p>Deprecation - A document describing how to deprecate parts of a product’s public API.</p></li>
+</ol></li>
+<li><p><strong>Support</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Support tools - Links to the main tools used for tracking customer issues, such as ticket systems, knowledge bases, and other informative articles. Also links to tools developed by support for their own use when diagnosing customer problems.</p></li>
+<li><p>Customer information - A document describing what information to gather from a customer with a problem and, more importantly, why the information is useful and to whom.</p></li>
+<li><p>Privacy - A document about the privacy guidelines for customer information and data.</p></li>
+<li><p>Triage - A description of the basic steps for investigating a problem with the product.</p></li>
+</ol></li>
+<li><p><strong>Project Management</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Projects - A list of all the projects, past and present, and email aliases for contacting the members of that project.</p></li>
+<li><p>People - The people in each project and contact information for them.</p></li>
+<li><p>Resources - A list of the key machines used in the project.</p></li>
+<li><p>Email archives - An interface for browsing and searching a centralized archive of the messages to email aliases for each project.</p></li>
+<li><p>Statistics - Project statistics can include the number of lines of source code, the top ten committers, the complexity of the code, and the estimated value of the code.</p></li>
+</ol></li>
+<li><p><strong>About the Web Site</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Sitemap - What information is available on the web site. This page should be automatically generated.</p></li>
+<li><p>Changing pages - The instructions for how to modify a page.</p></li>
+<li><p>Changing the web site - A description of how the web site is structured and how to modify the structure of the web site.</p></li>
+<li><p>Usage statistics - Statistics about how the web site is used.</p></li>
+<li><p>Web tools - Information about how to run a link checker for the web site and about other web-related tools such as HTML Tidy.</p></li>
+<li><p>Contact details - An email alias for contacting the people responsible for running the project web site.</p></li>
+</ol></li>
+</ol>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<footer>
+    <ul class="nav nav-pills pull-right hidden-phone">
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+    </ul>
+
+    <ul class="unstyled">
+        <li class="transparent"><a href="about.html">About/</a></li>
+        <li class="transparent"><a rel="license" href="https://www.gnu.org/licenses/copyleft.en.html"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <li class="transparent"><a href="feed.xml">RSS/</a></li>
+    </ul>
+</footer>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>
