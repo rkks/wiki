@@ -5,7 +5,6 @@ Personal wiki for storing personal notes, tips n tricks, and so on
 
 This repo has markdown notes and content used to generate gh-pages for viewing
 at [website](http://rkks.github.io). A bash script is used to generate this site.
-Inspired by (http://wcm1.web.rice.edu).
 
 Bash script (mkweb.sh) is available in my scripts repo. pandoc template used by
 script (website.html) is present in my conf repo. To be installed at location
