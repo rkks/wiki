@@ -84,7 +84,7 @@ and movies.
     statement, understand the problem, start thinking on its answer. If
     answer is not visible in 1 hour, sleep over it. The problem would be
     solved for you by your subconscious mind.
-    ![:-)](/Users/ravikks/dokuwiki/bin/lib/images/smileys/icon_smile.gif)
+    !:-)
 
   - When John F. Kennedy made this statement about moon expedition in
     May 1961, the United States had very little to go on. We had no

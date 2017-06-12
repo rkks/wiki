@@ -17,10 +17,10 @@ so called subject matter experts on media. Read the complete email to
 [Udaya
 TV](http://sunnetwork.in/tv-channel-details.aspx?Channelid=27&channelname=UDAYA%20TV&LanguageID=3&Type=q "http://sunnetwork.in/tv-channel-details.aspx?Channelid=27&channelname=UDAYA%20TV&LanguageID=3&Type=q")
 management on the problem,
-[here](/Users/ravikks/dokuwiki/bin/doku.php?id=personal:complaint:udayatv "personal:complaint:udayatv").
+[here](udayatv.html).
 
 Update: In response to my
-[email](/Users/ravikks/dokuwiki/bin/doku.php?id=personal:complaint:udayatv "personal:complaint:udayatv"),
+[email](udayatv.html),
 Udaya TV has stopped broadcast of the said programme.
 
 #### Email to Banking Ombudsman

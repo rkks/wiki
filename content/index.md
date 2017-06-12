@@ -8,34 +8,13 @@
 
 <a name="site-map"></a>
 
-<p>On this website you can find my <strong><a href="./cv">Resume</a></strong> and <strong><a href="./cv.html#publications">Whitepapers</a></strong>, occasional posts on <strong><a href="./research.html">software</a></strong> and <strong><a href="./teaching.html">technology</a></strong>, and some geeky computer <strong><a href="./hacks.html">hacks</a></strong>.</p>
+<p>On this website you can find my <strong><a href="./resume.html">Resume</a></strong> and <strong><a href="./resume.html#papers">Whitepapers</a></strong>, occasional posts on <strong><a href="./software.html">software</a></strong> and <strong><a href="./thoughts.html">technology</a></strong>, and some geeky computer <strong><a href="./hacks.html">hacks</a></strong>.</p>
 
 <div id="shaded-block-on-phone">
 
 <h2 id="contact" class="visible-phone">Contact</h2>
 
 <p> Feel free to email me at my <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email">personal id</a></p>
-
-<p>Companies for which I have either worked as a salaried employee OR as a freelance consultant are below.</p>
-
-* [Cisco Systems](http://www.cisco.com)
-* [JuniperNetworks](http://juniper.net)
-* [Continuous Computing](http://www.ccpu.com)
-* [Radisys](http://www.radisys.com)
-* [Lisle Technology Partners](http://www.lisletech.com)
-* [Sakhatech](http://www.sakhatech.com)
-
-My past areas of work are:
-
-1.  High Availability Systems (SAF Compliant, Third-party)
-
-2.  Programming Multi-Core, Multi-Threaded processors (Intel Xeon, MSPD, ARM)
-
-3.  Network Processors programming (Netlogic XLR, XLP)
-
-4.  Kernel, Device Driver, and System Programming in Linux and Solaris
-
-5.  Infrastructure work on high-end switches, routers, and gateways
 
 <h2 id="recently-posted">Recently posted</h2>
 
