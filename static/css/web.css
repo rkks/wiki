@@ -3,4 +3,20 @@ copyleft {
   display: inline-block;
   transform: rotate(180deg);
 }
+html #footer {
+  width: 100%;
+  padding: 6px 10px 3px;
+  position: relative;
+  height: 80px;
+  background-color: #eee8d5;
+}
 
+.transparent {
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}
+
+.transparent:hover {
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+}

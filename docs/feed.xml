@@ -62,5 +62,4 @@
 		<pubDate>Sun, 01 Jan 2006 IST</pubDate>
 		<description><p>[...]</description>
 	</item>
-</channel>
-</rss>
+</channel>\n</rss>
