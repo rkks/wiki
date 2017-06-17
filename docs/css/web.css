@@ -21,3 +21,7 @@ html #footer {
   opacity: 1.0;
   filter: alpha(opacity=100);
 }
+
+.breadcrumb {
+  background-color:#FFFFFF;
+}

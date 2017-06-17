@@ -23,6 +23,7 @@
 <div class="span7">
 
 <!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
 <div class="header">
         <ul class= "nav nav-pills pull-right">
             <li class="hidden-phone"><a href="./software.html">Software/</a></li>
@@ -33,13 +34,19 @@
             <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
         </ul>
 </div>
-
+</nav>
 <!-- End _navigation.html -->
 
 <article>
 
-<!--This text is produced by a custom variable in the pandoc template called "category." The value is set by the shell script when processing posts.-->
-<div id="category">reviews</div><!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Reviews.html"> Reviews /</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
 <h1>Practical Development Environments by Matthew B. Doar (Category J)</h1>
 <!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
 <div id="dateline">
