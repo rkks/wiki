@@ -1,7 +1,6 @@
-% Younger You
+% Younger You (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 Supplementing with additional zinc can create good health all over. The
 latest research shows that zinc can protect us against specific immune

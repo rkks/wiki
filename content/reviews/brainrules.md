@@ -1,7 +1,6 @@
-% Brain Rules - Dr. John Medina
+% Brain Rules - Dr. John Medina (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 *“There is no great anti-brain environment than the classroom and
 cubicle”* **- Dr. John Medina**  

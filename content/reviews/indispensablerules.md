@@ -1,7 +1,6 @@
-% Debugging - 9 Indispensable rule for finding even the most elusive problems
+% Debugging - 9 Indispensable rule for finding even the most elusive problems (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 **Author**: *David J. Agans*
 

@@ -1,7 +1,6 @@
-% Ten Rules to Live by To Achieve Success
+% Ten Rules to Live by To Achieve Success (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 **1. Feed Your Strengths\!** - Give yourself every opportunity to show
 others your appreciation of a situation and how you could see it through

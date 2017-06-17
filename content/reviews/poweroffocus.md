@@ -1,7 +1,6 @@
-% The Power of Focus
+% The Power of Focus (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 ## Your Habits Will Determine Your Future
 

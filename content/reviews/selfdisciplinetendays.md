@@ -1,7 +1,6 @@
-% Self Discipline in 10 Days - by Theodore Byrant
+% Self Discipline in 10 Days - by Theodore Byrant (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 Most importantly understand your wrong side. What makes you push the
 work out of current window, what steals all your time that you allocated

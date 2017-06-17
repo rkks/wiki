@@ -1,7 +1,6 @@
-% How to Make Anyone fall in Love with You
+% How to Make Anyone fall in Love with You (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 A successful love affair, perhaps one leading to marriage, is
 retrospectively declared to be true love; whereas if one is rebuffed, it

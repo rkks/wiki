@@ -1,7 +1,6 @@
-% Art of Start - Guy Kawasaki
+% Art of Start - Guy Kawasaki (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 ### 1\. MAKE MEANING (inspired by John Doerr).
 

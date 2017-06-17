@@ -1,7 +1,6 @@
-% The 8 Core Excuses Standing Between You And Your Dreams
+% The 8 Core Excuses Standing Between You And Your Dreams (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 ## 1\. I Don’t Have Time
 

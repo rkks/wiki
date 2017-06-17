@@ -1,7 +1,6 @@
-% The Surprisingly Simple Secret to Taking Action, Right Now
+% The Surprisingly Simple Secret to Taking Action, Right Now (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 What stops you from taking action? What can you do about it?
 

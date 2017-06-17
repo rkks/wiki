@@ -3,6 +3,5 @@
 <channel>
 	<title>Ravikiran K.S.</title>
 	<description>Posts on software, technology, book summaries, tips n tricks</description>
-	<link>http://rkks.github.io</link>
-	<atom:link href="http://rkks.github.io/feed.xml"
-	 rel="self" type="application/rss+xml" />
+	<link>http://rkks.github.io/wiki/</link>
+	<atom:link href="http://rkks.github.io/wiki/feed.xml" rel="self" type="application/rss+xml" />

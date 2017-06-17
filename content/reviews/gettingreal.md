@@ -1,7 +1,6 @@
-% Getting Real by 37 Signals
+% Getting Real by 37 Signals (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 **The smarter, faster, easier way to build a successful web
 applications**

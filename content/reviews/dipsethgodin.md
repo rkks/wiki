@@ -1,7 +1,6 @@
-% The Dip - Seth Godin
+% The Dip - Seth Godin (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 ## Chapter 1
 

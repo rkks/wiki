@@ -1,7 +1,6 @@
-% 7 Secrets of How to Think like a Rocket Scientist
+% 7 Secrets of How to Think like a Rocket Scientist (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 The very first secret about rocket scientists is that they are not in it
 for the money. They are in it for the fun. They are the biggest dreamers

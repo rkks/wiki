@@ -1,7 +1,6 @@
-% The 20 Essential Habits of Highly Passionate People
+% The 20 Essential Habits of Highly Passionate People (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 Highly passionate people aren’t just lucky, they share common
 characteristics. They work hard, they trust their intuition and they

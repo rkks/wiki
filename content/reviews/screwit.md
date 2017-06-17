@@ -1,7 +1,6 @@
-% Screw It, Let's Do It - Richard Branson
+% Screw It, Let's Do It - Richard Branson (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 1.  **Main points**
     

@@ -1,7 +1,6 @@
-% 92 Little Tricks in Relations
+% 92 Little Tricks in Relations (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 ### 1\. How to make smile magically different
 

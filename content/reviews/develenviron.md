@@ -1,7 +1,6 @@
-% Practical Development Environments by Matthew B. Doar
+% Practical Development Environments by Matthew B. Doar (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 *“Projects have Environments in which People produce Products.”*
 

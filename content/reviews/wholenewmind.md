@@ -1,7 +1,6 @@
-% A whole new mind - Why right brainers will rule the future
+% A whole new mind - Why right brainers will rule the future (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 **Author:** ***Dan Pink***
 

@@ -3,12 +3,13 @@ copyleft {
   display: inline-block;
   transform: rotate(180deg);
 }
+
+/* background: */
 html #footer {
   width: 100%;
   padding: 6px 10px 3px;
   position: relative;
-  height: 80px;
-  background-color: #eee8d5;
+  height: 60px;
 }
 
 .transparent {

@@ -1,7 +1,6 @@
-% The Psychology of Persuasion
+% The Psychology of Persuasion (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 *“Everyone lives by selling something.”* **- Robert Louis Stevenson**
 

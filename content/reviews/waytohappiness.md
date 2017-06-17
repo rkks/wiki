@@ -1,7 +1,6 @@
-% The Way to Happiness
+% The Way to Happiness (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 While no ideas can guarantee happiest life for anyone, applying rules to
 one's life can elevate his/her life to much better level. It is not only

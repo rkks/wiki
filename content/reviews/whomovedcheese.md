@@ -1,7 +1,6 @@
-% Who Moved My Cheese - Dr. Richard Spencer
+% Who Moved My Cheese - Dr. Richard Spencer (Category J)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - J
 
 Wisdom in a Nutshell from Who Moved My Cheese?
 

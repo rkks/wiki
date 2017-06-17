@@ -1,7 +1,6 @@
-% Work Breakdown Structure Guidelines
+% Work Breakdown Structure Guidelines (Category K)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - K
 
 The following questions should stimulate thought when developing a WBS
 to manage the project:

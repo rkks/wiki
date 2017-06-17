@@ -1,7 +1,6 @@
-% 10 Golden Rules of Argument - How to Argue
+% 10 Golden Rules of Argument - How to Argue (Category I)
 % Ravikiran K.S.
 % January 1, 2006
-% Category - I
 
 “The aim of argument, or of discussion, should not be victory but
 progress.” Karl Popper
