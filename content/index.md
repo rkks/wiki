@@ -8,7 +8,7 @@
 
 <a name="site-map"></a>
 
-<p>On this website you can find my <strong><a href="./resume.html">Resume</a></strong> and <strong><a href="./resume.html#papers">Whitepapers</a></strong>, occasional posts on <strong><a href="./software.html">software</a></strong> and <strong><a href="./thoughts.html">technology</a></strong>, and some geeky computer <strong><a href="./hacks.html">hacks</a></strong>.</p>
+<p>On this website you can find my <strong><a href="https://rkks.github.io/resume.html">Resume</a></strong> and <strong><a href="https://rkks.github.io/resume.html#papers">Whitepapers</a></strong>, occasional posts on <strong><a href="./tech.html">software</a></strong> and <strong><a href="./thoughts.html">technology</a></strong>, and some geeky computer <strong><a href="./hacks.html">hacks</a></strong>.</p>
 
 <div id="shaded-block-on-phone">
 
