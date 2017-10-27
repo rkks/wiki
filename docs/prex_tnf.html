@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>TNF and Prex info on Solaris | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>TNF and Prex info on Solaris</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<p>prex&gt; help</p>
+<p>Usage: help [topic|command]</p>
+<p>Topics intro functions kernel_mode probe_spec processes set_spec</p>
+<p>User and Kernel Mode Commands disable enable help list quit source trace untrace</p>
+<p>Additional user-mode-only commands clear connect continue</p>
+<p>Additional kernel-mode-only (prex -k) commands buffer ktrace pfilter prex&gt; help intro Introduction to prex</p>
+<p>prex is used to control probes in a target process, or in the kernel. If you are reading this help text, you have sucessfully invoked prex, by either connecting to an existing process (prex -p), a new process (prex myprogram), or to the kernel (prex -k).</p>
+<p>Most often, the user will want to enable some probes in the target, continue the target - either to completion, or until the target is interrupted - and then exit from prex to perform analysis on the resulting tracefile. An ascii dump of the tracefile can be obtained using the tnfdump(1) command.</p>
+<p>The tracefile can be found in /tmp/trace-<pid> by default, or in a location of your choice, if you specify the -o option when you invoke prex. You can query the name of the current trace file by using the command. list tracefile.</p>
+<p>Upon invocation, prex reads commands from the files ~/.prexrc and ./.prexrc (in that order). The “source” command may be used to take commands from an arbitrary file or set of files.</p>
+<p>Help is available for a variety of topics, and for each prex command. Type help with no arguments for a list of available help topics.</p>
+<p>end of help for topic intro prex&gt; help functions Probe Functions</p>
+<p>Note - probe functions are not available from kernel mode</p>
+<p>It is possible to use prex to connect functions to probe points, such that the function is invoked each time a given probe point is hit. Currently, the only function available from prex is the &amp;debug function, which prints out the arguments sent in to the probe, as well as the value (if any) associated with the sunw%debug attribute in the detail field.</p>
+<p>Relevant commands: list fcns # list the defined probe functions connect &amp;debug name=myprobe # attach probe &amp;debug to probe myprobe connect &amp;debug $myset # attach probe &amp;debug to probes in $myset clear name=myprobe # disconnect probe functions from myprobe clear $myset # disconnect probe functions from $myset</p>
+<p>end of help for topic functions prex&gt; help kernel_mode Controlling Kernel Probes</p>
+<p>The Solaris kernel is instrumented with a small number of strategically placed probes, documented in tnf_kernel_probes(4). The superuser can control these probes by running prex with the “-k” option.</p>
+<p>In kernel mode, trace output is written to an in-core buffer, rather than to a file on disk. This buffer can be extracted with the tnfxtract(1) commmand. This buffer must be set up before tracing can begin, through the use of the “buffer alloc” command. After kernel tracing is complete (and after the buffer has been extracted), the buffer can be deallocated from prex using the “buffer dealloc” command.</p>
+<p>As in user mode, kernel probe control is accomplished using the commands “trace”, “untrace”, “enable”, and “disable”. Additionally, in kernel mode, a “master switch” is provided to turn all tracing activity on or off. This switch is toggled using the commands “ktrace on” and “ktrace off”. Unlike user mode, where the target is stopped while tracing paramaters are manipulated from prex, the kernel does not stop running during a tracing session. Using the “ktrace” command, one can set up all tracing parameters in advance of a session, without actually writing trace records until a “ktrace on” command is given.</p>
+<p>Kernel mode also provides the ability to limit tracing to those kernel probes hit on behalf of a specific user process. The pfilter command is provided to toggle process filtering on or off, and to specify the set of processes that comprise the filter. If pid 0 is a member of the filter list, then any threads not associated with a process are included.</p>
+<p>Note that after a kernel tracing session, all tracing parameters are left as-is. One should re-enter prex to disable and untrace probes, turn off process filtering, and deallocate the in-core trace buffer.</p>
+<p>Relevant Commands: buffer alloc 2m # allocate a 2M in-core buffer enable $all # enable all kernel probes trace $all # trace all kernel probes ktrace on # turn on kernel tracing pfilter add 1234 # add pid 1234 to the filter list pfilter on # turn on process filtering ktrace off # turn off kernel tracing Also see tnfxtract(1), which is used to extract the in-core trace buffer to an on-disk tracefile.</p>
+<p>end of help for topic kernel_mode</p>
+<p>prex&gt; help probe_spec Probe Specification</p>
+<p>Many prex commands operate on probes or sets of probes. Probes are specified by a list of space-separated selectors of the form: <attribute>=<value> If the “<attribute>=” is omitted, the attribute defaults to “keys=”. The “<value>” can be either a string or an ed(1) regular expression enclosed in slashes. Regular expressions in prex are unanchored, meaning that any value that contains the given regex as a substring is a valid match, regardless of position. To anchor a regular expression, use “^” to match the beginning of a line, or “$” to match the end of a line. If a list of selectors is specified, an OR operation is applied - the resulting probe_spec includes probes that match any of the selectors. See the prex(1) man page for a complete specification of the accepted grammar.</p>
+<p>The “list” command is used to view available probes in the target, and to display their attributes. The “trace” and “untrace” commands determine whether a probe will write a trace record when hit. The “enable” and “disable” commands indicate whether a probe will perform any action (such as a calling a connected function or creating a trace record) when hit. Normally, a probe is enabled and traced for tracing, and disabled and untraced otherwise. It is possible to enable a probe with tracing off to get debug output without writing trace records.</p>
+<p>Relevant Commands: list probes $all # list probes in set $all (all probes) list probes file=test.c # list probes with a specific attribute list ‘file’ probes $all # list the file attribute in all probes list probes name=/^thr/ # list probes whose name attribute matches # the given regular expression list probes name=/^thr/ keys=vm # list probes matching either selector enable name=/^thr/ # enable probes whose name matches this regex trace $all # trace all probes untrace $myset # untrace probes in set $myset</p>
+<p>end of help for topic probe_spec prex&gt; help processes Controlling Processes with prex</p>
+<p>Prex is used to control probes in a given process, or in the kernel. The process which prex is to control is identified as an argument when prex is invoked. If the “-p <pid>” switch is used, prex connects to the specified process. Otherwise prex exec’s the command supplied at the end of its argument list. In either case, prex stops the target process immediately so that the user may set up probe control.</p>
+<p>Once probe control is set up (typically using the “enable” and “trace” commands), the process is continued using the “continue” command. Prex remains attached to the target, and the user can force the target to stop again by typing control-C, at which time additional probe control directives may be given.</p>
+<p>Upon quitting from prex, the target process is normally resumed if prex attached to it, or killed if prex invoked it. An optional argument may be given with the “quit” command to explicitly specify whether to kill the target, continue it, or leave it suspended.</p>
+<p>If the target forks, any probe that the child encounters will be logged to the same trace file as the parent. If the child calls exec, it will no longer be traced.</p>
+<p>In kernel mode (prex -k), process filtering may be enabled, to limit tracing to those kernel probes hit on behalf of a specific process or set of processes. Kernel-mode process filtering is controlled using the “pfilter” command.</p>
+<p>Relevant Commands: continue # continue target (user mode only) Control-C # stop target (user mode only) quit resume # quit prex, continue target quit suspend # quit prex, suspend target quit kill # quit prex, kill target quit # quit prex, default action # Note: pfilter commands apply only to kernel mode pfilter # show pfilter status pfilter on # turn on process filter mode pfilter off # turn off process filter mode pfilter add 1234 # add to process filter pid list pfilter delete 1234 # delete from process filter pid list</p>
+<p>end of help for topic processes prex&gt; help set_spec Specifying Probe Sets</p>
+<p>Prex provides the ability to define named sets of probes to simplify commands operating on multiple probes. The set “$all” is predefined, as the set of all probes in the target. A set is defined using the “create” command, and can be used as an argument to the “list”, “enable”, “disable”, “trace”, “untrace”, “connect” and “clear” commands.</p>
+<p>Relevant Commands: create $myset name=/^thr/ # create a set list probes $myset # list probes in a set list sets # list defined sets enable $myset # enable a set of probes trace $myset # trace a set of probes</p>
+<p>end of help for topic set_spec prex&gt; help enable</p>
+<p>Usage: enable <probe_spec>|<set_spec></p>
+<p>“enable” is used to specify that any activity associated with the probe or probes will be performed when the probe is hit. This includes connected probe functions as well as the generation of trace records. Note that in order for a probe to generate a trace record, it must be “traced” as well as enabled.</p>
+<p>End of help for cmd enable prex&gt; help disable</p>
+<p>Usage: disable <probe_spec>|<set_spec></p>
+<p>“disable” is used to to turn off all tracing activity associated with a probe or a set of probes.</p>
+<p>End of help for cmd disable prex&gt; help list</p>
+<p>Usage: list probes <probe_spec>|<set_spec> list <attrs> probes <probe_spec>|<set_spec> list sets list fcns list history list tracefile</p>
+<p>“list” displays information about currently defined probes, sets, and probe functions. When listing probes, one can limit the output to a desired set of attributes by specifying an attribute list as a set of strings. If an attribute is also a reserved word (such as “trace”, it must be enclosed in single quotes. For example:</p>
+<pre><code>   list file &#39;trace&#39; probes $all</code></pre>
+<p>“list” history lists the probe control commands history, and “list” tracefile displays the current trace file name.</p>
+<p>End of help for cmd list prex&gt; help source</p>
+<p>Usage: source <filename></p>
+<p>The “source” command is used to invoke a set of prex commands stored in a file. A sourced file may in turn source other files. The files ~/.prexrc and ./.prexrc are sourced automatically (in that order) when prex is invoked, and may be used to store commonly used probe and set specifications, or probe control directives. Commands in sourced files may override the effects of commands in previously sourced files.</p>
+<p>End of help for cmd source prex&gt; help trace</p>
+<p>Usage: trace <probe_spec>|<set_spec></p>
+<p>“trace” is used to turn on tracing for the specified probe or probes. A “traced” probe that is also “enabled” will generate a trace record when it is hit.</p>
+<p>End of help for cmd trace prex&gt; help untrace</p>
+<p>Usage: untrace <probe_spec>|<set_spec></p>
+<p>“untrace” turns tracing off for the specified probe or probes. A probe will not generate a trace record when it is not traced, although connected probe functions will still be invoked as long as a probe is “enabled”.</p>
+<p>End of help for cmd untrace prex&gt; help help</p>
+<p>Usage: help [<cmd>|<topic>]</p>
+<p>“help” lists all available help topics when run without any arguments. If a valid topic or command-name is supplied as an argument, help text for the topic or command is displayed.</p>
+<p>End of help for cmd help prex&gt; help quit</p>
+<p>Usage: quit quit kill quit resume quit suspend</p>
+<p>The “quit” command exits prex, leaving the target in a state specified by the user, or taking a default action if no instructions are specified. An optional argument may be used to indicated that the target should be killed, resumed, or left suspended. If no argument is supplied, then prex’s default behavior is to resume a process to which it had attached, and to kill a process which it had invoked.</p>
+<p>End of help for cmd quit prex&gt; help clear</p>
+<p>Usage: clear <probe_spec>|<set_spec></p>
+<p>Note: Not available in Kernel Mode</p>
+<p>“clear” disconnects any probe functions that have previously been connected to a probe or group of probes using the “connect” command. The “clear” command cannot be used in kernel mode, since probe functions are not available for kernel probes.</p>
+<p>End of help for cmd clear prex&gt; help connect</p>
+<p>Usage: connect <function> <probe_spec>|<set_spec></p>
+<p>Note: Not available in Kernel Mode</p>
+<p>“connect” connects a probe function to a probe or group of probes. Currently, the only probe function available from prex is “&amp;debug”, which prints out the arguments sent in to the probe, as well as the value (if any) associated with the sunw%debug attribute in the detail field. In order for a probe function to be invoked, the probe to which the function is attached must be “enabled”, but need not be “traced”.</p>
+<p>The “clear” command is available to disconnect a probe function from a probe or group of probes.</p>
+<p>End of help for cmd connect prex&gt; help continue</p>
+<p>Usage: continue</p>
+<p>“continue” is used to resume execution of the target process. This command is not available in kernel mode, since the kernel is never stopped.</p>
+<p>end of help for cmd continue prex&gt; help buffer</p>
+<p>Usage: buffer alloc <size> buffer dealloc</p>
+<p>Note: Kernel Mode Only</p>
+<p>“buffer” allocates or deallocates the in-core buffer used to hold kernel trace records. Size can be specified in kilobytes or megabytes, by appending the character ‘k’ or ‘m’ to a numeric value (e.g. “2m”). A buffer must be allocated prior to a kernel tracing session. Once allocated, the buffer remains usable until deallocated, even through multiple invocations of prex.</p>
+<p>Before the buffer is deallocated, data may be extracted to an on-disk tracefile using tnfxtract(1).</p>
+<p>End of help for cmd buffer prex&gt; help ktrace</p>
+<p>Usage: ktrace on ktrace off</p>
+<p>Note: Kernel Mode Only</p>
+<p>“ktrace” toggles the master switch that indicates whether kernel tracing is active or inactive. Since the kernel cannot be stopped while a tracing experiment is set up, “ktrace” is provided so that tracing can be set up as desired before any trace records are generated</p>
+<p>End of help for cmd ktrace prex&gt; help pfilter</p>
+<p>Usage: pfilter pfilter on pfilter off pfilter add <pidlist> pfilter delete <pidlist></p>
+<p>Note: Kernel Mode Only</p>
+<p>“pfilter” controls process filtering by toggling process-filter mode, and maintaining a list of process id’s on which to filter. When process filtering mode is on, tracing is limited to the kernel events hit on behalf of the processes in the pid list. Process id 0 is used to represent all threads not associated with a process. When run without arguments, “pfilter” displays the current process-filter mode and pid list. A process filter pid list can be maintained whether or not process filter mode is currently active.</p>
+<p>A process must exist in order to be added to the pid list, and the pid list is automatically updated to delete any processes that no longer exist. If the pid list becomes empty while process filtering is on, prex issues a warning. Process filtering mode is persistent between invocations of prex so it should be turned off manually when a tracing experiment is complete.</p>
+<p>End of help for cmd pfilter</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

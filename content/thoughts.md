@@ -1,8 +1,8 @@
-% My random thoughts
+% Random thoughts
 % Ravikiran K.S.
 % January 1, 2006
 
-Random thoughts, general topics, and amusings.
+## My random thoughts, general topics, and amusings.
 
 Posts
 -----

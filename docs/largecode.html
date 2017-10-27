@@ -19,16 +19,17 @@
 <div class="container">
 <div class="row">
 <div class="span2">&nbsp;</div>
-<div class="span7">
+<div class="span8">
 
 <!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
 <nav class="navbar navbar-default">
 <div class="header">
         <ul class= "nav nav-pills pull-right">
-            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
-            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
-            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
-            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
             <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
         </ul>
 </div>
@@ -41,7 +42,7 @@
 <div id="category" class="row">
 <ol class="breadcrumb">
 <li><a href="./index.html">Home /</a></li>
-<li><a href="./Hacks.html"> Hacks /</a></li>
+<li><a href="./Deadbeef.html"> Deadbeef</a></li>
 </ol>
 </div>
 <!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
@@ -54,6 +55,12 @@ on January 1, 2006</div>
 
 <!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
 
+<h2 id="conquering-large-legacy-software">Conquering Large Legacy Software</h2>
+<p>It’s not the big code-base, which is a problem. Rather, it’s multiple things associated to it that cause the problem like: * Code itself is so big, it takes hours to fetch it, index it, modify it, and build it. * Loading it on machine takes long time, setting-up pre-conditions to test it is tedious. * Documentation isn’t easily accessible, not complete, sprayed in multiple places. * Tests aren’t readily accessible, they are not enough to verify if anything is broken. * After making changes, it’s not easy to commit. Processes, approvers, timezones, etc. * Each team has it’s own goals, timelines, development processes</p>
+<p>Idea is not to tackle entire source code, or make it good. Idea is to remove the donkey work. So that engineers can focus on useful work at hand, than getting frustrated by other things.</p>
+<p>Re-write an entire soure code is bad idea. What’s the assurance that it wouldn’t end up same as current code? - Joel Spolskey</p>
+<p>We often over-estimate the time it takes to refactor code, and under-estimate what it takes to develop new code.</p>
+<p>An approach to tackle unknown source code is: 1. Take a look at directory structure, file organization. 2. Go through naming, calling, logging, build conventions. 3. Read all documentation that exists, no matter how bad. 4. Run code as-is, collect logs, compare them to code flow. 5. Step through code using debugger, inspect data &amp; flows. 6. Keep test-suits/test-cases handy to verify if you break. 7. Make small changes to code, build+run, see if it works. 8. Reduce code clutter, refactor, indent, make it readable. - add comments, no magic numbers, DRY, no dead code 9. Find new ways to test it, automate builds/tests/reports. 10. Understand patterns used, idioms in code, and language.</p>
 <p>Step through code in debug mode to see how it works Pair up with someone more familiar with the code base than you, taking turns to be the person coding and the person watching/discussing. Rotate partners amongst team members so knowledge gets spread around. Write unit tests. Start with an assertion of how you think code will work. If it turns out as you expected, you’ve probably understood the code. If not, you’ve got a puzzle to solve and or an enquiry to make. (Thanks Donal, this is a great answer) Go through existing unit tests for functional code, in a similar fashion to above Read UML, Doxygen generated class diagrams and other documentation to get a broad feel of the code. Make small edits or bug fixes, then gradually build up Keep notes, and don’t jump in and start developing; it’s more valuable to spend time understanding than to generate messy or inappropriate code.</p>
 <ul>
 <li><p>Check the unit tests, they often contain some simplified example of how code is used.</p></li>

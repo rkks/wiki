@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Automation using Expect | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Automation using Expect</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="pexpect-on-mac">Pexpect on Mac</h2>
+<p><code>$ sudo easy_install pexpect $ sudo easy_install ptyprocess</code></p>
+<p>$ python -c “import pexpect” $ echo $? // to check if pexpect module is installed</p>
+<h2 id="tips-n-tricks">Tips n Tricks</h2>
+<ol style="list-style-type: decimal">
+<li><p>Command line input using -c option $ expect -c ‘expect “” {send “pressed enter”}’</p></li>
+<li><p>Execute expect script interactively using -i option $ expect -i arg1 arg2 arg3</p></li>
+<li><p>Print debug messages while executing expect script $ expect -d sample.exp</p></li>
+<li><p>Enable expect debugger using -D $ expect -D 1 sample.exp</p></li>
+<li><p>Execute expect script line by line $ expect -b sample.exp</p></li>
+<li><p>To provide options to expect script (not to be interpreted by expect itself) $ expect sample.exp -d -c</p></li>
+<li><p>Reading command line arguments by indexes. lindex can be used for this. Ex. set arg0 [lindex $argv 0]</p></li>
+<li><p>Reading command line arguments by range. lrange is used. It specifies start arg index and stop arg index. Hence to read same arg0 using lrange, it is set arg0 [lrange $argv 0 0]</p></li>
+<li><p>Printing logs to user console. Use <code>'send_user'</code> instead of ‘puts’. For ex. <code>send_user &quot;string&quot;</code></p></li>
+<li><p>Square brackets [] have different meaning in Expect (used to execute commands). Hence, when using them in strings, they should be escaped using<br />
+character.</p></li>
+<li><p>In order to provide default values to some arguments of a function, use proc justdoit {a {b 1} {c -1}} { }</p></li>
+<li><p>To pass variable number of arguments to a proc/function, ‘args’ is used. proc justdoit {args} { }</p></li>
+</ol>
+<p>This can be combined with variable names to get proc arguments in which first few arguments are fixed and remaining ones are variable. proc justdoit {firstarg secondarg args} { }</p>
+<ol start="13" style="list-style-type: decimal">
+<li><p>Pre-defined command line arguments $argc - number items of arguments passed to a script. $argv - list of the arguments. $argv0 - name of the script.</p></li>
+<li><p>Few more debugging pearls: To see where the error was triggered in interactive mode, use set errorInfo</p></li>
+</ol>
+<p>This variable shows index of the faulty line inside the procedure body - FP (for the beginners) info body <em>the_name_of_the_procedure</em></p>
+<ol start="15" style="list-style-type: decimal">
+<li>These seem to be the major issues people hit:
+<ol style="list-style-type: lower-alpha">
+<li>expecting less than is advisable and too much in other places: “Funny Users Password:” in contrast to “assword:”</li>
+<li>underestimating the greediness of REs “.*&quot; in contrast to “.*?&quot; or building really brilliant and convoluted REs that break in really brilliant and convoluted ways.</li>
+<li>using spawn where exp_send would be the proper command: spawn telnet .. login stuff .. exp_send “MySuperDuperRemoteScript with some args”</li>
+<li>being too optimistic and constructing scripts that continue unfazed due to not handling “timeout” and “eof”</li>
+<li>Would making un“expect”ed timeout or eof a catchable error help?</li>
+</ol></li>
+<li>‘autoexpect’ creates script.exp by recording different commands entered on command prompt.</li>
+</ol>
+<p>http://www.thegeekstuff.com/2010/12/5-expect-script-command-line-argument-examples/</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

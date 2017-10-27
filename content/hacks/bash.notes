@@ -1,0 +1,291 @@
+From within less, you can open the editor with current file using 'v'. It picks up editor name using VISUAL env variable.
+
+export PS1="[\u@\h|\D{%b/%d} \t|\w]$ "
+
+# To periodically check for some command, you can use 'watch' command. Very useful.
+# This is much better compared to running something in a for loop in a shell.
+# watch -n <period-in-sec> <command> [command-args]
+
+# How to compile and run a C program in a single line?
+# echo 'main() {printf("Hello\n");}' | gcc -w -x c -; ./a.out
+
+# When you have sudo permission. You can become root as:
+# sudo su -l
+
+# Umask is calculated as
+# Octal:        022
+# Binary:       000 010 010
+# XOR Bin:      111 101 101
+# Dir Perms:   drwx r-x r-x
+# File Perms:  -rx- r-- r--
+# Vi etc. editors donot turn on 'x' bit.
+# umask 000 is all allowed.
+#
+# I need:
+# File Perms:  -rw- --- ---
+# Dir Perms:   drwx --- ---
+# XOR Bin:      111 000 000
+# Binary:       000 111 111
+# Octal:        077
+#
+# Too liberal
+#umask 077
+# Too limiting
+#umask 022
+
+## Prompt
+##
+## Color escape code general syntax
+#\e[XX;YYm]
+#XX = foreground color
+#YY = background color, but really text styling
+##
+## Styles
+#0 = reset
+#1 = bold
+#4 = underline
+#5 = blink (!)
+#7 = invert background & foreground
+##
+## Foreground colors
+#30 = black
+#31 = red
+#32 = green
+#33 = yellow
+#34 = blue
+#35 = magenta
+#36 = teal
+##
+## Background colors
+#40 = black
+#41 = red
+#42 = green
+#43 = yellow
+#44 = blue
+#45 = magenta
+#46 = teal
+## Variables
+#\u = your username
+#\H = full hostname, e.g. bob.example.com
+#\h = reduced hostname, e.g. bob
+#\w = full working directory, e.g. /home/jamie/bin
+#\W = basename of the working directory, e.g. bin
+#\t = time in 24-hour format
+#\# = command number
+#\$ = root identifier; $ for regular users, # for root
+#\T = time in 12-hour format
+#\l = terminal device, e.g. tty4
+#\j = number of background/suspended processes
+BBLACK='\[\033[1;30m\]'
+BLACK='\[\033[0;30m\]'
+BRED='\[\033[1;31m\]'
+RED='\[\033[0;31m\]'
+BGREEN='\[\033[1;32m\]'
+GREEN='\[\033[0;32m\]'
+BYELLOW='\[\033[1;33m\]'
+YELLOW='\[\033[0;33m\]'
+BBLUE='\[\033[1;34m\]'
+BLUE='\[\033[0;34m\]'
+BMAGENTA='\[\033[1;35m\]'
+MAGENTA='\[\033[0;35m\]'
+BTEAL='\[\033[1;36m\]'
+TEAL='\[\033[0;36m\]'
+NORMAL='\[\033[00m\]'
+#export PS1="${TEAL}\u${BLUE}@\h${GREEN}(\w${GREEN})${RED}\$ ${NORMAL}"
+
+# 'Wall' command on solaris:
+# $ wall
+# "some text"
+# ctrl-D
+
+# Mount remote file system using SSH
+# Mount - sshfs name@server:/path/to/folder /path/to/mount/point
+# Unmount - fusermount -u /path/to/mount/point
+
+# cp -rfL src/ dst/     -> Copy with dereferencing sym links
+
+# Change the process priority to least. Range +20 to -20
+# sudo renice -20 <pid>
+
+# Standard redirection in shell. 2>&1 in last
+
+# !! - runs last command
+# !!:gs/foo/bar - run previous command replacing foo by bar
+
+# Find commands
+# find . -iname "*.c" | xargs grep 'SB_FPDNS' -sl
+# find . | xargs grep 'SB_FPDNS' -sl
+# find . -iname '*.c' -mtime -1 | xargs grep 'string' -sl
+# find . -name '*.txt' | xargs perl -pi -e 's/find/replace/g'
+# find . -name '*.txt' -print0 | xargs -0 perl -pi -e 's/find/replace/g'
+# Moving .avi files bigger than 700M and younger than 15 days to /my/new/movies can be done with:
+# $ find /home/ -name '*.avi' -a -size +700M -mtime -15 -exec mv '{}' /my/new/movies/ \;
+# '{}' matches the file that was found, while  \; terminate the exec statement.
+# Find any file whose name ends with either 'c' or 'asm', enter:
+# $ find . -type f \( -iname "*.c" -or -iname "*.asm" \) 
+# Find *.txt file but ignore hidden .txt file such as .vimrc or .data.txt file:
+# $ find . -type f \( -iname "*.txt" ! -iname ".*" \)
+# Find all .dot files but ignore .htaccess file:
+# $ find . -type f \( -iname ".*" ! -iname ".htaccess" \)
+# Find source files
+#find . \( -name SCCS -prune -name \\ '*.c' -o -name '*.h' \) -exec ctags -u {} \;
+#find . \(-name '*.c' -o -name '*.h' \) -exec ctags -uw {} \;
+
+# Salvage a borked terminal
+# reset or "stty sane" CTRL-J
+
+# List of commands you use most often
+# history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+
+# currently mounted filesystems in nice layout
+# mount | column -t
+
+# Empty a file
+# > file.txt
+
+# quickly backup or copy a file with bash
+# cp filename{,.bak}
+
+# Kills all processes for a certain program ex. httpd
+# kill -9 $(pidof process)
+
+# Variable use in bash
+#
+#             | unset |   set    | set and  | meaning
+#             |       | but null | not null |
+# ============+=======+==========+==========+=============================
+#  ${var-_}   |   T   |     F    |    T     | not null or not set
+# ------------+-------+----------+----------+-----------------------------
+#  ${var:-_}  |   T   |     T    |    T     | always true, use for subst.
+# ------------+-------+----------+----------+-----------------------------
+#  $var       |   F   |     F    |    T     | var is set and not null
+# ------------+-------+----------+----------+-----------------------------
+#  ${!var[@]} |   F   |     T    |    T     | var is set
+
+# Redirecting both stdout and stderr to tee
+# http://stackoverflow.com/questions/692000/how-do-i-write-stderr-to-a-file-while-using-tee-with-a-pipe
+# command > >(tee stdout.log) 2> >(tee stderr.log >&2)
+#
+# Let's split it up and explain:
+# 1. > >(..)
+# >(...) (process substitution) creates a FIFO and lets tee listen on it. Then, it uses > (file redirection)
+# to redirect the STDOUT of command to the FIFO that your first tee is listening on.
+# 2. 2> >(tee stderr.log >&2)
+# We use process substitution again to make a tee process that reads from STDIN and dumps it into stderr.log.
+# tee outputs its input back on STDOUT, but since its input is our STDERR, we want to redirect tee's STDOUT to
+# our STDERR again. Then we use file redirection to redirect command's STDERR to the FIFO's input (tee's STDIN)
+
+# Another way to redirect both stdout and stderr to file using tee
+# http://blog1.vorburger.ch/2005/10/how-to-redirect-and-tee-both-stdout.html
+# (command [...] | tee stdout.txt) 3>&1 1>&2 2>&3 | tee stderr.txt
+
+# Redirect stdout of command to logfile and stderr of command to both logfile and to terminal
+# cmd 2>&1 1>>logfile | tee -a logfile
+
+# When 'set -o vi' is set in bash, long commands can be edited in vim editor with this simple trick.
+# Press <ESC> to enter command mode in bash. Then press 'v' to enter into vi editor. Once you write and exit, that command will be executed.
+
+# Using wall command
+# wall < "Comment"
+
+# Sending an already running process to background.
+# $ command
+# <Ctrl-z>
+# $ jobs -l
+# [shows command as 'Stopped'. Also shows stopped process number]
+# $ bg <stopped-process-num>    # generally 1
+# $ jobs -l
+# [shows command as 'Running'.]
+# $ fg <stopped-process-num>    # without process number, brings last backgrounded process to foreground.
+# [brings command to foreground again]
+# $ %-              # Alternative to fg. Brings last backgrounded process to foreground.
+# $ kill %<stopped-process-num> # kills backgrounded process.
+
+# To write bash script output to syslog one can use /usr/bin/logger command. Command format is
+# /usr/bin/logger -t <proc-name> "log"
+# Ex. /usr/bin/logger -t xyz "This is a test log"
+
+# To stop, resume and list processes
+# kill -STOP 945
+# kill -CONT 945
+# To print a process tree:
+#    ps -ejH
+#    ps axjf
+#    kill -s TSTP -$pgrp
+#    ps -u$USER -opid,ppid,pgrp,cmd
+
+# Parameter expansion in bash. Curtousey http://wiki.bash-hackers.org/syntax/pe
+# A bash parameter is an alphanumeric name with some special symbols in some case, that stores some value.
+# * parameters referenced by a name are called variables.
+# * parameters referenced by a number are called positional parameters like command line arguments
+# * parameters referenced by a special symbol like $* have special meanings and uses
+# Parameter expansion is the procedure to get the value from the referenced entity
+# $WORD - Can be used as an independent word. Values are substituted in place.
+# ${WORD} - When variable has to be combined with other characters like echo "${TICK}s"
+# Also used to access positional parameters like ${10} to access 10th input in command line args
+# ${!PARAMETER} - This is parameter indirection. The referenced parameter is not PARAMETER itself,
+# but the parameter whose name is stored as the value of PARAMETER. like:
+# read -rep 'Which variable to inspect?' look_var && printf 'value of "%s" is: "%s"\n' "$look_var" "${!look_var}"
+# echo ${!#} - Prints last argument to script.
+# ${PARAMETER^}  - modifies the first character to uppercase
+# ${PARAMETER^^} - modifies all characters to uppercase
+# ${PARAMETER,}  - modifies the first character to lowercase
+# ${PARAMETER,,} - modifies all characters to lowercase
+# ${PARAMETER~}  - reverse the case of first character
+# ${PARAMETER~~} - reverse the case of all characters
+# ${!PREFIX*} - Can be used to list all variables starting with name PREFIX. Like, echo ${!BASH*}
+# ${PARAMETER#PATTERN} - Delete the shortest text matching the pattern
+# ${PARAMETER##PATTERN} - Delete longest text matching the pattern
+# ${PARAMETER%PATTERN}
+# ${PARAMETER%%PATTERN} 
+
+# Need to remove all those ^M characters from a DOS file? Try
+#         tr -d \\r < dosfile > newfile
+#                         -- Originally by Dru <genesis@istar.ca>
+
+# Easy way to download a binary, and set exec permissions is:
+# curl http://beyondgrep.com/ack-1.96-single-file > ~/ack-1.96 && chmod 0755 !#:3
+
+# Logging to Syslog using 'logger'. This doesn't work for me because it also logs to standard log /var/log/messages and there is no way to prevent it.
+# logger -f <file> -p <priority> -t <tag> -i -s
+#   -s      Log the message to standard error, as well as the system log.
+#   -i      Log the process id of the logger process with each line.
+# Ex: logger -f test.log -i -p 20 -t test "This is syslog test"
+
+# Setting date for the shell allows the output of 'date' command to be used
+# using $1, $2, $* etc. But we do not want to do that.
+# set `date`
+
+# To format output separated by tab as columns
+# mount | column -t
+
+# eval works well on linux, but not on FreeBSD. So, for arithmetic operations use $(( )) operation provided within bash.
+
+# To provide super user privileges to some user, add him to group 'root' and add perms line to sudoers file.
+# usermod -G root username
+# username ALL = NOPASSWD: ALL
+
+# set -x modifies the positional parameters. Hence, checking $_ didnt work. To restore params:
+# Prior to set -x do: TEMP="$@". After set +x do: eval set -- "$TEMP"
+
+# && check should be put only in places where 'if' checks are used otherwise. If this operator is used with normal commands,
+# it would not execute as required. Mainly because in Unix tradition, commands return 0 for success, where as && evaluates 1
+
+## SSH Tips
+# start a tunnel from some machine's port 80 to your local post 2001
+# ssh -N -L2001:localhost:80 somemachine
+
+# Copy ssh keys to user@host to enable password-less ssh logins.
+# ssh-copy-id user@host
+
+# SSH connection through host in the middle
+# ssh -t reachable_host ssh unreachable_host
+
+1. Ports used for connecting to email server using Thunderbird are:
+POP 110
+SMTP 25
+IMAP 143
+
+awk - List all elements one-by-one
+ls | awk '{ for (i = NF; i > 0; --i) print $i }'
+

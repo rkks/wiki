@@ -19,16 +19,17 @@
 <div class="container">
 <div class="row">
 <div class="span2">&nbsp;</div>
-<div class="span7">
+<div class="span8">
 
 <!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
 <nav class="navbar navbar-default">
 <div class="header">
         <ul class= "nav nav-pills pull-right">
-            <li class="hidden-phone"><a href="./hacks.html">Hacks/</a></li>
-            <li class="hidden-phone"><a href="./ideas.html">Ideas/</a></li>
-            <li class="hidden-phone"><a href="./reviews.html">Reviews/</a></li>
-            <li class="hidden-phone"><a href="./thoughts.html">Thoughts/</a></li>
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
             <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
         </ul>
 </div>
@@ -41,7 +42,7 @@
 <div id="category" class="row">
 <ol class="breadcrumb">
 <li><a href="./index.html">Home /</a></li>
-<li><a href="./Hacks.html"> Hacks /</a></li>
+<li><a href="./Deadbeef.html"> Deadbeef</a></li>
 </ol>
 </div>
 <!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
@@ -54,6 +55,9 @@ on January 1, 2006</div>
 
 <!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
 
+<p>Quick note of items that come to mind for handling software development artifacts.</p>
+<p>General Guidelines: * Separate location for 3rd party code * Proper Copyright notice, Creation, Modification dates * Change history saved in version control * Do one thing - properly. Applies to functions, files,… * All work is in human readable form. Easy to extract * All Build, Test, and Deploy/sync work is automated * Everything is testable except for test code itself * Easy to trace, easy to debug, easy to change * Inline documentation and automated docs extraction</p>
+<p>Right tools for task: * Code * 3 Scripts (bash, expect, perl) and 2 Languages (C and Java). - Library: Common routines for accessing resources and performing common actions - Utils: Automation utils, handy utils. * Docs - Doxygen * Version control - Git (Source), SVN (Binary) * Static Analysis * Automated Testing * Issue Tracking * Customer Trials</p>
 <p>Automated Systems:</p>
 <ul>
 <li><p>Revision Control System - Git</p></li>
@@ -77,7 +81,7 @@ on January 1, 2006</div>
 <li><p>Less is more - More options you provide to user, more confused he will be. Keep interface slim.</p></li>
 <li><p>Consistency is the key - Consistent user interface and organized information is user friendly and clean.</p></li>
 <li><p>Keep noise to minimum - Only throw messages, prompts and information that user must know.</p></li>
-<li><p>Avoid acronyms - WTF could mean “What The Fun” to you, but not necessarily same to your user.</p></li>
+<li><p>Avoid acronyms - WTF could mean ‘What The Fun’ to you, but not necessarily same to your user.</p></li>
 <li><p>Feedback is friend - Keep feedback providing as easy as possible for user.</p></li>
 </ul>
 <p>Product Guidelines:</p>
@@ -94,7 +98,7 @@ on January 1, 2006</div>
 <li><p>Global variables - Should be minimum, all in one place, and modularized (to avoid synchronization bottlenecks).</p></li>
 <li><p>Locks - Must be handled automatically by pre-defined functions and trackers. Keep reference counting.</p></li>
 <li><p>Functions - Keep them thread-safe, reentrant, input sanitized, output validated, well defined, traceable, and with user friendly naming.</p></li>
-<li><p>Comments - At a ratio of 30% comment to 70% code. Not a story, not a dictation of program, only “logic, assumptions, constraints”.</p></li>
+<li><p>Comments - At a ratio of 30% comment to 70% code. Not a story, not a dictation of program, only ‘logic, assumptions, constraints’.</p></li>
 <li><p>Logging - Must for all softwares. Should be enough to trace any basic faults in system.</p></li>
 <li><p>Tracing - Must for run-time analysis of software. Trace points should include key data structure values at trace junctions.</p></li>
 <li><p>Memory accounting - Necessary to track number of allocations, frees, used memory, free memory, control requests, responses, etc.</p></li>
@@ -113,8 +117,8 @@ on January 1, 2006</div>
 <li><p>Do you have testers?</p></li>
 </ul>
 <!-- end list -->
-<pre class="code"><code>  Help strengthen your team by surveying your computing “neighborhood.” Choose two or three “broken windows” and discuss with your colleagues what the problems are and what could be done to fix them.</code></pre>
-<pre class="code"><code>  Can you tell when a window first gets broken? What is your reaction? If it was the result of someone else’s decision, or a management edict, what can you do about it?</code></pre>
+<pre class="code"><code>  Help strengthen your team by surveying your computing neighborhood. Choose two or three broken windows and discuss with your colleagues what the problems are and what could be done to fix them.</code></pre>
+<pre class="code"><code>  Can you tell when a window first gets broken? What is your reaction? If it was the result of someone else&#39;s decision, or a management edict, what can you do about it?</code></pre>
 <p>Why is it worthy to look into code that is already working?</p>
 <ul>
 <li><p>Working doesn’t really mean correct. It may not really be working, just working due to undiscovered bugs or boundary conditions or just lucky.</p></li>
@@ -130,8 +134,11 @@ on January 1, 2006</div>
 <li><p>Document your assumptions. Design by Contract, can help clarify your assumptions in your own mind, as well as help communicate them to others.</p></li>
 <li><p>Don’t just test your code, but test your assumptions as well. Don’t guess; actually try it. Write an assertion to test your assumptions. If your assertion is right, you have improved the documentation in your code. If you discover your assumption is wrong, then count yourself lucky.</p></li>
 <li><p>Prioritize your effort. Spend time on the important aspects; more than likely, these are the hard parts. If you don’t have fundamentals or infrastructure correct, brilliant bells and whistles will be irrelevant.</p></li>
-<li><p>Don’t be a slave to history. Don’t let existing code dictate future code. All code can be replaced if it is no longer appropriate. Even within one program, don’t let what you’ve already done constrain what you do next—be ready to refactor. This decision may impact the project schedule. The assumption is that the impact will be less than the cost of not making the change.</p></li>
+<li><p>Don’t be a slave to history. Don’t let existing code dictate future code. All code can be replaced if it is no longer appropriate. Even within one program, don’t let what you’ve already done constrain what you do next, be ready to refactor. This decision may impact the project schedule. The assumption is that the impact will be less than the cost of not making the change.</p></li>
 </ul>
+<h2 id="fundamental-principles-of-software-engineering">Fundamental Principles of Software Engineering</h2>
+<p>Apply and use quantitative measurements in decision-making (A) Build with and for reuse (B) Control complexity with multiple perspectives and multiple levels of abstraction (C) Define software artifacts rigorously (D) Establish a software process that provides flexibility (E) Implement a disciplined approach and improve it continuously (F) Invest in the understanding of the problem (G) Manage quality throughout the life cycle as formally as possible (H) Minimize software component interaction (I) Produce software in a stepwise fashion (J) Set quality objectives for each deliverable product (K) Since change is inherent to software, plan for it and manage it (L) Since tradeoffs are inherent to software engineering, make them explicit and document them (M) To improve design, study previous solutions to similar problems (N) Uncertainty is unavoidable in software engineering. Identify and manage it (O)</p>
+<p>Derived from paper: “Fundamental principles of software engineering a journey”</p>
 
 <!--End content from the main markdown file for this page.-->
 

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>MAC Layer Research Notes | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Misc.html"> Misc</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>MAC Layer Research Notes</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="area-of-study">Area of Study</h2>
+<ol style="list-style-type: decimal">
+<li>More robust MAC layer to support better throughput and end-to-end delay.</li>
+<li>More robust MAC layer to control broadcast and multicast traffic in WSNs and improved broadcast, multicast schemes for WSNs and MANETs.</li>
+<li>Load-balancing in MAC layer to support realtime application traffic to increase the utility of network resources and network throughput, improve robustness and reliability of the transmission service, and reduce the average transmission delay.</li>
+<li>Performance evaluation of existing MAC layer protocols and models for WSNs and Ad-hoc wireless networks.</li>
+</ol>
+<h2 id="details">Details</h2>
+<p>As with all other protocols, MAC layer protocol layer also defines following properties: * Detection of the underlying physical connection (wired or wireless), or the existence of the other endpoint or node * Handshaking * Negotiation of various connection characteristics * How to start and end a message * How to format a message * What to do with corrupted or improperly formatted messages (error correction) * How to detect unexpected loss of the connection, and what to do next * Termination of the session and or connection.</p>
+<p>It provides addressing and channel access control mechanisms for network nodes to communicate within a multipoint network. MAC layer emulates a full-duplex logical communication channel in a multipoint network with support for unicast, multicast or broadcast <code>[http://en.wikipedia.org/wiki/Media_Access_Control]</code>. MAC address makes it possible to deliver data packets to a destination within a subnetwork (one or several network segments interconnected by repeaters, hubs, bridges and switches, but not by IP routers; IP router may interconnect several subnets). Error detection and correction is also taken care by MAC layer.</p>
+<p>INPUTS: 1. Frame from LLC, to be transmitted over the network using Physical Layer. 2. Frame from PHY to be sent to LLC layer for further processing. 3. Header and Data parts to be sent and received. 4. Requests and Acks to be made to the network.</p>
+<p>Outputs: 1. Frame from PHY is sent to LLC layer for further processing 2. Frame from LLC is transmitted over PHY. 3. Header and Data parts to be sent are given to PHY and received are given to LLC.</p>
+<p>Affecting Factors: 1. Collisions in network. 2. Corrupt data packets. 3. Address conflict. 4. Load distribution policy in diverse environment.</p>
+<p>Objectives of MAC: * Efficiency (minimize collision, maximize throughput) * Fairness * QoS</p>
+<p>Channel Access Control Mechanisms: The channel access control mechanism relies on a physical layer multiplex scheme. A multiple access protocol is not required in a switched full-duplex point-to-point networks, such as today’s switched Ethernet networks, but is often available in the equipment for compatibility reasons. An Ethernet network may be divided into several collision domains, interconnected by bridges and switches. CSMA/CD is useful only in Ethernet bus network or a hub network. 1. CSMA/CD 2. CSMA/CA</p>
+<p>Actual Protocols Studied: 1. ARP 2. RARP 3. DARP</p>
+<p>IEEE Standards: 1. 802.2 - LLC 2. 802.3 - MAC</p>
+<p>The LLC sublayer is primarily concerned with: * Multiplexing protocols transmitted over the MAC layer (when transmitting) and demultiplexing them (when receiving). * Providing flow and error control</p>
+<p>HDLC specifies both MAC functions (framing of packets) and LLC functions (protocol multiplexing, flow control, detection, and error control through a retransmission of dropped packets when indicated)</p>
+<p>Technical difficulties in MAC design:</p>
+<pre><code>* Hidden terminal problem
+* Exposed node problem
+* Distributed control</code></pre>
+<p>MAC design can be formulated as a coloring problem, which is NP-complete. However, if you can utilize the information that is unique to ad hoc networks, (e.g., location info obtained by GPS), the complexity may be reduced to polynomial time.</p>
+<p>Transmission range: the range within which signal-to-noise-ratio (SNR) is greater than or equal to a threshold <code>gamma_t</code> so that transmitted message can be correctly received with high probability. (interference free)</p>
+<p>Sensing range: the range within which the signal-to-noise-ratio (SNR) is greater than or equal to a threshold <code>gamma_s</code> (typically smaller than <code>gamma_t</code>) so that a transmitter can withhold its transmission and avoid interfering ongoing transmissions between another pair of nodes. Sensing is used in CSMA/CD (802.11).</p>
+<p>Interference range: the range within which transmission from an interferer makes the signal-to-interference-and-noise-ratio (SINR) of the legitimate receiver smaller than <code>gamma_t</code>, so that the legitimate receiver cannot correctly receive the message from the legitimate transmitter.</p>
+<h2 id="mac-protocols">MAC Protocols</h2>
+<p>A high-performance network is characterized by two performance measures band-width and delay. Traditional network design focused mainly on bandwidth planning; the solution to network problems was to add more bandwidth. Nowadays, we have to consider message delay particularly for delay-sensitive applications such as voice and real-time video. Both bandwidth and delay contribute to the performance of the network.</p>
+<p>MAC layer protocol such as ALOHA [1], SEEDEX [26], MACA [20], MACAW [8] and IEEE 802.11 [19].</p>
+<h2 id="mac-papers-to-study">MAC Papers to Study</h2>
+<ol style="list-style-type: decimal">
+<li>Quality of Service Routing and Admission Control for Mobile Ad-hoc Networks with a Contention-based MAC Layer.</li>
+<li>An improvement to the reliability of IEEE 802.11 broadcast scheme for multicasting in mobile ad networks.</li>
+<li>Cost-Aware Capacity Optimization in Dynamic Multi-Hop WSNs</li>
+<li>MAC-Layer Capture: A Problem in Wireless Mesh Networks using Beamforming Antennas</li>
+<li>OCARI: Optimization of communication for Ad hoc reliable industrial networks</li>
+<li>A Case for an Overlay Routing on Top of MAC Layer for WSN</li>
+<li><p>DS/CDMA throughput of multi-hop sensor network in a Rayleigh fading underwater acoustic channel</p></li>
+<li><p>Quality of Service Routing and Admission Control for Mobile Ad-hoc Networks with a Contention-based MAC Layer Hanzo,II, L.; Tafazolli, R.</p></li>
+<li><p>An improvement to the reliability of IEEE 802.11 broadcast scheme for multicasting in mobile ad networks Jiawei Xie; Das, A.; Nandi, S.</p></li>
+<li><p>MAC-Layer Capture: A Problem in Wireless Mesh Networks using Beamforming Antennas Choudhury, R.R. Vaidya, N. Duke Univ., Durham</p></li>
+<li><p>OCARI: Optimization of communication for Ad hoc reliable industrial networks Tuan Dang, Devic, Catherine</p></li>
+<li><p>A Case for an Overlay Routing on Top of MAC Layer for WSN Almamou, Abd al basset Schiller, Jochen Labiod, Houda Gnes, Mesut</p></li>
+<li><p>SOTP: A Self-Organized TDMA Protocol for Wireless Sensor Networks Yu Wang Henning, I. Xiaoyun Li Hunter, D.</p></li>
+<li><p>Optimizing Routing Protocols for Ad Hoc Network Rastogi, S.</p></li>
+<li><p>Label routing protocol: a new cross-layer protocol for multi-hop ad hoc wireless networks Yu Wang Jie Wu</p></li>
+<li><p>Routing in ZigBee: Benefits from Exploiting the IEEE 802.15.4 Association Tree Cuomo, F. Della Luna, S. Monaco, U. Melodia, F.</p></li>
+<li><p>A cross-layer design for passive forwarding node selection in wireless ad hoc networks Tarique, M. Tepe, K.E. Naserian, M.</p></li>
+<li><p>Cost-Aware Capacity Optimization in Dynamic Multi-Hop WSNs Suhonen, J. Kohvakka, M. Kuorilehto, M. Hannikainen, M. Hamalainen, T.D.</p></li>
+<li><p>DS/CDMA throughput of multi-hop sensor network in a Rayleigh fading underwater acoustic channel Mar, C.H. Seah, W.K.G.</p></li>
+<li><p>DiffQ: Differential Backlog Congestion Control for Wireless Multi-hop Networks Warrier, A. Sangtae Ha Wason, P. Injong Rhee Kim, J.H.</p></li>
+<li><p>TCP support for sensor networks Braun, T. Voigt, T. Dunkels, A.</p></li>
+<li><p>A SiFT: an efficient method for trajectory based forwarding Capone, A. Pizziniaco, L. Filippini, I. de la Fuente, M.A.G.</p></li>
+<li><p>Quality of Service Routing and Admission Control for Mobile Ad-hoc Networks with a Contention-based MAC Layer Hanzo,II, L. Tafazolli, R.</p></li>
+<li><p>Optimal Transmit Power in Wireless Sensor Networks Panichpapiboon, S. Ferrari, G. Tonguz, O.K.</p></li>
+<li><p>Optimal cross-layer designs for energy-efficient wireless ad hoc and sensor networks Safwati, A. Hassanein, H. Mouftah, H.</p></li>
+<li><p>ECPS and E2LA: new paradigms for energy efficiency in wireless ad hoc and sensor networks Safwat, A. Hassanein, H. Mouftah, H.</p></li>
+<li><p>RWPS: a low computation routing algorithm for sensor networks Bergamo, P. Maniezzo, D. Mazzini, G.</p></li>
+<li><p>Link layer measurements in sensor networks Reijers, N. Halkes, G. Langendoen, K.</p></li>
+<li><p>Challenges in multi-hop networks Rosenberg, C.</p></li>
+<li><p>A Multiple Disjoint Paths Routing Protocol for Ad Hoc Sensor Networks Xun Zhou Yu Lu Yu Gao</p></li>
+<li><p>Hop count optimal position based packet routing algorithms for ad hoc wireless networks with a realistic physical layer Kuruvila, J. Nayak, A. Stojmenovic, I.</p></li>
+<li><p>Real Time Traffic Support in Wireless Sensor Networks Channa, M.I. Memon, I.</p></li>
+</ol>
+<p>analytical aspects such as probability, random processes, queueing,</p>
+<p>CDMA - Code Division Multiple Access TDMA - Time Division Multiple Access OFDMA - Orthogonal Frequency Division Multiple Access</p>
+<p>Papers to be Requested: 1. Wireless LAN Comes of Age: Understanding the IEEE 802.11n Amendment Paul, T.K.; Ogunfunmi, T. Circuits and Systems Magazine, IEEE Volume 8, Issue 1, First Quarter 2008 Page(s):28 - 54 Digital Object Identifier 10.1109/MCAS.2008.915504</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Mobility using IEEE 802.21 in a heterogeneous IEEE 802.16/802.11-based, IMT-advanced (4g) network Eastwood, L.; Migaldi, S.; Qiaobing Xie; Gupta, V. Wireless Communications, IEEE Volume 15, Issue 2, April 2008 Page(s):26 - 34 Digital Object Identifier 10.1109/MWC.2008.4492975</p></li>
+<li><p>IEEE 802.11s: WLAN mesh standardization and high performance extensions Hiertz, G.R.; Yunpeng Zang; Max, S.; Junge, T.; Weiss, E.; Wolz, B. Network, IEEE Volume 22, Issue 3, May-June 2008 Page(s):12 - 19 Digital Object Identifier 10.1109/MNET.2008.4519960</p></li>
+<li><p>Cognitive Wireless Mesh Networks with Dynamic Spectrum Access Chowdhury, K.R.; Akyildiz, I.F. Selected Areas in Communications, IEEE Journal on Volume 26, Issue 1, Jan. 2008 Page(s):168 - 181 Digital Object Identifier 10.1109/JSAC.2008.080115</p></li>
+<li><p>Cognitive Wireless Mesh Networks with Dynamic Spectrum Access Chowdhury, K.R.; Akyildiz, I.F. Selected Areas in Communications, IEEE Journal on Volume 26, Issue 1, Jan. 2008 Page(s):168 - 181 Digital Object Identifier 10.1109/JSAC.2008.080115</p></li>
+</ol>
+<h2 id="questions-addressed-in-distributed-computing">Questions Addressed in Distributed Computing:</h2>
+<ol style="list-style-type: decimal">
+<li>Scheduling and Resource Management in Realtime Distributed Computing.</li>
+<li>Service Oriented Systems for Dynamic Distributed Computing Environments - Security issues (Information Transfer).</li>
+<li>Dynamic Distributed Computing for devices and Applications - Optical Networks.</li>
+<li>Self Organizing and Stabilizing systems - Virtualization, Collaborative Applications, Grids.</li>
+</ol>
+<p>Networking: 1. Scaling, reliability, throughput and better quality in Wireless Networks - Ad-hoc Wireless networks. 2. Cooperative Spectrum sharing, 4G networks, Next Generation Reconfigurable Wireless networks - OFDMA. 3. MAC Protocol for Ad-hoc Wireless and Sensor Networks. 4. QoS, Resource management, Cross layer wireless network adaption - Heterogeneous Wireless networks.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Position independent and reliable routing for Wireless Sensor Networks. - QoS &amp; Energy Aware</li>
+</ol>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

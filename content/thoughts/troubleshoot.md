@@ -1,0 +1,263 @@
+% 12 Ways to Effectively Troubleshooting
+% Ravikiran K.S.
+% January 1, 2006
+
+## Troublehoot vs. Debug
+
+Both Troubleshooting and Debugging are very similar approaches for the problem
+determination and resolution, with the only exception being the difference in
+the end goal. While troubleshooting aims at restoring affected operations by
+replacing the faulty piece/function/part in the system, the debugging aims at
+identifying the root-cause for the failure(s) in first place, so that failure
+can be averted or gracefully handled in future product/software versions. Due
+to this difference in business goals, they differ in certain areas.
+
+# 12 ways to prepare for effective troubleshooting
+
+Preparing the environment so that troubleshooting can be performed more
+quickly and effectively if and when problems eventually do occur is key
+to quick diagnosis.
+
+## 1\. Create and maintain a system architecture diagram
+
+Create an architecture diagram that shows all major components of the
+overall system, how they communicate, what is exchanged, and main/major
+flows for requests, data, info, being processed through the system.
+Diagram helps you to:
+
+  - Identify various points in system where to find information or clues
+    about the cause of a problem.
+
+  - Clearly communicate (even complex) problems to various parties
+    involved in troubleshooting (both inside & outside org).
+
+  - Answer and verify a favorite question of all troubleshooters: What
+    has changed
+recently?
+
+## 2\. Create and track an inventory of all problem determination artifacts
+
+Make an inventory of all the important problem determination artifacts
+(log files, coredumps, conf files, etc.) in the system:
+
+  - Note what each file is for, its name, location, purpose, typical
+    contents, and its typical size.
+
+  - Use architecture diagram to review all useful problem determination
+    artifacts.
+
+  - Simply “knowing” that the artifact exists doesn't suffice. Though
+    everything may be set-up & documented perfectly in theory, check
+    live system periodically to verify that all real-life artifacts are
+    getting generated as expected. And that there are enough resources
+    to hold artifacts like enough disk space, etc.
+
+  - Make sure that articfacts are not purged/overwritten too quickly,
+    and are not accidentally deleted/overwritten if system is restarted
+    after an incident.
+
+While having artifacts is useful. Having quality artifacts without much
+noise and useless/distracting info can ease the process
+considerably.
+
+## 3\. Pay special attention to dumps and other artifacts that are only generated when a problem occurs
+
+There are generally a variety of configuration options that control how
+and when these artifacts are generated:
+
+  - For any file that can be generated automatically when a problem is
+    detected: carefully consider the potential benefit – and impact – of
+    having this file produced automatically, and set up the
+    configuration accordingly. If the potential benefit is high and the
+    impact is low, make sure that this feature is enabled.
+
+  - Make sure that these configurations work as expected by testing
+    them.
+
+## 4\. Review and optimize the level of diagnostics during normal operation
+
+Effective serviceability is always a trade-off:
+
+  - On one hand, to maximize the chances of being able to determine the
+    cause of a problem upon its first occurrence, one wants to gather
+    maximum amount of diagnostic data from system at all times.
+
+  - But gathering very detailed diagnostics can cause a substantial
+    performance overhead. Therefore, for performance reasons, one might
+    be tempted to disable all diagnostics during normal operation of
+    system.
+
+Its important to find the right balance between these two conflicting
+goals. By default, most products and environments tend to err on the
+conservative side with a relatively small set of diagnostics enabled at
+all times. However, it is quite worthwhile to examine the specific
+constraints of particular production environment, the likelihood of
+specific problems, and specific performance requirements, and then
+enable as many additional diagnostics as you can afford during normal
+steady-state operation.
+
+## 5\. Watch low-level operating system and network metrics
+
+Such metrics are often overlooked, or considered only late in the course
+of a complex problem investigation, yet many of them are relatively easy
+and cheap to capture. In some particularly difficult cases, especially
+network-related problems, this information often plays a key role in
+tracking down the source. System level metrics are like:
+
+  - Overall CPU & memory usage for the entire machine, CPU & memory
+    usage of individual processes, Paging and disk I/O activity
+
+  - Rate of network traffic between various components,
+    reduction/total-loss of network connectivity between various
+    components
+
+While it's not practical to monitor every single system-level metric on
+a permanent basis, but where possible, pick a lightweight set of
+system-level metrics to monitor regularly, so that you have data both
+before a problem occurs, and when a problem does occur. It pays-off to
+write a few simple command scripts to run periodically and collect the
+most useful
+statistics.
+
+## 6\. Be prepared to actively generate additional diagnostics when a problem occurs
+
+In addition to normal artifacts present at time of an incident, the
+troubleshooting plan should consider any additional explicit actions
+that should be performed to obtain additional information as soon as an
+incident is detected – before the data disappears or the system is
+restarted.
+
+  - Actively trigger various system dumps, if they have not been
+    generated automatically - heap dump, system dump, etc.
+
+  - Take a snapshot of key Operating system metrics, such as process
+    states, sizes, CPU usage, and so on.
+
+  - Dynamically enable a specific trace, and collect that trace for a
+    given interval while the system is in the current unhealthy state.
+
+  - Actively test or “ping” various aspects of the system to see how
+    their behavior has changed compared to normal conditions, to try to
+    isolate the source of the problem in a multi-component system. – How
+    can you independently verify if some sub-module is working fine?
+
+Clearly, there are potentially infinite variety of such actions, and
+it's not possible to perform them all. A careful review of the
+application and the system architecture can help to anticipate the most
+likely failure modes, and decide which actions are very likely to yield
+most useful information on case-by-case basis.
+
+## 7\. Define a diagnostic collection plan -- and practice it
+
+When a problem happens, too often there is confusion, along with great
+pressure to restore the system to normal operation, causing mistakes
+that lead to unnecessary delays or general difficulties in
+troubleshooting. Having a plan of action, ensuring that everyone is
+aware of the plan of action – and rehearsing the execution of the plan
+ahead of time – are critical. While simplest diagnostic collection plan
+can be a plain, written documentation that lists all the detailed manual
+steps that must be taken. To be more effective, try to automate as much
+as this plan as possible, by providing one or more command scripts that
+can be invoked to perform a complex set of actions, or by using more
+sophisticated system management tools
+
+## 8\. Establish baselines
+
+“What's different now compared to yesterday when the problem was not
+occurring?” To answer this question, you must actively collect and
+maintain a baseline – an extensive info about state of system at a time
+when that system is operating normally. It includes:
+
+  - Copies of the various log files, trace files, etc., over a full day
+    period of time in normal operation of the system.
+
+  - Copies of few heap dumps, system dumps, or other types of artifacts
+    that are normally generated “on demand.”
+
+IMP: This activity can be combined with the earlier recommendation to
+test the generation of these artifacts on a healthy system before a
+problem occurs.
+
+  - Info about the normal transaction rates in the system, response
+    times, and so on.
+
+  - Various operating system level stats on a healthy system, such as
+    CPU usage for all processes, memory usage, network traffic, and so
+    on.
+
+  - Copies of other artifacts of normal expected results from the
+    special diagnostic collection actions, recommended earlier, for each
+    anticipated type of problem.
+
+Systems evolve, the load changes, and so what is representative of the
+“normal” state will likely not remain constant over time. So, remember
+to refresh this baseline info periodically. If there is a pattern of
+changes in load throughout the day, keep different baselines for
+different times.
+
+## 9\. Periodically purge, archive, or clean-up old logs and dumps
+
+Quantity is not always a good thing. This can actually hamper the
+troubleshooting process. Having too much logs will slow down artifact
+collection scripts, and thereby the entire troubleshooting process. In
+extreme cases, the system could run out of disk space and other system
+resources due to sheer volume of collected artifacts. So, the main
+objective should be to gather a maximum amount of diagnostic information
+just before and around the time of a problem. And keep or archive only
+sufficient amount of historical diagnostic information to serve as a
+baseline for comparison purposes.
+
+## 10\. Eliminate spurious errors and other "noise" in the logs
+
+If system generates a large volume of error messages, even during normal
+operation; then such benign or common errors are clearly not
+significant, but they make it more difficult to spot unusual errors
+among all the noise. To simplify future troubleshooting, either
+eliminate all such common errors, Or find a way to filter them out.
+
+## 11\. Keep a change log
+
+While using a baseline is certainly one way of identifying the recent
+changes, keeping a rigorous log of all changes that have been applied to
+the system over time can simplify the process of identifying the
+difference. When a problem occurs, you can look back through the log for
+any recent changes that might have contributed to the problem. You can
+also map these changes to the various baselines that have been collected
+in the past to ascertain how to interpret differences in these
+baselines. Your log should at least track all upgrades and software
+fixes applied in every software component in the system, including both
+infrastructure products and application code. It should also track every
+configuration change in any component. Ideally, it should also track any
+known changes in the pattern of usage of the system; for example,
+expected increases in load, a different mix of operations invoked by
+users, and so on. IMP: Be aware that the concept of change control, and
+keeping a change log, is generally broader than the troubleshooting
+arena. It is also considered one of the key best practices for managing
+complex systems to prevent problems, as opposed to troubleshooting them.
+
+## 12\. Setup ongoing system health monitoring
+
+In a surprising number of real-life cases, the overall health or
+performance of the system might degrade slowly over a long period before
+it finally leads to a serious problem. Therefore, having a good policy
+for continuous monitoring of the overall health of the system is an
+important part of an overall troubleshooting plan. Rather than wait for
+a problem to be reported externally, system could be scanned for
+potential problems. Again, simple command scripts or sophisticated
+system management tools, if available, can be used to facilitate this
+monitoring. Things that might be monitored are:
+
+  - Significant errors in the logs emitted by the various components.
+
+  - Metrics produced by each component should remain within acceptable
+    norms (Ex, CPU and memory stats, transaction rate, and so on).
+
+  - Spontaneous appearance of special artifacts that only get generated
+    when a problem occurs, such as system dumps, heap dumps, and so on.
+
+  - Periodically send a “ping” through various system components or the
+    application, verifying that it continues to respond as expected.
+
+Derived from
+[IBM](http://www.ibm.com/developerworks/websphere/techjournal/0708_supauth/0708_supauth.html).
+

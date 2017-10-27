@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Performance Profiling on Linux | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Performance Profiling on Linux</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="using-perf-on-linux">Using Perf on Linux</h2>
+<p>System wide profiling :- Linux kernel has recently implemented a very useful ‘perf’ infrastructure for profiling various CPU and software events. To get the perf command, install linux-tools-common on ubuntu, linux-base on debian, perf-utils on archlinux, or perf on fedora. Then $ perf record -a -g sleep 10 # record system for 10s $ perf report –sort comm,dso # display report using kernel config like menu</p>
+<p><code>profiling can be problematic on x86_64, due to -fno-omit-frame-pointer being removed to increase performance</code></p>
+<p>Application level profiling :- One can use perf to profile a particular command too, with a variant of the above, like ‘perf record -g $command’. Ex <code>$ perf list $ perf record -e stalled-cycles -F 10000 ./git gc $ perf report $ perf annotate find_pack_entry_one $ perf stat --sync --repeat 10 ./git gc $ perf record --event=L1-dcache-load-misses ./perftest $ perf report --stdio $ perf record -g ./perftest $ perf report -g --stdio</code></p>
+<p>Alternatively, valgrind can be used. <code>$ valgrind --tool=callgrind ./a.out $ kcachegrind callgrind.out.*</code></p>
+<p>Profiling hardware events :- Efficient use of the memory hierarchy is crucial for performance. Newer CPUs are providing counters to help tune your use of this hierarchy. Taking example code like below: static char array[1000][1000]; int main (void) { int i, j; for (i = 0; i &lt; 1000; i++) for (j = 0; j &lt; 1000; j++) array[j][i]++; return 0; } On hardware that supports enumerating cache hits and misses, you can run: $ perf stat –repeat 10 -e cycles:u -e instructions:u -e l1-dcache-loads:u<br />
+-e l1-dcache-load-misses:u ./a.out</p>
+<p>Just changing array[j][i]++; to array[i][j]++; can do miracles. Similarly $ perf top -e l1-dcache-load-misses -e l1-dcache-loads</p>
+<p>Specialised profiling :- To profile system entry-points (syscalls), one can do: $ strace -c $cmd $ ltrace -c $cmd</p>
+<p>Bootchart application can be used to profile application/service startup times on different platforms. It is included in most of the distros.</p>
+<p>LatencyTop can be used to see resource usage bottlenecks in system.</p>
+<h2 id="gprof">GProf:</h2>
+<p>GNU Profiling Tools is used for profiling a code, checking for mostly executed API’s and least executed ones etc.</p>
+<p>Simple steps to profile the code using gprof is: * compile and link the code using -pg option * run the application. it will create gmon.out in current folder of app * in folder of gmon.out, do $ gprof <path-to-app></p>
+<p>[rkks@in-fuchsia][~/test]$ gprof a.out gmon.out: No such file or directory</p>
+<p>[rkks@in-fuchsia][~/test]$ gcc -o test_sw_num -g -pg test_sw_num.c test_sw_num.c: In function `l2ha_switch_id’: test_sw_num.c:26: warning: initialization makes pointer from integer without a c ast [rkks@in-fuchsia][~/test]$ [rkks@in-fuchsia][~/test]$ ./test_sw_num Global switch id is: 0 Damon : Opened socket , mac 00:52:BB:40:06:41 Damon : Opened socket , mac 00:52:BB:40:06:44</p>
+<p>[rkks@in-fuchsia][~/test]$ ls -l gmon.out -rw-r–r– 1 rkks ce 491 May 13 16:10 gmon.out</p>
+<p>[rkks@in-fuchsia][~/test]$ gprof test_sw_num &gt; test_sw_num.prof [rkks@in-fuchsia][~/test]$ cat test_sw_num.prof Flat profile:</p>
+<p>Each sample counts as 0.01 seconds. no time accumulated</p>
+<p>% cumulative self self total time seconds seconds calls Ts/call Ts/call name 0.00 0.00 0.00 1 0.00 0.00 get_sys_mac 0.00 0.00 0.00 1 0.00 0.00 l2ha_switch_id</p>
+<p>% the percentage of the total running time of the time program used by this function.</p>
+<p>cumulative a running sum of the number of seconds accounted seconds for by this function and those listed above it.</p>
+<p>self the number of seconds accounted for by this seconds function alone. This is the major sort for this listing.</p>
+<p>calls the number of times this function was invoked, if this function is profiled, else blank.</p>
+<p>self the average number of milliseconds spent in this ms/call function per call, if this function is profiled, else blank.</p>
+<p>total the average number of milliseconds spent in this ms/call function and its descendents per call, if this function is profiled, else blank.</p>
+<p>name the name of the function. This is the minor sort for this listing. The index shows the location of the function in the gprof listing. If the index is in parenthesis it shows where it would appear in the gprof listing if it were to be printed.</p>
+<pre><code>                 Call graph (explanation follows)</code></pre>
+<p>granularity: each sample hit covers 2 byte(s) no time propagated</p>
+<p>index % time self children called name 0.00 0.00 1/1 main [9][1] 0.0 0.00 0.00 1 get_sys_mac [1] ———————————————– 0.00 0.00 1/1 main [9][2] 0.0 0.00 0.00 1 l2ha_switch_id [2] ———————————————–</p>
+<p>This table describes the call tree of the program, and was sorted by the total amount of time spent in each function and its children.</p>
+<p>Each entry in this table consists of several lines. The line with the index number at the left hand margin lists the current function. The lines above it list the functions that called this function, and the lines below it list the functions this one called. This line lists: index A unique number given to each element of the table. Index numbers are sorted numerically. The index number is printed next to every function name so it is easier to look up where the function in the table.</p>
+<pre><code> % time     This is the percentage of the `total&#39; time that was spent
+            in this function and its children.  Note that due to
+            different viewpoints, functions excluded by options, etc,
+            these numbers will NOT add up to 100%.
+
+ self       This is the total amount of time spent in this function.
+
+ children   This is the total amount of time propagated into this
+            function by its children.
+
+ called     This is the number of times the function was called.
+            If the function called itself recursively, the number
+            only includes non-recursive calls, and is followed by
+            a `+&#39; and the number of recursive calls.
+
+ name       The name of the current function.  The index number is
+            printed after it.  If the function is a member of a
+            cycle, the cycle number is printed between the
+            function&#39;s name and the index number.</code></pre>
+<p>For the function’s parents, the fields have the following meanings:</p>
+<pre><code> self       This is the amount of time that was propagated directly
+            from the function into this parent.
+
+ children   This is the amount of time that was propagated from
+            the function&#39;s children into this parent.
+
+ called     This is the number of times this parent called the
+            function `/&#39; the total number of times the function
+            was called.  Recursive calls to the function are not
+            included in the number after the `/&#39;.
+
+ name       This is the name of the parent.  The parent&#39;s index
+            number is printed after it.  If the parent is a
+            member of a cycle, the cycle number is printed between
+            the name and the index number.</code></pre>
+<p>If the parents of the function cannot be determined, the word <code>&lt;spontaneous&gt;' is printed in the</code>name’ field, and all the other fields are blank.</p>
+<p>For the function’s children, the fields have the following meanings:</p>
+<pre><code> self       This is the amount of time that was propagated directly
+            from the child into the function.
+
+ children   This is the amount of time that was propagated from the
+            child&#39;s children to the function.
+
+ called     This is the number of times the function called
+            this child `/&#39; the total number of times the child
+            was called.  Recursive calls by the child are not
+            listed in the number after the `/&#39;.
+
+ name       This is the name of the child.  The child&#39;s index
+            number is printed after it.  If the child is a
+            member of a cycle, the cycle number is printed
+            between the name and the index number.</code></pre>
+<p>If there are any cycles (circles) in the call graph, there is an entry for the cycle-as-a-whole. This entry shows who called the cycle (as parents) and the members of the cycle (as children.) The `+’ recursive calls entry shows the number of function calls that were internal to the cycle, and the calls entry for each member shows, for that member, how many times it was called from other members of the cycle.</p>
+<p>Index by function name</p>
+<p>[1] get_sys_mac [2] l2ha_switch_id (test_sw_num.c)</p>
+<h3 id="interesting-gprof-options">Interesting gprof options</h3>
+<p>“-z” “–display-unused-functions” If you give the -z option, “gprof” will mention all functions in the flat profile, even those that were never called, and that had no time spent in them. This is useful in conjunction with the -c option for discovering which routines were never called.</p>
+<h3 id="removed-unused-functions-and-parameters-during-link-stage">Removed unused functions and parameters during link stage</h3>
+<p>CFLAGS += -Wno-unused-function -Wno-unused-parameter</p>
+<h3 id="to-avoid-the-warning-dereferencing-type-punned-pointer-will-break-strict-aliasing-rules-in-sb_.c-cflags--fno-strict-aliasing">To avoid the “warning: dereferencing type-punned pointer will break strict-aliasing rules” in sb_*.c CFLAGS += -fno-strict-aliasing</h3>
+<p>Do this in your Makefile… ——–8&lt;——– DEADCODESTRIP := -Wl,-static -fvtable-gc -fdata-sections -ffunction-sections -Wl,–gc-sections -Wl,-s</p>
+<p>foo : foo.c g++ $(DEADCODESTRIP) $&lt; -o $@ ——–8&lt;——–</p>
+<p>Step by step…</p>
+<p>-Wl,-static -fvtable-gc -fdata-sections -ffunction-sections -Wl,–gc-sections -Wl,-s | | | | | | | | | | | +- Strip debug info, to make code as small | | | | +- Tell linker to garbage collect &amp; discard unused sections. | | | +- Keeps functions in separate data sections (so as to discard unused) | | +- Keeps data in separate data sections, so they can be discarded if unused. | +- C++ virtual method table instrumented with garbage collection information for linker. +- Link against static libraries. Required for dead-code elimination.</p>
+<h3 id="optimization-options-rmios_libscriptsmakefile.mk">Optimization options <code>(rmios_lib/scripts/Makefile.mk)</code></h3>
+<p>ifeq (“<span class="math inline">$(GDBDEBUGGER)&quot;,&quot;1&quot;)  opt-level = 0  CFLAGS += -g3 -DGDB_REMOTE_DEBUG=1 endif CFLAGS += -O$</span>(opt-level) ifneq (<span class="math inline">(<em>u</em><em>n</em><em>r</em><em>o</em><em>l</em><em>l</em> − <em>l</em><em>o</em><em>o</em><em>p</em><em>s</em>),<em>N</em>)<em>C</em><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em> + = − <em>f</em><em>u</em><em>n</em><em>r</em><em>o</em><em>l</em><em>l</em> − <em>l</em><em>o</em><em>o</em><em>p</em><em>s</em><em>e</em><em>n</em><em>d</em><em>i</em><em>f</em><em>i</em><em>f</em><em>e</em><em>q</em>(</span>(inline-limit),) inline-limit = 20000 endif CFLAGS += -finline-limit=$(inline-limit) CFLAGS += -fomit-frame-pointer -mno-branch-likely CFLAGS += -march=xlr -mabi=o64 CFLAGS += -Wall -Werror CFLAGS += -G0 ASFLAGS += <span class="math inline">(<em>C</em><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em>)−<em>D</em><sub><em></em><sub><em>A</em></sub></sub><em>S</em><em>S</em><em>E</em><em>M</em><em>B</em><em>L</em><em>Y</em><sub><em></em><sub><em>L</em></sub></sub><em>I</em><em>N</em><em>K</em><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em> + = − <em>d</em> − <em>w</em><em>a</em><em>r</em><em>n</em> − <em>c</em><em>o</em><em>m</em><em>m</em><em>o</em><em>n</em> − −<em>n</em><em>o</em> − <em>w</em><em>a</em><em>r</em><em>n</em> − <em>m</em><em>i</em><em>s</em><em>m</em><em>a</em><em>t</em><em>c</em><em>h</em><em>L</em><em>I</em><em>N</em><em>K</em><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em> + = − <em>L</em></span>(RMIOS_LIB)/lib/newlib/mips64xlr-elf/lib/soft-float/ CFLAGS += -mno-abicalls -fno-pic -fno-common LINKFLAGS += –export-dynamic</p>
+<h2 id="papi">PAPI:</h2>
+<ul>
+<li>First measure with non-optimized code (-O0) by instrumenting with PAPI</li>
+<li>Then measure successively with -O1, -O2, and -O3.</li>
+<li>Then optimize by hand as required.</li>
+</ul>
+<h2 id="oprofile-your-4-step-plan-to-profiling.">Oprofile (Your 4-step plan to profiling.)</h2>
+<ol style="list-style-type: decimal">
+<li>Compile and install oprofile, making sure to use –with-linux option to point to your current kernel source, or –with-kernel-support for 2.6 kernels.</li>
+</ol>
+<p>2.Start up the profiler : $ opcontrol –vmlinux=/path/to/vmlinux $ opcontrol –start</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Check if Oprofile is present in kernel <code>$ lsmod  | grep oprofile $ cat /dev/oprofile/buffer $ cat /dev/oprofile/cpu_type</code></p></li>
+<li><p>Once Oprofile module is in kernel, do the profiling on any binary given</p></li>
+</ol>
+<p>5.Now let’s generate a profile summary : $ opreport -l /path/to/mybinary Or, if we built our binary with -g, we can produce some annotated source : $ opannotate –source –output-dir=/path/to/annotated-source /path/to/mybinary Or we can look at the rankings of the various system components as a whole : $ opreport If you reinstall Oprofile over a previous version you need, before starting the profiler, to: $ opcontrol –reset</p>
+<p>Couple of tries I did. <code>$ cd /boot/ $ od -A d -t x1 vmlinuz | grep '1f 8b 08 00' $ od -A d -t x1 vmlinuz-2.6.18-53.el5PAE | grep '1f 8b 08 00' $ dd if=vmlinuz bs=1 skip=8328 | zcat &gt; vmlinux $ dd if=vmlinuz-2.6.18-53.el5PAE bs=1 skip=8328 | zcat &gt; vmlinux $ dd if=vmlinuz-2.6.18-53.el5PAE bs=1 skip=8328 | &gt; vmlinux $ opcontrol -V --init $ opcontrol -l $ opreport --exclude-dependent $ opcontrol --start $ opcontrol --setup $ vi /var/lib/oprofile/oprofiled.log $ vi /var/lib/oprofile/complete_dump $ vi /var/lib/oprofile/samples/oprofiled.log $ opcontrol --dump $ opcontrol --reset $ opreport --demangle=smart --symbols /root/test_diam_cli/aq_acc  --symbols /boot/vmlinux $ opcontrol --stop $ cat /dev/core $ sh -x opcontrol --setup --vmlinux=/boot/vmlinux --event=CPU_CLK_UNHALTED:100000 $ less /proc/cpuinfo $ opcontrol --list-events $ opcontrol --vmlinux=/boot/vmlinux-`uname -r` $ opcontrol --deinit</code></p>
+<h2 id="strace-cheatsheet">Strace cheatsheet</h2>
+<ol style="list-style-type: decimal">
+<li><p>To trace all system calls invoked by given application $ strace <cmd> [cmd-args] The output of strace itself comes on stderr. To capture strace output onto a file, do redirect stderr to stdout. 2&gt;&amp;1 Since output of cmd itself may be of little interest, it makes sense to redirect all stdout to /dev/null. i.e. &gt;/dev/null. Ex. strace ls 2&gt;&amp;1 &gt;/dev/null | tee log</p></li>
+<li><p>To trace only single system call type invoked $ strace -e <syscall-type> <cmd> [cmd-args] $ strace -e open ls</p></li>
+<li><p>To trace multiple system calls as specified $ strace -e trace=<type1>,<type2>,… <cmd> [cmd-args] $ strace -e trace=open,read ls types are: network, open, read, write, connect, socket, clone, fork, execve, wait4, kill, pipe, clock_gettime, etc.</p></li>
+<li><p>To redirect execution output to a file $ strace -o output.txt <cmd></p></li>
+<li><p>Trace an already running process $ strace -p <pid></p></li>
+<li><p>To print timestamp for each output line $ strace -t</p></li>
+<li><p>To print relative time for syscalls $ strace -r</p></li>
+<li><p>To generate statistics report of system calls $ strace -c</p></li>
+<li><p>To increase the string length (for good output) $ strace -s 512</p></li>
+</ol>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

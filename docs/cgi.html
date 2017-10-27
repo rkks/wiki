@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>CGI Programming | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>CGI Programming</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="cgi">CGI</h2>
+<p>Common Gateway Interface mechanism has been standardized on most Web servers. In Document root of Web server, you create a subdirectory named cgi-bin. Any file requested from the cgi-bin directory isn’t simply read and sent, but instead would be executed. Output of the executed program is sent to browser.</p>
+HelloWorld.html:
+<html>
+<body>
+<pre><code> &lt;h1&gt;Hello World!&lt;/h1&gt;</code></pre>
+</body>
+</html>
+HelloWorld.c: #include &lt;stdio.h&gt; int main() { printf(“Content-type: text/html”); printf(“
+<html>
+“); printf(”
+<body>
+“); printf(”
+<h1>
+Hello World!
+</h1>
+“); printf(”
+</body>
+“); printf(”
+</html>
+<p>“); return 0; }</p>
+<p>gcc helloworld.c -o helloworld.cgi //Place helloworld.cgi in cgi-bin directory.</p>
+HelloWorld.pl: #! /usr/bin/perl print “Content-type: text/html”; print “
+<html>
+<body>
+<h1>
+Hello World!“; print”
+</h1>
+</body>
+</html>
+<p>“;</p>
+<p>chmod 755 helloworld.pl //Place helloworld.cgi in cgi-bin directory.</p>
+<p>“Content-type: text/html” must be the first thing sent to the browser by any CGI script.</p>
+<p>For information to be persistent, the data must be stored in some file/database. This is because program will exit soon that it has printed the information. Next time when program is run, if it wants to remember its last time state, it needs to preserve that data somewhere. Since data could be accessed by more than one user at same time, the program should be re-entrant and so should be the data stored on machine.</p>
+<p>Sending input to a cgi-bin script can be done via URL. Ex. http://xyz.abc/cgi-bin/pqr.cgi?param1=val&amp;param2=value&amp;param3=value&amp;&amp;param4=value&amp;param5=value</p>
+<html>
+<body>
+<h1>
+A super-simple form
+<h1>
+<FORM METHOD=GET ACTION="http://www.howstuffworks.com/cgi-bin/simpleform.cgi">
+Enter Your Name: <input name="Name" size=20 maxlength=50>
+<P>
+<INPUT TYPE=submit value="Submit"> <INPUT TYPE=reset value="Reset">
+</FORM>
+</body>
+</html>
+<h1 id="include-stdio.h">include &lt;stdio.h&gt;</h1>
+<h1 id="include-stdlib.h">include &lt;stdlib.h&gt;</h1>
+int main() { printf(“Content-type: text/html”); printf(“
+<html>
+“); printf(”
+<body>
+“); printf(”
+<h1>
+The value entered was: “) printf(”%s
+</h1>
+“, getenv(”QUERY_STRING“)); printf(”
+</body>
+“); printf(”
+</html>
+<p>“); return 0; } gcc simpleform.c -o simpleform.cgi</p>
+<p>The value provided on URL if contains spaces, it should be replaced with a +. Ex. “John Smith” is given as “John+Smith” http://xyz.abc/cgi-bin/pqr.cgi?name=John+Smith</p>
+<p>Couple of checklists: * Each input field on the form should have a unique identifier. That param-name/input-name should be unique for each field. * The form needs to use GET or POST method. * With GET form values can be seen on URL, but not with POST. * With GET debugging is easier than POST. * GET has an upper limit on MAX number of characters that could be transmitted. POST is useful for large forms. * Query using GET is updated at QUERY_STRING environment variable. Use getenv() * Query using POST is available via stdin. Use gets() in C or read in PERL * On concat of all inputs into a single string, characters will be substituted, like space with +. So, translation required. * Different environment variables available in CGI scripting - AUTH_TYPE, CONTENT_LENGTH, CONTENT_TYPE, GATEWAY_INTERFACE, HTTP_ACCEPT, HTTP_USER_AGENT, PATH_INFO, PATH_TRANSLATED, QUERY_STRING, REMOTE_ADDR, REMOTE_HOST, REMOTE_IDENT, REMOTE_USER, REQUEST_METHOD, SCRIPT_NAME, SERVER_NAME, SERVER_PORT, SERVER_PROTOCOL, SERVER_SOFTWARE</p>
+Multiple Form inputs: * Single-line text input Enter Name: <input name="Name" size=30 maxlength=50 value="Sample"> * Multi-line text input
+<textarea name="Company Address" cols="30" rows="4">
+</textarea>
+<ul>
+<li>Check boxes <input type=checkbox name="Include" value=1></li>
+<li>Selection lists Select an Option<br> <SELECT size=2 NAME="Option"> <OPTION> Option 1 <OPTION> Option 2 <OPTION> Option 3 <OPTION> Option 4 </SELECT></li>
+<li>Radio buttons Choose the search area:<br> <input type=radio CHECKED name=universe value=US-STOCK> Stocks <input type=radio name=universe value=CA-STOCK> Canadian Stocks <input type=radio name=universe value=MMF> Money Markets <input type=radio name=universe value=MUTUAL> Mutual Funds</li>
+<li>Specialized buttons for submitting or clearing the form <INPUT TYPE=submit value="Submit"> <INPUT TYPE=reset value="Reset"></li>
+</ul>
+Survey.html:
+<html>
+<body>
+<pre><code>&lt;h1&gt;HSW Survey Form&lt;h1&gt;
+&lt;FORM METHOD=POST ACTION=&quot;http://www.howstuffworks.com/cgi-bin/survey.cgi&quot;&gt;
+Enter Your Name:
+&lt;input name=&quot;Name&quot; size=20 maxlength=50&gt;
+&lt;P&gt;Enter your sex:
+&lt;input type=radio CHECKED name=sex value=MALE&gt;Male
+&lt;input type=radio name=sex value=FEMALE&gt;Female
+&lt;P&gt;Select your age&lt;br&gt;
+&lt;SELECT size=2 NAME=age&gt;
+  &lt;OPTION&gt; 1-10
+  &lt;OPTION&gt; 11-20
+  &lt;OPTION&gt; 21-30
+  &lt;OPTION&gt; 31-40
+  &lt;OPTION&gt; 41-50
+  &lt;OPTION&gt; 51-60
+  &lt;OPTION&gt; 61 and up
+&lt;/SELECT&gt;
+&lt;P&gt;Enter Your Comment:
+&lt;input name=&quot;Name&quot; size=40 maxlength=100&gt;
+&lt;P&gt;
+&lt;INPUT TYPE=submit value=&quot;Submit&quot;&gt;
+&lt;INPUT TYPE=reset value=&quot;Reset&quot;&gt;
+&lt;/FORM&gt;</code></pre>
+</body>
+</html>
+<p>Redirection using CGI: CGI scripts can be used to redirect the incoming request to some other page. To do that, the cgi binary/script should emit: Location: http://www.nexturl.here</p>
+<p>URL Encoding/Decoding a String: Encoding is simple, you must replace certain special characters with their hex codes or + for space. Hex codes are prefixed with a % sign.</p>
+<p>Cookies: Cookies can be used to store some persistent data with client/browser. Next time when client visits server, it provides this information to server. Cookies sent to server by client are stored in HTTP_COOKIE environment variable. To set a cookie, you should emit something like below: Set-Cookie: name=value; expires=date; path=path; domain=domain; secure</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

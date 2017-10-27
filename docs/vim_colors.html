@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>VIM color schemes | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>VIM color schemes</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="how-to-create-your-own-vim-color-schemes">How to create your own vim color schemes</h2>
+<p>Boilerplate code that must be present in every color scheme: <code>set background=light highlight clear if exists(&quot;syntax_on&quot;)     syntax reset endif let g:colors_name = &quot;Test Light&quot;</code></p>
+<p>gui = bold, italic, underline guibg = #hex value guifg = #hex value</p>
+<p>highlight default <group-name> <key-val-pairs></p>
+<p>.vimrc setting displays the group-name of word under cursor. set statusline+={%{synIDattr(synID(line(‘.’),col(‘.’),1),‘name’)}} &quot; show highlight group for current word</p>
+<p>Vim provides default colors for both light and dark backgrounds. One only needs to change the colors that they choose to.</p>
+<p>While defining the colorscheme, it is better to specify all key-value pairs including: guifg, guibg, gui, cterm, ctermfg, ctermbg, term. If you don’t want to specify any value for a key-value pair, put value as NONE. This will ensure that default colors don’t trail, thereby making the colorscheme display much more reliable. So, simple highlight line would be:</p>
+<p>highlight <group-name> cterm=NONE ctermbg=NONE ctermfg=NONE gui=NONE guibg=NONE guifg=NONE</p>
+<p>If one highlight option is create, same can be applied to multiple groups by linking them:</p>
+<p>highlight link <group2> <group1></p>
+<p>To know all highlight groups available with vim, ‘help highlight-groups’. Some important groups are:</p>
+<ul>
+<li>Comment - All sorts of comments.</li>
+<li>Constant - All types of constants viz.
+<ul>
+<li>Character - ‘c’, ‘’</li>
+<li>String - “Hello World”</li>
+<li>Number - 123, 0x234</li>
+<li>Boolean - TRUE, false</li>
+<li>Float - 2.3e10</li>
+</ul></li>
+<li>Identifier - Any variable name, including function names.
+<ul>
+<li>Function - Function name, Method name in Classes</li>
+</ul></li>
+<li>Statement - Any statement
+<ul>
+<li>Conditional - if, then, else, endif, switch, etc.</li>
+<li>Repeat - for, while, do, etc.</li>
+<li>Label - case, default</li>
+<li>Operator - sizeof, +, -, *, /, etc.</li>
+<li>Keyword - Language identified or user specified.</li>
+<li>Exception - try, catch, throw</li>
+</ul></li>
+<li>PreProc - Pre processor
+<ul>
+<li>Include - #include</li>
+<li>Define - #define</li>
+<li>Macro -</li>
+<li>PreCondit - #if, #else, #endif, etc.</li>
+</ul></li>
+<li>Type - Any data types - int, char, long, etc.
+<ul>
+<li>StorageClass - static, volatile, register, etc.</li>
+<li>Structure - struct, union, enum, etc.</li>
+<li>Typedef -</li>
+</ul></li>
+<li>Special - Any special symbol
+<ul>
+<li>SpecialChar - Any special char in a constant.</li>
+<li>Tag - Ctags tag</li>
+<li>Delimiter - ;</li>
+<li>SpecialComment -</li>
+<li>Debug - Debug statements</li>
+</ul></li>
+<li>Underlined - Like HTML links,</li>
+<li>Ignore - left, blank, hidden, etc.</li>
+<li>Error - any erroneous construct</li>
+<li>Todo - Anything that requires attention.</li>
+</ul>
+<p>Reserved group names that can’t be used are: NONE, ALL, ALLBUT, contains, contained If you highlight the top group, you don’t need to individually define color for each sub-group. Also, these group names are not case sensitive.</p>
+<p>lightblue=32 darkgrey=235</p>
+<p>================================================================================================================ Default Colors - Vim 7.3 FreeBSD.</p>
+<p>SpecialKey xxx term=bold ctermfg=4 guifg=Blue NonText xxx term=bold cterm=bold ctermfg=4 gui=bold guifg=Blue Directory xxx term=bold ctermfg=4 guifg=Blue ErrorMsg xxx term=standout cterm=bold ctermfg=7 ctermbg=1 guifg=White guibg=Red IncSearch xxx term=reverse cterm=reverse gui=reverse Search xxx term=reverse ctermfg=0 ctermbg=3 guibg=Yellow MoreMsg xxx term=bold ctermfg=2 gui=bold guifg=SeaGreen ModeMsg xxx term=bold cterm=bold gui=bold LineNr xxx term=underline ctermfg=3 guifg=Brown Question xxx term=standout ctermfg=2 gui=bold guifg=SeaGreen StatusLine xxx term=bold,reverse cterm=bold,reverse gui=bold,reverse StatusLineNC xxx term=reverse cterm=reverse gui=reverse VertSplit xxx term=reverse cterm=reverse gui=reverse Title xxx term=bold ctermfg=5 gui=bold guifg=Magenta Visual xxx term=reverse cterm=reverse guibg=LightGrey VisualNOS xxx cleared WarningMsg xxx term=standout ctermfg=1 guifg=Red WildMenu xxx term=standout ctermfg=0 ctermbg=3 guifg=Black guibg=Yellow Folded xxx term=standout ctermfg=4 ctermbg=7 guifg=DarkBlue guibg=LightGrey FoldColumn xxx term=standout ctermfg=4 ctermbg=7 guifg=DarkBlue guibg=Grey DiffAdd xxx term=bold ctermbg=6 guibg=LightBlue guisp=DarkCyan DiffChange xxx term=bold ctermbg=5 guibg=LightMagenta DiffDelete xxx term=bold cterm=bold ctermfg=4 ctermbg=6 gui=bold guifg=Blue guibg=LightCyan DiffText xxx term=reverse cterm=bold ctermbg=1 gui=bold guibg=Red SignColumn xxx term=standout ctermfg=4 ctermbg=7 guifg=DarkBlue guibg=Grey Conceal xxx cleared SpellBad xxx term=reverse ctermbg=1 gui=undercurl guisp=Red SpellCap xxx term=reverse ctermbg=4 gui=undercurl guisp=Blue SpellRare xxx term=reverse ctermbg=5 gui=undercurl guisp=Magenta SpellLocal xxx term=underline ctermbg=6 gui=undercurl guisp=DarkCyan Pmenu xxx ctermbg=5 guibg=LightMagenta PmenuSel xxx ctermbg=7 guibg=Grey PmenuSbar xxx ctermbg=7 guibg=Grey PmenuThumb xxx cterm=reverse gui=reverse TabLine xxx term=underline cterm=underline ctermfg=0 ctermbg=7 gui=underline guibg=LightGrey TabLineSel xxx term=bold cterm=bold gui=bold TabLineFill xxx term=reverse cterm=reverse gui=reverse CursorColumn xxx term=reverse ctermbg=7 guibg=Grey90 CursorLine xxx term=underline cterm=underline guibg=Grey90 ColorColumn xxx ctermbg=7 guibg=LightGrey MatchParen xxx term=reverse ctermbg=6 guibg=Cyan Comment xxx term=bold ctermfg=4 guifg=Blue Constant xxx term=underline ctermfg=1 guifg=Magenta Special xxx term=bold ctermfg=5 guifg=SlateBlue Identifier xxx term=underline ctermfg=6 guifg=DarkCyan Statement xxx term=bold ctermfg=3 gui=bold guifg=Brown PreProc xxx term=underline ctermfg=5 guifg=Purple Type xxx term=underline ctermfg=2 gui=bold guifg=SeaGreen Underlined xxx term=underline cterm=underline ctermfg=5 gui=underline guifg=SlateBlue Ignore xxx cterm=bold ctermfg=7 guifg=bg Error xxx term=reverse cterm=bold ctermfg=7 ctermbg=1 guifg=White guibg=Red Todo xxx term=standout ctermfg=0 ctermbg=3 guifg=Blue guibg=Yellow String xxx links to Constant Character xxx links to Constant Number xxx links to Constant Boolean xxx links to Constant Float xxx links to Number Function xxx links to Identifier Conditional xxx links to Statement Repeat xxx links to Statement Label xxx links to Statement Operator xxx links to Statement Keyword xxx links to Statement Exception xxx links to Statement Include xxx links to PreProc Define xxx links to PreProc Macro xxx links to PreProc PreCondit xxx links to PreProc StorageClass xxx links to Type Structure xxx links to Type Typedef xxx links to Type Tag xxx links to Special SpecialChar xxx links to Special Delimiter xxx links to Special SpecialComment xxx links to Special Debug xxx links to Special BufferSelected xxx term=reverse cterm=bold ctermfg=7 ctermbg=7 BufferNormal xxx ctermfg=0 ctermbg=7 cType xxx cleared cOperator xxx cleared vimTodo xxx links to Todo vimCommand xxx links to Statement vimOption xxx links to PreProc vimErrSetting xxx links to vimError vimAutoEvent xxx links to Type vimGroup xxx links to Type vimHLGroup xxx links to vimGroup vimFuncName xxx links to Function vimNumber xxx links to Number vimAddress xxx links to vimMark vimAutoCmd xxx links to vimCommand vimExtCmd xxx cleared vimFilter xxx cleared vimLet xxx links to vimCommand vimMap xxx links to vimCommand vimMark xxx links to Number vimSet xxx cleared vimSyntax xxx links to vimCommand vimUserCmd xxx cleared vimCmdSep xxx cleared vimIsCommand xxx cleared vimVar xxx cleared vimFBVar xxx cleared vimInsert xxx links to vimString vimBehaveModel xxx links to vimBehave vimBehaveError xxx links to vimError vimBehave xxx links to vimCommand vimFTCmd xxx links to vimCommand vimFTOption xxx links to vimSynType vimFTError xxx links to vimError vimFiletype xxx cleared vimFunction xxx cleared vimFunctionError xxx links to vimError vimLineComment xxx links to vimComment vimSpecFile xxx links to Identifier vimOper xxx links to Operator vimOperParen xxx cleared vimComment xxx links to Comment vimString xxx links to String vimSubst xxx links to vimCommand vimRegister xxx links to SpecialChar vimCmplxRepeat xxx links to SpecialChar vimRegion xxx cleared vimSynLine xxx cleared vimNotation xxx links to Special vimCtrlChar xxx links to SpecialChar vimFuncVar xxx links to Identifier vimContinue xxx links to Special vimAugroupKey xxx links to vimCommand vimAugroup xxx cleared vimAugroupError xxx cleared vimFunc xxx links to vimError vimParenSep xxx links to Delimiter vimSep xxx links to Delimiter vimOperError xxx links to Error vimFuncKey xxx links to vimCommand vimFuncSID xxx links to Special vimAbb xxx links to vimCommand vimEcho xxx cleared vimEchoHL xxx links to vimCommand vimExecute xxx cleared vimIf xxx cleared vimHighlight xxx links to vimCommand vimNorm xxx links to vimCommand vimNotFunc xxx links to vimCommand vimUserCommand xxx links to vimCommand vimFuncBody xxx cleared vimFuncBlank xxx cleared vimPattern xxx links to Type vimSpecFileMod xxx links to vimSpecFile vimEscapeBrace xxx cleared vimSetEqual xxx cleared vimSetString xxx links to vimString vimSubstRep xxx cleared vimSubstRange xxx cleared vimUserAttrb xxx links to vimSpecial vimUserAttrbKey xxx links to vimOption vimUserAttrbCmplt xxx links to vimSpecial vimUserCmdError xxx links to Error vimUserAttrbCmpltFunc xxx links to Special vimCommentString xxx links to vimString vimEnvvar xxx links to PreProc vimPatSepErr xxx links to vimPatSep vimPatSep xxx links to SpecialChar vimPatSepZ xxx links to vimPatSep vimPatSepZone xxx links to vimString vimPatSepR xxx links to vimPatSep vimPatRegion xxx cleared vimNotPatSep xxx links to vimString vimStringCont xxx links to vimString vimSubstTwoBS xxx links to vimString vimSubstSubstr xxx links to SpecialChar vimCollection xxx cleared vimSubstPat xxx cleared vimSubst1 xxx links to vimSubst vimSubstDelim xxx links to Delimiter vimSubstRep4 xxx cleared vimSubstFlagErr xxx links to vimError vimCollClass xxx cleared vimCollClassErr xxx links to vimError vimSubstFlags xxx links to Special vimMarkNumber xxx links to vimNumber vimPlainMark xxx links to vimMark vimPlainRegister xxx links to vimRegister vimSetMod xxx links to vimOption vimSetSep xxx links to Statement vimMapMod xxx links to vimBracket vimMapLhs xxx cleared vimAutoCmdSpace xxx cleared vimAutoEventList xxx cleared vimAutoCmdSfxList xxx cleared vimEchoHLNone xxx links to vimGroup vimMapBang xxx links to vimCommand vimUnmap xxx links to vimMap vimMapRhs xxx cleared vimMapModKey xxx links to vimFuncSID vimMapModErr xxx links to vimError vimMapRhsExtend xxx cleared vimMenuBang xxx cleared vimMenuPriority xxx cleared vimMenuName xxx links to PreProc vimMenuMod xxx links to vimMapMod vimMenuNameMore xxx links to vimMenuName vimMenuMap xxx cleared vimMenuRhs xxx cleared vimBracket xxx links to Delimiter vimUserFunc xxx links to Normal vimElseIfErr xxx links to Error vimBufnrWarn xxx links to vimWarn vimNormCmds xxx cleared vimGroupSpecial xxx links to Special vimGroupList xxx cleared vimSynError xxx links to Error vimSynContains xxx links to vimSynOption vimSynKeyContainedin xxx links to vimSynContains vimSynNextgroup xxx links to vimSynOption vimSynType xxx links to vimSpecial vimAuSyntax xxx cleared vimSynCase xxx links to Type vimSynCaseError xxx links to vimError vimClusterName xxx cleared vimGroupName xxx cleared vimGroupAdd xxx links to vimSynOption vimGroupRem xxx links to vimSynOption vimSynKeyOpt xxx links to vimSynOption vimSynKeyRegion xxx cleared vimMtchComment xxx links to vimComment vimSynMtchOpt xxx links to vimSynOption vimSynRegPat xxx links to vimString vimSynMatchRegion xxx cleared VimSynMtchCchar xxx cleared vimSynPatRange xxx links to vimString vimSynNotPatRange xxx links to vimSynRegPat vimSynRegOpt xxx links to vimSynOption vimSynReg xxx links to Type vimSynMtchGrp xxx links to vimSynOption vimSynRegion xxx cleared vimSynPatMod xxx cleared vimSyncC xxx links to Type vimSyncLines xxx cleared vimSyncMatch xxx cleared vimSyncError xxx links to Error vimSyncLinebreak xxx cleared vimSyncLinecont xxx cleared vimSyncRegion xxx cleared vimSyncGroupName xxx links to vimGroupName vimSyncKey xxx links to Type vimSyncGroup xxx links to vimGroupName vimSyncNone xxx links to Type vimHiLink xxx cleared vimHiClear xxx cleared vimHiKeyList xxx cleared vimHiBang xxx cleared vimHiGroup xxx links to vimGroupName vimHiAttrib xxx links to PreProc vimFgBgAttrib xxx links to vimHiAttrib vimHiAttribList xxx links to vimError vimHiCtermColor xxx cleared vimHiFontname xxx cleared vimHiGuiFontname xxx cleared vimHiGuiRgb xxx links to vimNumber vimHiCtermError xxx links to vimError vimHiTerm xxx links to Type vimHiCTerm xxx links to vimHiTerm vimHiStartStop xxx links to vimHiTerm vimHiCtermFgBg xxx links to vimHiTerm vimHiGui xxx links to vimHiTerm vimHiGuiFont xxx links to vimHiTerm vimHiGuiFgBg xxx links to vimHiTerm vimHiKeyError xxx links to vimError vimHiTermcap xxx cleared vimCommentTitle xxx links to PreProc vimCommentTitleLeader xxx cleared vimSearchDelim xxx links to Statement vimSearch xxx links to vimString vimGlobal xxx cleared vimEmbedError xxx links to vimError vimAugroupSyncA xxx cleared vimAuHighlight xxx links to vimHighlight vimError xxx links to Error vimKeyCodeError xxx links to vimError vimWarn xxx links to WarningMsg vimAutoCmdOpt xxx links to vimOption vimAutoSet xxx links to vimCommand vimCondHL xxx links to vimCommand vimElseif xxx links to vimCondHL vimSynOption xxx links to Special vimKeyCode xxx links to vimSpecFile vimSpecial xxx links to Type vimFold xxx links to Folded vimHLMod xxx links to PreProc vimKeyword xxx links to Statement vimScriptDelim xxx links to Comment vimStatement xxx links to Statement Normal xxx cleared RedundantSpaces xxx ctermbg=7</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

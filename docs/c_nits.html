@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>C Programming Nits | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Deadbeef.html"> Deadbeef</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>C Programming Nits</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<ol style="list-style-type: decimal">
+<li><p>Machine dependency Word length is machine dependent, C supports several data types with different word lengths for each format. Integer formats (one’s complement or two’s complement) and floating point formats are machine dependent.</p></li>
+<li>Two basic function usage rules to remember:
+<ol style="list-style-type: lower-alpha">
+<li>The compiler does not convert function parameters from floating point to integer and vice versa.</li>
+<li>If a function returns a data type other than an integer, you must inform the compiler of the return data type before you call it (by including appropriate header files and function prototypes).</li>
+</ol></li>
+</ol>
+<p>For Ex, sqrt() expects double input, but this is ‘const int’. hence asm conversion doesn’t yield correct results. printf(“%.8g”, sqrt(25));</p>
+<p>a call with floating pt. input, but not including correct header file makes compiler to interpret result incorrectly. printf(“%.8g”, sqrt(25.));</p>
+<p>a call with floating pt. input and inclusion of correct header file and link by -lm option gives correct output. #include &lt;math.h&gt; printf(“%.8g”, sqrt(25.));</p>
+<p>The way that in absence of declared return value of a function, compiler assumes it to be an int. Same way, it also assumes type as int for input params too.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>While using macros, the recommended approach by C standard is to guard them with do{ }while(0); `` #define X(x) do {<br />
+_tmp = (x);<br />
+</li>
+</ol>
+<ol start="25" style="list-style-type: lower-alpha">
+<li>= (_tmp);<br />
+</li>
+<li>= (_tmp)<br />
+} while (0) ``</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Using GNU indent, we can significantly reduce the time required to indent any C source code. We can make it automated.</p></li>
+<li><p>Return values of processes on Unix systems are mostly governed by shell. The shell dictates convention by which a child process must return an 8-bit number representing it status: 0 for normal termination, 0 &gt; n &lt; 128 for process detected abnormal termination, and n &gt; 128 for signal induced termination.</p></li>
+<li><p>Watch for Interrupted calls: A number of API functions return an error code if the call was interrupted by a signal. Usually this is not an error by itself and the call should be restarted. For instance: `` int raccept( int s, struct sockaddr <em>addr, socklen_t </em>addrlen ) { int rc; do { rc = accept( s, addr, addrlen ); } while ( rc == -1 &amp;&amp; errno == EINTR );</p>
+<p>return rc; } ``</p></li>
+</ol>
+<p>The list of interruptible function differs from Unix-like platform to platform.</p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Watch for Spurious wake-ups: Threads waiting on a pthreads condition variable can be waken up even if the condition has not been met. Upon waking up, the condition should be explicitly checked and return waiting if it is not met.</p></li>
+<li><p>Everything is a file descriptor: As just about anything is a file (folders, sockets, pipes, etc…), just about anything can result in a file descriptor that needs to be closed. /proc file system can provide info on open FD.</p></li>
+</ol>
+<h1 id="tree-proc26041">tree /proc/26041</h1>
+<p>/proc/26041 … |– fd # Open files descriptors | |– 0 -&gt; /dev/pts/21 | |– 1 -&gt; /dev/pts/21 | |– 2 -&gt; /dev/pts/21 | <code>-- 3 -&gt; socket:[113497835] |-- fdinfo |   |-- 0 |   |-- 1 |   |-- 2 |</code>– 3 …</p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Interposition libraries to intercept for open, close, bind, socket, etc. syscalls can be written to trace these FDs.</p></li>
+<li><p>How can a C program produce a core dump of itself without terminating? <code>void create_dump(void) { if(!fork()) {     // Crash the app in your favorite way here     abort() || (*((void*)0) = 42); } }</code></p></li>
+</ol>
+<p>Note: Remember, this wouldn’t give full snapshot of all threads in original process. It only gives state of first thread. That is because fork() creates only the first thread layout at child. Use google core-dumper for realistic working.</p>
+<p>Even GNU libc provides api to print callstack at runtime. And gcore can be used to take snapshot of process at runtime.</p>
+<h2 id="integer-overflows">Integer Overflows</h2>
+<p>Integer Overflows - They are handled differently for signed and unsigned integers. This is because C standard states signed integer overflow as an undefined behavior. For unsigned integers, following gcc options would catch most of the errors:</p>
+<pre><code>gcc -Wtype-limits -Wstrict-overflow=5 -fstrict-overflow -Wsign-compare</code></pre>
+<p>Some of the signed integer overflows can be caught using ‘-fwrapv’ option of gcc, but not all. ‘-fwrapv’ tells the compiler to treat signed overflow as wrapping. That is how Java defines signed overflow. The disadvantage of ‘-fwrapv’ is that it inhibits optimizations.</p>
+<p>int f(int i) { int j, k = 0; for (j = i; j &lt; i + 10; ++j) ++k; return k; }</p>
+<p>In example above, if compiler can assume that signed overflow is undefined, function can simply return 10. With ‘-fwrapv’, it has to treat a value like 0x7ffffff8 which will overflow during the loop. Hence gcc has provided 2 options:</p>
+<ul>
+<li>-fno-strict-overflow - tells the compiler that it may not assume that signed overflow is undefined.</li>
+<li>-Wstrict-overflow - tells compiler to warn about cases where it uses ‘signed overflow is undefined’ to optimize code.</li>
+</ul>
+<p>Difference between -fwrapv and -Wstrict-overflow is seen only on processors that do not use the ordinary twos-complement arithmetic: -fwrapv requires twos-complement overflow, and -fno-strict-overflow does not. On common processors, they behave same, however, affect optimizers differently. The difference occurs because -fwrapv precisely specifies how the overflow should behave. -fno-strict-overflow merely says that the compiler should not optimize away the overflow.</p>
+<p>One way to handle these signed integer overflows is by reducing values of both sides like:</p>
+<p><code>size_t alloc = SIZE_MAX; if (alloc &lt; SIZE_MAX - BUFSIZ) ............</code></p>
+<p>Or else use explicit/implicit casting to wider types like below:</p>
+<p><code>/* Explicit casting to wider types.  */ off_t chunk_size (off_t file_size, int n) {     assert (n &amp;&amp; n &lt;= file_size);     /* Given the above assertion, the largest 'file_size%n' can be      * 'file_size-n' as n will divide file_size at least once */     return ((uintmax_t) file_size + n/2) / n; /* round() */ }</code> <code>8 bits for a char isn't guaranteed by C standard; you can always override value by writing CHAR_BIT from limits.h. Neither does it guarantee that an integer arithmentic will use the 2's complement method.</code></p>
+<p>For an unsigned 32-bit wide integer 0xffffffff if you add 1, it wraps back to 0 again. For a signed 32-bit integer minimum value is 0x80000000 and maximum is 0x7fffffff. Given above, the easiest way to check if overflow has happened is to check:</p>
+<p>if ((a+b) &lt; a) // OR a+b &lt; b; whichever suits.</p>
+<p>This may not always work because, when adding a number to a pointer or to a signed integer, overflow is undefined.</p>
+<p>Couple of pitfalls here:</p>
+<p>1: abs(-2147483648) &lt; 0 abs() returns the argument if it is positive, or the negated argument if it is negative. But unfortunately, negative of -2147483648 viz. -(-2147483648) is still -2147483648 (on a 32-bit platform). So, don’t rely on abs() to provide non-negative number.</p>
+<p>2: adding a positive number to an integer might make it smaller if you add two 32-bit numbers, the result can have 33 bits. On the CPU level, this is usually in form of a ‘carry flag’. But unfortunately, there is no way to access this carry bit from C directly. Storing result in a bigger data type, OR checking MAX of variable type and comparing result to it doesn’t work always. Hence it is good to do the checking of result before doing operation. But it has its own flaws. For unsigned data types, minimum value is 0, and the maximum value is (type) -1 (that is, -1 cast to the type we want) But this doesn’t work for signed data types. Fortunately, for both signed and unsigned var, the minimum value is the bitwise NOT of the maximum value (the ~ operator in C). That is: ~0x80000000 is equal to 0x7fffffff.</p>
+<p>So, simple macros to calculate these min and max would be: #define __HALF_MAX_SIGNED(type) ((type)1 &lt;&lt; (sizeof(type)*8-2)) #define __MAX_SIGNED(type) (__HALF_MAX_SIGNED(type) - 1 + __HALF_MAX_SIGNED(type)) #define __MIN_SIGNED(type) (-1 - __MAX_SIGNED(type))</p>
+<h1 id="define-__mintype-type-1-1__min_signedtypetype0-define-__maxtype-type__mintype">define __MIN(type) ((type)-1 &lt; 1?__MIN_SIGNED(type):(type)0) #define __MAX(type) ((type)~__MIN(type))</h1>
+<p>Next question would be to findout whether we can assign a value to a variable without truncation/loosing precision. For ex, if (1 + -5) is assigned to an unsigned int, result will still overflow. Macro is:</p>
+<h1 id="define-assigndestsrc-typeofsrc-__xsrc-typeofdest-__y__x-__x__y-__x1-__y1voiddest__y01">define assign(dest,src) ({<br />
+typeof(src) __x=(src);<br />
+typeof(dest) __y=__x;<br />
+(__x==__y &amp;&amp; ((__x&lt;1) == (__y&lt;1))?(void)((dest)=__y),0:1);<br />
+})</h1>
+<p>Finally, Add and subtract macros are: #define add_of(c,a,b) ({<br />
+typeof(a) __a=a;<br />
+typeof(b) __b=b;<br />
+(__b)&lt;1 ?<br />
+((__MIN(typeof(c))-(__b)&lt;=(__a))?assign(c,__a+__b):1) :<br />
+((__MAX(typeof(c))-(__b)&gt;=(__a))?assign(c,__a+__b):1);<br />
+})</p>
+<h1 id="define-sub_ofcab-typeofa-__aa-typeofb-__bb-__b1-__maxtypeofc__b__aassignc__a-__b1-__mintypeofc__b__aassignc__a-__b1">define sub_of(c,a,b) ({<br />
+typeof(a) __a=a;<br />
+typeof(b) __b=b;<br />
+(__b)&lt;1 ?<br />
+((__MAX(typeof(c))+(__b)&gt;=(__a))?assign(c,__a-__b):1) :<br />
+((__MIN(typeof(c))+(__b)&lt;=(__a))?assign(c,__a-__b):1);<br />
+})</h1>
+<p>3: Multiplication can overflow, too On most platforms, the CPU has a multiply instruction that returns a double width integer. Ex, multiply of two 32-bit integers results into a 64-bit integer. But in C, if you multiply two 32-bit integers, you get a 32-bit integer again, losing the upper 32 bits of the result. Fortunately, if you cast the first integer to a 64-bit number, and keep the destination as a 64-bit number, then result will be 64-bit wide.</p>
+<p>int umult32(uint32 a,uint32 b,uint32* c) { unsigned long long x=(unsigned long long)a<em>b; if (x&gt;0xffffffff) return 0; </em>c=x&amp;0xffffffff; return 1; }</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

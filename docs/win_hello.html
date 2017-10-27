@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Windows Programming Basics | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Deadbeef.html"> Deadbeef</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Windows Programming Basics</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="windows-helloworld-example">Windows HelloWorld Example</h2>
+<p>`` // GT_HelloWorldWin32.cpp // compile with: /D_UNICODE /DUNICODE /DWIN32 /D_WINDOWS /c</p>
+<h1 id="include-windows.h">include &lt;windows.h&gt;</h1>
+<h1 id="include-stdlib.h">include &lt;stdlib.h&gt;</h1>
+<h1 id="include-string.h">include &lt;string.h&gt;</h1>
+<h1 id="include-tchar.h">include &lt;tchar.h&gt;</h1>
+<p>[RK] Win32 API definitions in windows.h, UNICODE definitions in tchar.h</p>
+<p>// Global variables</p>
+<p>// The main window class name. static TCHAR szWindowClass[] = _T(“win32app”);</p>
+<p>// The string that appears in the application’s title bar. static TCHAR szTitle[] = _T(“Win32 Guided Tour Application”);</p>
+<p>HINSTANCE hInst;</p>
+<p>// Forward declarations of functions included in this code module: LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM); [RK] Window procedure function, a GUI event handler</p>
+<p>int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) [RK] Entry point for any Win32 Application { WNDCLASSEX wcex;</p>
+<pre><code>wcex.cbSize = sizeof(WNDCLASSEX);
+wcex.style          = CS_HREDRAW | CS_VREDRAW;
+wcex.lpfnWndProc    = WndProc;
+wcex.cbClsExtra     = 0;
+wcex.cbWndExtra     = 0;
+wcex.hInstance      = hInstance;
+wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
+wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
+wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+wcex.lpszMenuName   = NULL;
+wcex.lpszClassName  = szWindowClass;
+wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
+
+if (!RegisterClassEx(&amp;wcex))
+{
+    MessageBox(NULL,
+        _T(&quot;Call to RegisterClassEx failed!&quot;),
+        _T(&quot;Win32 Guided Tour&quot;),
+        NULL);
+
+    return 1;
+}</code></pre>
+<p>[RK] WinMain() initializes structure WNDCLASSEX (Window Properties) and registers it with OS using RegisterClassEx().</p>
+<pre><code>hInst = hInstance; // Store instance handle in our global variable
+
+// The parameters to CreateWindow explained:
+// szWindowClass: the name of the application
+// szTitle: the text that appears in the title bar
+// WS_OVERLAPPEDWINDOW: the type of window to create
+// CW_USEDEFAULT, CW_USEDEFAULT: initial position (x, y)
+// 500, 100: initial size (width, length)
+// NULL: the parent of this window
+// NULL: this application does not have a menu bar
+// hInstance: the first parameter from WinMain
+// NULL: not used in this application
+HWND hWnd = CreateWindow(
+    szWindowClass,
+    szTitle,
+    WS_OVERLAPPEDWINDOW,
+    CW_USEDEFAULT, CW_USEDEFAULT,
+    500, 100,
+    NULL,
+    NULL,
+    hInstance,
+    NULL
+);
+
+if (!hWnd)
+{
+    MessageBox(NULL,
+        _T(&quot;Call to CreateWindow failed!&quot;),
+        _T(&quot;Win32 Guided Tour&quot;),
+        NULL);
+
+    return 1;
+}
+
+// The parameters to ShowWindow explained:
+// hWnd: the value returned from CreateWindow
+// nCmdShow: the fourth parameter from WinMain
+ShowWindow(hWnd,
+    nCmdShow);
+UpdateWindow(hWnd);</code></pre>
+<p>[RK] Then create a Window using CreateWindow(), and display it using ShowWindow() and UpdateWindow()</p>
+<pre><code>// Main message loop:
+MSG msg;
+while (GetMessage(&amp;msg, NULL, 0, 0))
+{
+    TranslateMessage(&amp;msg);
+    DispatchMessage(&amp;msg);
+}</code></pre>
+<p>[RK] Finally, continuously loop in GUI event dispatcher. Dispatches GUI events to event handler – WndProc()</p>
+<pre><code>return (int) msg.wParam;</code></pre>
+<p>}</p>
+<p>// // FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM) // // PURPOSE: Processes messages for the main window. // // WM_PAINT - Paint the main window // WM_DESTROY - post a quit message and return // // LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) { PAINTSTRUCT ps; HDC hdc; TCHAR greeting[] = _T(“Hello, World!”);</p>
+<pre><code>switch (message)
+{
+case WM_PAINT:
+    hdc = BeginPaint(hWnd, &amp;ps);
+
+    // Here your application is laid out.
+    // For this introduction, we just print out &quot;Hello, World!&quot;
+    // in the top left corner.
+    TextOut(hdc,
+        5, 5,
+        greeting, _tcslen(greeting));
+    // End application-specific layout section.
+
+    EndPaint(hWnd, &amp;ps);</code></pre>
+<p>[RK] WM_PAINT, called to update display window (with contents). All UI logic should be guarded between BeginPaint() and EndPaint().</p>
+<pre><code>    break;
+case WM_DESTROY:
+    PostQuitMessage(0);</code></pre>
+<p>[RK] WM_DESTROY, called to Quit the current Window.</p>
+<pre><code>    break;
+default:
+    return DefWindowProc(hWnd, message, wParam, lParam);
+    break;
+}
+
+return 0;</code></pre>
+<p>} ``</p>
+<h2 id="windows-debugging---ms-help-guide">Windows Debugging - MS Help Guide</h2>
+<p>(http://msdn.microsoft.com/en-us/library/windows/hardware/ff551063%28v=vs.85%29.aspx)</p>
+<p>Tools included: UMDH - User Mode Dump Heap. Analyzes heap memory allocations for a process. For each allocation, display size of allocation, size of overhead, pointer to allocation, and allocation stack. Done for all active heaps used by a process.</p>
+<p>Standard Debugging Techniques:</p>
+<p>Mostly microsoft specific debugger usage and know-how stuff. No general debugging techniques mentioned.</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-% Book Reviews
+% Reviews
 % Ravikiran K.S.
 % 
 
@@ -28,7 +28,7 @@ Captured following details in most of the reviews:
     
       - (I) would have detailed summary, sometimes categorized by
         chapters/topics, illustrations, key takeaways. Don't be
-        surprised if you find paragraphs quoted “as it is” to maintain
+        surprised if you find paragraphs quoted as it is to maintain
         brevity of content.
 
 ## Posts

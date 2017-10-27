@@ -6,6 +6,13 @@
 	<link>http://rkks.github.io/wiki/</link>
 	<atom:link href="http://rkks.github.io/wiki/feed.xml" rel="self" type="application/rss+xml" />
 	<item>
+		<title>Zero Index - A Technology Retrospective</title>
+		<link>http://rkks.github.io/wiki/zero_index.html</link>
+		<guid>http://rkks.github.io/wiki/zero_index.html</guid>
+		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
+		<description>If you begin to count from 0 on, its very probable that you are a computer programmer.[...]</description>
+	</item>
+	<item>
 		<title>Younger You (Category K)</title>
 		<link>http://rkks.github.io/wiki/youngeryou.html</link>
 		<guid>http://rkks.github.io/wiki/youngeryou.html</guid>
@@ -13,11 +20,32 @@
 		<description>Supplementing with additional zinc can create good health all over. The latest research shows that zinc can protect us against specific immune diseases, such as esophageal cancer. I consider the essential nutrient zinc to be a super aging code buster because it is able to achieve all of the following:[...]</description>
 	</item>
 	<item>
+		<title>XLR NPU</title>
+		<link>http://rkks.github.io/wiki/xlr_npu.html</link>
+		<guid>http://rkks.github.io/wiki/xlr_npu.html</guid>
+		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
+		<description>PP50 packet processing is logically somewhat similar to FFU based frame handling engine in Fulcrum. XLR has frame distribution engine. This frame distribution engine has a TCAM and associated Action Table. Whenever a frame description matches a regular expression, the action is to trigger one of the XLR threads to process the message. This trigger is composed of a message notifying the XLR thread about incoming frame matching a defined criteria (regular expression). This message can also contain some additional information about the frame being received. Frame distribution engine copies the packet to certain area in RAM using DMA and triggers a particular XLR thread to process this frame by providing location of frame in RAM, some of its details encoded into the message. Based on this information, thread decides either to process or discard the message. If it opts to process, it typically invokes encryption engine to decode the frame in given memory location as indicated by frame distribution engine. Once encryption engine is done with decoding of the message, it puts the decoded message into same previous location of frame and triggers the XLR thread back to process the decoded frame. Now, XLR thread reads only chosen fields over header of the decoded message to identify the action to be taken on the frame. This way a packet processing engine achieves maximum out of the power by distributing different tasks to hardware units and itself doing the task of enqueing and dequeing the message in pipeline. So, the CPU in itself has got very limited time to read, identify, process, and dispatch a frame from the queue. As capacity of ethernet channel increases, the lesser time is available with processor to process the message.[...]</description>
+	</item>
+	<item>
+		<title>Writing Debuggable Code</title>
+		<link>http://rkks.github.io/wiki/debuggable_code.html</link>
+		<guid>http://rkks.github.io/wiki/debuggable_code.html</guid>
+		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
+		<description>Logs at important stages to identify flow of code. It should be possible to get some sense of where the problem is just from the logs, without need for recompile.[...]</description>
+	</item>
+	<item>
+		<title>Writing Bug-Free C Code - Review</title>
+		<link>http://rkks.github.io/wiki/bugfree_code.html</link>
+		<guid>http://rkks.github.io/wiki/bugfree_code.html</guid>
+		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
+		<description>The key to eliminating bugs from your code is learning from your mistakes.[...]</description>
+	</item>
+	<item>
 		<title>Working on Large Codebase</title>
 		<link>http://rkks.github.io/wiki/largecode.html</link>
 		<guid>http://rkks.github.io/wiki/largecode.html</guid>
 		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
-		<description>Step through code in debug mode to see how it works Pair up with someone more familiar with the code base than you, taking turns to be the person coding and the person watching/discussing. Rotate partners amongst team members so knowledge gets spread around. Write unit tests. Start with an assertion of how you think code will work. If it turns out as you expected, you’ve probably understood the code. If not, you’ve got a puzzle to solve and or an enquiry to make. (Thanks Donal, this is a great answer) Go through existing unit tests for functional code, in a similar fashion to above Read UML, Doxygen generated class diagrams and other documentation to get a broad feel of the code. Make small edits or bug fixes, then gradually build up Keep notes, and don’t jump in and start developing; it’s more valuable to spend time understanding than to generate messy or inappropriate code.[...]</description>
+		<description>It’s not the big code-base, which is a problem. Rather, it’s multiple things associated to it that cause the problem like: * Code itself is so big, it takes hours to fetch it, index it, modify it, and build it. * Loading it on machine takes long time, setting-up pre-conditions to test it is tedious. * Documentation isn’t easily accessible, not complete, sprayed in multiple places. * Tests aren’t readily accessible, they are not enough to verify if anything is broken. * After making changes, it’s not easy to commit. Processes, approvers, timezones, etc. * Each team has it’s own goals, timelines, development processes[...]</description>
 	</item>
 	<item>
 		<title>Work Habits</title>
@@ -32,34 +60,6 @@
 		<guid>http://rkks.github.io/wiki/wbsguidelines.html</guid>
 		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
 		<description>The following questions should stimulate thought when developing a WBS to manage the project:[...]</description>
-	</item>
-	<item>
-		<title>Wishlist</title>
-		<link>http://rkks.github.io/wiki/wishlist.html</link>
-		<guid>http://rkks.github.io/wiki/wishlist.html</guid>
-		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
-		<description>A wish can enter into wishlist only if it passes the litmus test.[...]</description>
-	</item>
-	<item>
-		<title>Wisdom Journal</title>
-		<link>http://rkks.github.io/wiki/wisdomjournal.html</link>
-		<guid>http://rkks.github.io/wiki/wisdomjournal.html</guid>
-		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
-		<description>This is a journal to capture different ideas. A place holder of sorts.[...]</description>
-	</item>
-	<item>
-		<title>Why would somebody pay money?</title>
-		<link>http://rkks.github.io/wiki/monetize.html</link>
-		<guid>http://rkks.github.io/wiki/monetize.html</guid>
-		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
-		<description>People want to look professional, the BOSS, the master of field, an expert[...]</description>
-	</item>
-	<item>
-		<title>Who Moved My Cheese - Dr. Richard Spencer (Category J)</title>
-		<link>http://rkks.github.io/wiki/whomovedcheese.html</link>
-		<guid>http://rkks.github.io/wiki/whomovedcheese.html</guid>
-		<pubDate>Sun, 01 Jan 2006 00:00:00 +0530</pubDate>
-		<description>Wisdom in a Nutshell from Who Moved My Cheese?[...]</description>
 	</item>
     </channel>
 </rss>

@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Solaris notes | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Solaris notes</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="tips-and-tricks">Tips and tricks</h2>
+<h3 id="failsafe-booting-in-solaris">Failsafe booting in Solaris</h3>
+<blockquote>
+<p>boot -F failsafe</p>
+</blockquote>
+<h3 id="sniff-packets-on-network-card">sniff packets on network card</h3>
+<p>$ snoop -d uplink0 -s 250 -o uplink0.cap arp &gt; uplink0.log 2&gt;&amp;1 &amp;</p>
+<h3 id="check-file-system">Check file system</h3>
+<p>$ dumpe2fs [mount point] - gives file system statistics , options &amp; other datails for given mount point.</p>
+<h3 id="dump-system-call-tracing-for-given-process">Dump system call tracing for given process</h3>
+<p>$ strace [binary name] - shows system call trace by given binay - truss is the command used in solaris</p>
+<ul>
+<li>Check and enable http service (if not already enabled) $ svcs -a | grep -i http # gives service path and status $ svcadm -v enable /network/http:apache2 # enable http service $ svcs -p /network/http:apache2 # lists processes for service $ svcs -x http OR $ svcs -l http # provides detailed info $ svcadm restart /network/http:apache2 # restart http service $ svcadm disable /network/http:apache2 # disable http service</li>
+</ul>
+<h2 id="solaris-process-debugging-tools">Solaris process debugging tools</h2>
+<h3 id="solaris-8-process-debugging-tools">Solaris 8 Process debugging Tools</h3>
+<pre><code> /usr/bin/pflags [ -r ]  [ pid | core ]  ...
+ /usr/bin/pcred [ pid | core ]  ...
+ /usr/bin/pmap [ -rxlF ]  [ pid | core ]  ...
+ /usr/bin/pldd [ -F ]  [ pid | core ]  ...
+ /usr/bin/psig pid ...
+ /usr/bin/pstack [ -F ]  [ pid | core ]  ...
+ /usr/bin/pfiles [ -F ]  pid ...
+ /usr/bin/pwdx [ -F ]  pid ...
+ /usr/bin/pstop pid ...
+ /usr/bin/prun pid ..
+ /usr/bin/pwait [ -v ]  pid ...
+ /usr/bin/ptree [ -a ]  [  [ pid | user ]  ... ]
+ /usr/bin/ptime command  [ arg ... ]
+ /usr/bin/pgrep  [  -flnvx  ]   [  -d delim  ]   [  -P ppidlist  ]
+ [ -g pgrplist ]  [ -s sidlist ]  [ -u euidlist ]  [ -U uidlist ]
+ [ -G gidlist ]  [ -J projidlist ]   [  -t termlist  ]   [ -T
+ taskidlist ]  [ pattern ]
+ /usr/bin/pkill [ -signal ]  [ -fnvx ]  [ -P ppidlist ]  [ -g
+ pgrplist ]   [  -s sidlist  ]   [  -u euidlist  ]   [ -U uidlist]
+ [ -G gidlist  ]   [  -J projidlist  ]   [  -t termlist  ]    [-T
+ taskidlist ]  [ pattern ]</code></pre>
+<h3 id="solaris-9-process-tools">Solaris 9 Process Tools</h3>
+<pre><code> /usr/bin/pflags [-r] [pid | core] ...
+ /usr/bin/pcred [pid | core] ...
+ /usr/bin/pldd [-F] [pid | core] ...
+ /usr/bin/psig [-n] pid...
+ /usr/bin/pstack [-F] [pid | core] ...
+ /usr/bin/pfiles [-F] pid...
+ /usr/bin/pwdx [-F] pid...
+ /usr/bin/pstop pid...
+ /usr/bin/prun pid...
+ /usr/bin/pwait [-v] pid...
+ /usr/bin/ptree [-a] [pid | user] ...
+ /usr/bin/ptime command [arg...]
+ /usr/bin/pmap -[xS] [-rslF] [pid | core] ...
+ /usr/bin/pgrep  [-flvx]  [-n  |  -o]   [-d delim]  [-P ppidlist]   [-
+ g pgrplist]   [-s sidlist]   [-u euidlist]  [-U uidlist]  [-
+ G gidlist]  [-J projidlist]  [-t termlist]   [-T taskidlist]
+ [pattern]
+ /usr/bin/pkill  [-signal]  [-fvx]  [-n  |   -o]    [-P ppidlist]   [-
+ g pgrplist]   [-s sidlist]   [-u euidlist]  [-U uidlist]  [-
+ G gidlist]  [-J projidlist]  [-t termlist]   [-T taskidlist]
+ [pattern]
+ /usr/bin/plimit [-km] pid...
+                 {-cdfnstv} soft,hard... pid...
+ /usr/bin/ppgsz  [-F] -o option[,option]  cmd | -p pid...
+ /usr/bin/prctl [-t [basic | privileged | system] ] [ -e | -d  action]
+                [-rx] [ -n name [-v value]] [-i idtype] [id...]
+ /usr/bin/preap [-F] pid
+ /usr/bin/pargs [-aceFx] [pid | core] ...</code></pre>
+<h3 id="solaris-process-tool-examples">Solaris Process Tool Examples</h3>
+<p>sol8$ pflags $$ 482764: -ksh data model = _ILP32 flags = PR_ORPHAN /1: flags = PR_PCINVAL|PR_ASLEEP [ waitid(0x7,0x0,0xffbff938,0x7) ]</p>
+<p>sol8$ pcred $$ 482764: e/r/suid=36413 e/r/sgid=10 groups: 10 10512 570</p>
+<p>sol8$ pldd $$ 482764: -ksh /usr/lib/libsocket.so.1 /usr/lib/libnsl.so.1 /usr/lib/libc.so.1 /usr/lib/libdl.so.1 /usr/lib/libmp.so.2</p>
+<p>sol8$ psig $$ 15481: -zsh HUP caught 0 INT blocked,caught 0 QUIT blocked,ignored ILL blocked,default TRAP blocked,default ABRT blocked,default EMT blocked,default FPE blocked,default KILL default BUS blocked,default SEGV blocked,default SYS blocked,default PIPE blocked,default ALRM blocked,caught 0 TERM blocked,ignored USR1 blocked,default USR2 blocked,default CLD caught 0 PWR blocked,default WINCH blocked,caught 0 URG blocked,default POLL blocked,default STOP default TSTP blocked,ignored CONT blocked,default TTIN blocked,ignored TTOU blocked,ignored VTALRM blocked,default PROF blocked,default XCPU blocked,default XFSZ blocked,default WAITING blocked,default LWP blocked,default FREEZE blocked,default THAW blocked,default CANCEL blocked,default LOST blocked,default RTMIN blocked,default RTMIN+1 blocked,default RTMIN+2 blocked,default RTMIN+3 blocked,default RTMAX-3 blocked,default RTMAX-2 blocked,default RTMAX-1 blocked,default RTMAX blocked,default</p>
+<p>sol8$ pstack 5591 5591: /usr/local/mozilla/mozilla-bin —————– lwp# 1 / thread# 1 ——————– fe99a254 poll (513d530, 4, 18) fe8dda58 poll (513d530, fe8f75a8, 18, 4, 513d530, ffbeed00) + 5c fec38414 g_main_poll (18, 0, 0, 27c730, 0, 0) + 30c fec37608 g_main_iterate (1, 1, 1, ff2a01d4, ff3e2628, fe4761c9) + 7c0 fec37e6c g_main_run (27c740, 27c740, 1, fe482b30, 0, 0) + fc fee67a84 gtk_main (b7a40, fe482874, 27c720, fe49c9c4, 0, 0) + 1bc fe482aa4 ???????? (d6490, fe482a6c, d6490, ff179ee4, 0, ffe) fe4e5518 ???????? (db010, fe4e5504, db010, fe4e6640, ffbeeed0, 1cf10) 00019ae8 ???????? (0, ff1c02b0, 5fca8, 1b364, 100d4, 0) 0001a4cc main (0, ffbef144, ffbef14c, 5f320, 0, 0) + 160 00014a38 _start (0, 0, 0, 0, 0, 0) + 5c —————– lwp# 2 / thread# 2 ——————– fe99a254 poll (fe1afbd0, 2, 88b8) fe8dda58 poll (fe1afbd0, fe840000, 88b8, 2, fe1afbd0, 568) + 5c ff0542d4 ???????? (75778, 2, 3567e0, b97de891, 4151f30, 0) ff05449c PR_Poll (75778, 2, 3567e0, 0, 0, 0) + c fe652bac ???????? (75708, 80470007, 7570c, fe8f6000, 0, 0) ff13b5f0 Main__8nsThreadPv (f12f8, ff13b5c8, 0, 0, 0, 0) + 28 ff055778 ???????? (f5588, fe840000, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0) —————– lwp# 3 / thread# 3 ——————– fe8e4a74 SYS#77 (0, 0, 0) fe8e2448 cond_wait_queue (1, f5670, 0, fe1cbe00, 0, fe8f6000) + cc fe8e2bcc cond_wait (125ee8, f5670, 125ee8, 6b7800, 6b65d4, fe840298) + 10 fe8e2c08 pthread_cond_wait (125ee8, f5670, fe65d5f0, 0, fe64f300, 6b65d4) + 8 ff05054c PR_WaitCondVar (125ee0, ffffffff, 689c90, ff390ce4, ff3e2628, ff0a3daf) + 64 fe65cd60 ???????? (f5634, fe65aebc, 6b65c0, 0, 0, 0) fe65c728 ???????? (f55f8, fe65c704, f55fc, fe8f6000, 0, 0) ff13b5f0 Main__8nsThreadPv (118b70, ff13b5c8, 0, 0, 0, 0) + 28 ff055778 ???????? (f5730, fe840200, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0) —————– lwp# 5302 / thread# 5302 ——————– fe8e4a74 SYS#77 (0, fc7dfb80, 0) fe8e2448 cond_wait_queue (1, f90330, 0, fe1ca940, 0, fe8f6000) + cc fe8e29ac cond_wait_common (0, 0, fc7dfb80, 0, 0, fe8f6000) + 1ec fe8e2e18 _cond_timedwait (0, 0, fc7dfcb0, 41ffad0, f90330, 1) + 1f0 fe8e2e48 cond_timedwait (41ffad0, f90330, fc7dfcb0, 41ffad0, ff141960, ff00) + 14 fe8e2e88 pthread_cond_timedwait (41ffad0, f90330, fc7dfcb0, ff17797c, 1a7f2c8, fc7dfcb8) + c ff050358 ???????? (41ffad0, f90330, 0, ff152a3c, 1526858, fc7dfcd8) ff050564 PR_WaitCondVar (41ffac8, 186a0, 13a9180, ff152964, 0, ff152a84) + 7c ff050814 PR_Wait (f90328, 186a0, 539c118, ff13aa64, 0, 0) + 18 fcacf8e4 ???????? (1a7f0b8, fc7dfdf8, 1a7f130, ff13b0b8, 0, 0) fcacf05c ???????? (0, fcaceed4, 1a7f0bc, fe8f6000, 0, 0) ff13b5f0 Main__8nsThreadPv (452e648, ff13b5c8, 0, 0, 0, 0) + 28 ff055778 ???????? (391d408, fe841000, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0) —————– lwp# 5 / thread# 5 ——————– fe8e4a74 SYS#77 (0, fd87fc80, 0) fe8e2448 cond_wait_queue (1, cd688, 0, fe1cf400, 0, fe8f6000) + cc fe8e29ac cond_wait_common (0, 0, fd87fc80, 0, 0, fe8f6000) + 1ec fe8e2e18 _cond_timedwait (0, 0, fd87fdb0, ca8d0, cd688, 1) + 1f0 fe8e2e48 cond_timedwait (ca8d0, cd688, fd87fdb0, ca8d0, 0, 1526858) + 14 fe8e2e88 pthread_cond_timedwait (ca8d0, cd688, fd87fdb0, 2710, 0, fd87fdb8) + c ff050358 ???????? (ca8d0, cd688, 609d, b7a40, 0, 0) ff050564 PR_WaitCondVar (ca8c8, 609d, 0, b9865b88, 0, 0) + 7c ff13ecc8 Run__11TimerThread (d6ea8, ff13eb1c, d6ea8, fe8f6000, 0, 0) + 1ac ff13b5f0 Main__8nsThreadPv (cb868, ff13b5c8, 0, 0, 0, 0) + 28 ff055778 ???????? (1a0618, fe840600, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0) —————– lwp# 4840 / thread# 4840 ——————– fe8e4a74 SYS#77 (0, 0, 0) fe8e2448 cond_wait_queue (1, f5c88, 0, fe1cbac0, 0, fe8f6000) + cc fe8e2bcc cond_wait (125e70, f5c88, 125e70, 0, fe6418b4, fe840a98) + 10 fe8e2c08 pthread_cond_wait (125e70, f5c88, 0, ff0f6004, fe6559a4, ff152844) + 8 ff05054c PR_WaitCondVar (125e68, ffffffff, f5bc8, ff0f64cc, 0, 0) + 64 ff13c56c GetRequest__12nsThreadPoolP9nsIThread (f56d0, 3845470, 0, 0, 0, 0) + 1d8 ff13cd08 Run__20nsThreadPoolRunnable (50f62f0, ff13cce4, 50f62f0, fe8f6000, 0, 0) + 24 ff13b5f0 Main__8nsThreadPv (3845470, ff13b5c8, 0, 0, 0, 0) + 28 ff055778 ???????? (1619a08, fe840a00, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0) —————– lwp# 3654 / thread# 3654 ——————– fe8e4a74 SYS#77 (0, 0, 0) fe8e2448 cond_wait_queue (1, 22e4960, 0, fe1c8700, 0, fe8f6000) + cc fe8e2bcc cond_wait (40ff718, 22e4960, 40ff718, 5, fe956618, fe840898) + 10 fe8e2c08 pthread_cond_wait (40ff718, 22e4960, 0, fd23ff1c, 0, 0) + 8 ff05054c PR_WaitCondVar (40ff710, ffffffff, 0, fd23ff1c, ffffffff, 0) + 64 ff058e40 ???????? (0, ff058d58, 0, 0, 0, 0) ff055778 ???????? (1f18868, fe840800, 0, 0, 0, 0) fe8e4934 _lwp_start (0, 0, 0, 0, 0, 0)</p>
+<p>sol8$ pfiles <br /><span class="math display"><em>p</em><em>f</em><em>i</em><em>l</em><em>e</em><em>s</em></span><br /> 15481: -zsh Current rlimit: 256 file descriptors 0: S_IFCHR mode:0620 dev:118,0 ino:459678 uid:36413 gid:7 rdev:24,11 O_RDWR 1: S_IFCHR mode:0620 dev:118,0 ino:459678 uid:36413 gid:7 rdev:24,11 O_RDWR 2: S_IFCHR mode:0620 dev:118,0 ino:459678 uid:36413 gid:7 rdev:24,11 O_RDWR 3: S_IFDOOR mode:0444 dev:250,0 ino:51008 uid:0 gid:0 size:0 O_RDONLY|O_LARGEFILE FD_CLOEXEC door to nscd[328] 10: S_IFCHR mode:0620 dev:118,0 ino:459678 uid:36413 gid:7 rdev:24,11 O_RDWR|O_LARGEFILE</p>
+<p>sol8$ pwdx $$ 15481: /home/rmc</p>
+<p>sol8$ pstop $$ [argh!]</p>
+<p>sol8$ prun 21523</p>
+<p>sol8$ pwait 23141</p>
+<p>sol8$ ptree $$ 285 /usr/sbin/inetd -ts 15554 in.rlogind 15556 -zsh 15562 ksh 15657 ptree 15562</p>
+<p>sol9$ pmap -x $$ 492328: -ksh Address Kbytes RSS Anon Locked Mode Mapped File 00010000 192 192 - - r-x– ksh 00040000 8 8 8 - rwx– ksh 00042000 40 40 8 - rwx– [ heap ] FF180000 680 680 - - r-x– libc.so.1 FF23A000 24 24 - - rwx– libc.so.1 FF240000 8 8 8 - rwx– libc.so.1 FF280000 576 576 - - r-x– libnsl.so.1 FF310000 40 40 - - rwx– libnsl.so.1 FF31A000 24 16 - - rwx– libnsl.so.1 FF350000 16 16 - - r-x– libmp.so.2 FF364000 8 8 - - rwx– libmp.so.2 FF380000 40 40 - - r-x– libsocket.so.1 FF39A000 8 8 - - rwx– libsocket.so.1 FF3A0000 8 8 - - r-x– libdl.so.1 FF3B0000 8 8 8 - rwx– [ anon ] FF3C0000 152 152 - - r-x– ld.so.1 FF3F6000 8 8 8 - rwx– ld.so.1 FFBFC000 16 16 8 - rw— [ stack ] ——– ——- ——- ——- ——- total Kb 1856 1848 48 -</p>
+<p>sol8$ pgrep -u rmc 481 480 478 482 483 484 …..</p>
+<pre><code> /usr/bin/plimit [-km] pid...
+                 {-cdfnstv} soft,hard... pid...
+ /usr/bin/ppgsz  [-F] -o option[,option]  cmd | -p pid...
+ /usr/bin/prctl [-t [basic | privileged | system] ] [ -e | -d  action]
+                [-rx] [ -n name [-v value]] [-i idtype] [id...]
+ /usr/bin/preap [-F] pid
+ /usr/bin/pargs [-aceFx] [pid | core] ...</code></pre>
+<h2 id="mdb-debugger-tips-n-tricks">MDB Debugger Tips n Tricks</h2>
+<ol style="list-style-type: decimal">
+<li>::walk thread | ::findstack ! munges</li>
+<li>30013e05220::findstack</li>
+<li>::walk thread | ::findstack ! grep biowait | wc -l</li>
+<li>3000eda5328::as2proc | ::ps</li>
+</ol>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

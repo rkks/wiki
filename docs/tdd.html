@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>TDD with examples | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>TDD with examples</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<p>= Tutorial — How to use Cutter</p>
+<p>== Introduction</p>
+<p>We write a program (library) that implements a stack in C. We write a program with writing tests. To write tests, we use Cutter that is an unit testing framework for C.</p>
+<p>We use GNU build system (GNU Autoconf/GNU Automake/GNU Libtool) for build system. GNU build system lessens disparities on build environment. For this reason, we can build our program and tests on several environment easily.</p>
+<p>It’s better that a program works on several environment without many costs. If tests of the program works on the environment too, we can verify the program works well on the environment easily. It’s important that both a program and tests are works well on several environment easily.</p>
+<p>Cutter requires only GLib. GLib is a very portable library that works on not only UNIX-like system but also Windows and Mac OS X. Cutter provides many useful test support features with portability due to GLib. Cutter is a testing framework and respects to xUnit style.</p>
+<p>We will learn how to use Cutter with writing a stack implementation. We assume that Cutter is already installed into your system.</p>
+<p>There are source codes of this program in sample/stack/.</p>
+<p>== Directory hierarchy</p>
+<p>First, we need to setup a directory for our stack program. We use ‘stack’ as the directory name.</p>
+<p>% mkdir -p /tmp/stack % cd /tmp/stack</p>
+<p>Next, we make some directories: config/ that is for build auxiliary files, src/ that is for our source files and test/ that is for tests.</p>
+<p>[stack]% mkdir config src test</p>
+<p>After the above, we get the following directory hierarchy:</p>
+<p>stack/ -+- config/ for build auxiliary files | +- src/ for source files | +- test/ for tests</p>
+<p>== Use GNU build system</p>
+<p>In GNU build system start-up, some commands are ran and they generates some files automatically. They usually are run from an authgen.sh shell script. We follow the convention.</p>
+<p>autogen.sh: #!/bin/sh</p>
+<p>run() { $@ if test $? -ne 0; then echo “Failed $@” exit 1 fi }</p>
+<p>run aclocal ${ACLOCAL_ARGS} run libtoolize –copy –force run autoheader run automake –add-missing –foreign –copy run autoconf</p>
+<p>Don’t forget to make the autogen.sh executable.</p>
+<p>[stack]% chmod +x autogen.sh</p>
+<p>run() is a convenience function to confirm a result of ran command. The following list shows what is done by them:</p>
+<ul>
+<li>aclocal: collects macros that is used by Automake into aclocal.m4.</li>
+<li>libtoolize: prepares files that is needed by libtool.</li>
+<li>autoheader: generates config.h.in that is used by configure script.</li>
+<li>automake: generates Makefile.in that is used by configure script.</li>
+<li>autoconf: generates configure scripts.</li>
+</ul>
+<p>If we installed Cutter into different prefix with aclocal’s install prefix, you need to set ACLOCAL_ARGS environment variable. The environment variable is referred from autogen.sh. If we installed Cutter with $HOME/local prefix, here is an example command to set the environment variable:</p>
+<p>[stack]% export ACLOCAL_ARGS=$HOME/local/share/aclocal</p>
+<p>The following is a result of autogen.sh at this point:</p>
+<p>[stack]% ./autogen.sh aclocal: <code>configure.ac' or</code>configure.in’ is required Failed aclocal</p>
+<p>We need to prepare configure.ac that is for Autoconf.</p>
+<p>=== configure.ac</p>
+<p>The following is a minimum configure.ac for our autogen.sh.</p>
+<p>configure.ac: AC_PREREQ(2.59)</p>
+<p>AC_INIT(stack, 0.0.1, you@example.com) AC_CONFIG_AUX_DIR([config]) AC_CONFIG_HEADER([src/config.h])</p>
+<p>AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)</p>
+<p>AC_PROG_LIBTOOL</p>
+<p>AC_CONFIG_FILES([Makefile])</p>
+<p>AC_OUTPUT</p>
+<p>The following is a result of autogen after preparing configure.ac.</p>
+<p>[stack]% ./autogen.sh Putting files in AC_CONFIG_AUX_DIR, <code>config'.   configure.ac:7: installing</code>config/install-sh’ configure.ac:7: installing <code>config/missing'   automake: no</code>Makefile.am’ found for any configure output Failed automake –add-missing –foreign –copy</p>
+<p>We need to prepare Makefile.am for Automake.</p>
+<p>=== Makefile.am</p>
+<p>An empty Makefile.am is enough if the Makefile.am is just only for autogen.sh.</p>
+<p>[stack]% touch Makefile.am [stack]% ./autogen.sh Putting files in AC_CONFIG_AUX_DIR, `config’.</p>
+<p>A configure script can be generated. We can do ‘configure; make; make install’ like many popular softwares at this point:</p>
+<p>[stack]% ./configure … [stack]% make [stack]% make install</p>
+<p>But for now, nothing is to happen because we doesn’t have any items that are needed to build or install.</p>
+<p>== First test writing</p>
+<p>We can write a test because we got a minimal build environment. First, we test that a newly created statck should be empty. The following code representes this test in C:</p>
+<p>void test_new_stack (void) { Stack *stack; stack = stack_new(); if (stack_is_empty(stack)) PASS; else FAIL; }</p>
+<p>We change this test code to be able to run as a test code for Cutter.</p>
+<p>=== Write a test program</p>
+<p>A test program is put into test/. In this tutorial, we make a test program as test/test-stack.c.</p>
+<p>First, we need to include cutter.h to use Cutter.</p>
+<p>test/test-stack.c: #include &lt;cutter.h&gt;</p>
+<p>And we need to include stack.h that declares API for test target stack implementation. (stack.h will be made later.)</p>
+<p>test/test-stack.c: #include &lt;stack.h&gt;</p>
+<p>Next, we write a test with the stack API:</p>
+<p>test/test-stack.c: void test_new_stack (void);</p>
+<p>void test_new_stack (void) { Stack *stack; stack = stack_new(); cut_assert(stack_is_empty(stack)); }</p>
+<p>cut_assert() is a macro that fails if the first argument is 0, passes otherwise. Writing tests with Cutter means that writing a program that verifies a target program works as we expected at the specific situation.</p>
+<p>The following test code is a whole test code to test “a newly created stack should be empty”.</p>
+<p>test/test-stack.c: #include &lt;cutter.h&gt; #include &lt;stack.h&gt;</p>
+<p>void test_new_stack (void);</p>
+<p>void test_new_stack (void) { Stack *stack; stack = stack_new(); cut_assert(stack_is_empty(stack)); }</p>
+<p>=== Build a test</p>
+<p>Each test programs for Cutter are shared libraries. To build the above test program as shared library, we change Makefile.am.</p>
+<p>==== Build configuration in test/</p>
+<p>Makefile.am is empty for now. To build test/test-stack.c in test/ directory, we need to specify that there is test/ directory as sub directory in Makefile.am.</p>
+<p>Makefile.am: SUBDIRS = test</p>
+<p>make will detect Makefile.am is changed and update Makefile and so on automatically after we change Makefile.am and run make.</p>
+<p>[stack]% make cd . &amp;&amp; /bin/sh /tmp/stack/config/missing –run automake-1.10 –foreign Makefile cd . &amp;&amp; /bin/sh ./config.status Makefile config.status: creating Makefile Making all in test config.status: creating Makefile Making all in test make[1]: Entering directory <code>/tmp/stack/test'   make[1]: *** No rule to make target</code>all’. Stop. make[1]: Leaving directory `/tmp/stack/test’ make: *** [all-recursive] Error 1</p>
+<p>We find that make go down to test/ to build. But make is failed in test/ because test/Makefile doesn’t exist.</p>
+<p>To build in test/, we will make test/Makefile.am and indicate configure.ac to generate test/Makefile.</p>
+<p>An empty test/Makefile.am is OK for just protecting make failure in test/.</p>
+<p>[stack]% touch test/Makefile.am</p>
+<p>Next, we indicate configure.ac to generate test/Makefile. Now, make will be done successfully.</p>
+<p>configure.ac: … AC_CONFIG_FILES([Makefile test/Makefile]) …</p>
+<p>If we run make again, make re-runs configure and test/Makefile is generated. Now make doesn’t fail in test/.</p>
+<p>[stack]% make … config.status: creating test/Makefile config.status: creating src/config.h config.status: src/config.h is unchanged config.status: executing depfiles commands Making all in test make[1]: Entering directory <code>/tmp/stack/test'   make[1]: Nothing to be done for</code>all’. make[1]: Leaving directory <code>/tmp/stack/test'   make[1]: Entering directory</code>/tmp/stack’ make[1]: Nothing to be done for <code>all-am'.   make[1]: Leaving directory</code>/tmp/stack’</p>
+<p>==== Build test/test_stack.so</p>
+<p>We will edit test/Makefile.am to build test/test-stack.c as a shared library. A shared library for test should be named as “test_” prefix. (It’s OK if “lib” is prepended to “test_” prefix.) We use “noinst_” because a test program isn’t needed to be installed.</p>
+<p>test/Makefile.am: noinst_LTLIBRARIES = test_stack.la</p>
+<p>Shared libraries for test are loaded dynamically by cutter that is a command included in Cutter to run test. Shared libraries that are loaded dynamically should be builded libtool with -module option. -rpath option is also required by -module option. Because of them LDFLAGS becomes the following. The reason why -avoid-version is specified is that shared libraries for test aren’t needed to have version number. -no-undefined option tells libtool that it reports a error when there is any undefined symbol. On some environments, shared library isn’t generated without -no-undefined option. (e.g. a case that generating DLL on Windows.)</p>
+<p>test/Makefile.am: LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined</p>
+<p>To build test/test_stack.la, test/test-stack.c is used. (test_stack.so is generated into test/.libs/.) We need to specify this.</p>
+<p>test/Makefile.am: test_stack_la_SOURCES = test-stack.c</p>
+<p>Now, we can build test/test_stack.la.</p>
+<p>[stack]% make … cd .. &amp;&amp; /bin/sh /tmp/stack/config/missing –run automake-1.10 –foreign test/Makefile test/Makefile.am: required file <code>config/depcomp' not found   test/Makefile.am:</code>automake –add-missing’ can install <code>depcomp'   make[1]: *** [Makefile.in] Error 1   make[1]: Leaving directory</code>/tmp/stack/test’ make: *** [all-recursive] Error 1</p>
+<p>To generate config/depcomp, we need to run automake with –add-missing option. To do this, we can use autogen.sh. Don’t forget to re-run configure.</p>
+<p>[stack]% ./autogen.sh [stack]% ./configure</p>
+<p>Now, we can build test/test_stack.la with make.</p>
+<p>[stack]% make … test-stack.c:1:20: error: cutter.h: No such file or directory test-stack.c:2:19: error: stack.h: No such file or directory test-stack.c: In function ‘test_new_stack’: test-stack.c:9: error: ‘Stack’ undeclared (first use in this function) test-stack.c:9: error: (Each undeclared identifier is reported only once test-stack.c:9: error: for each function it appears in.) test-stack.c:9: error: ‘stack’ undeclared (first use in this function) make[1]: *** [test-stack.lo] Error 1 make[1]: Leaving directory `/tmp/stack/test’ make: *** [all-recursive] Error 1</p>
+<p>But there are the above errors because we don’t setup to use Cutter yet. And we can’t include stack.h because we don’t have a stack implementation yet.</p>
+<p>==== Use Cutter</p>
+<p>We will support cutter.h including. Cutter provides a macro file for aclocal. Because of this, we can use Cutter with GNU build system.</p>
+<p>First, we add a code to detect Cutter into configure.ac.</p>
+<p>configure.ac: … AC_CHECK_CUTTER</p>
+<p>AC_CONFIG_FILES([Makefile test/Makefile]) …</p>
+<p>We use detected Cutter information in test/Makefile.am:</p>
+<p>test/Makefile.am: … INCLUDES = $(CUTTER_CFLAGS) LIBS = $(CUTTER_LIBS) …</p>
+<p>The followings are the current whole configure.ac and test/Makefile.am:</p>
+<p>configure.ac: AC_PREREQ(2.59)</p>
+<p>AC_INIT(stack, 0.0.1, you@example.com) AC_CONFIG_AUX_DIR([config]) AC_CONFIG_HEADER([src/config.h])</p>
+<p>AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)</p>
+<p>AC_PROG_LIBTOOL</p>
+<p>AC_CHECK_CUTTER</p>
+<p>AC_CONFIG_FILES([Makefile test/Makefile])</p>
+<p>AC_OUTPUT</p>
+<p>test/Makefile.am: noinst_LTLIBRARIES = test_stack.la</p>
+<p>INCLUDES = $(CUTTER_CFLAGS) LIBS = $(CUTTER_LIBS)</p>
+<p>LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined</p>
+<p>test_stack_la_SOURCES = test-stack.c</p>
+<p>AC_CHECK_CUTTER macro uses pkg-config which is a popular package information management tool. If we installed Cutter with different prefix of pkg-config, we need to set PKG_CONFIG_PATH environment variable. The environment variable is referred by pkg-config to find .pc file. If we installed Cutter with $HOME/local prefix, here is an example command to set the environment variable:</p>
+<p>[stack]% export PKG_CONFIG_PATH=$HOME/local/lib/pkgconfig</p>
+<p>We run make again and make runs configure automatically and builds with Cutter configuration after the above changes.</p>
+<p>[stack]% make … test-stack.c:2:19: error: stack.h: No such file or directory test-stack.c: In function ‘test_new_stack’: test-stack.c:9: error: ‘Stack’ undeclared (first use in this function) test-stack.c:9: error: (Each undeclared identifier is reported only once test-stack.c:9: error: for each function it appears in.) test-stack.c:9: error: ‘stack’ undeclared (first use in this function) make[1]: *** [test-stack.lo] Error 1 make[1]: Leaving directory `/tmp/stack/test’ make: *** [all-recursive] Error 1</p>
+<p>An error that reports “cutter.h can’t be included” is gone away.</p>
+<p>==== Make stack API</p>
+<p>We will fix an error that stack.h can’t be included.</p>
+<p>We put stack.h into src/stack.h because we make a stack implementation in src/.</p>
+<p>[stack]% touch src/stack.h</p>
+<p>To include stack.h from test program, we configure include path:</p>
+<p>test/Makefile.am: … INCLUDES = <span class="math inline">(<em>C</em><em>U</em><em>T</em><em>T</em><em>E</em><em>R</em><sub><em>C</em></sub><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em>)−<em>I</em></span>(top_srcdir)/src …</p>
+<p>We will find that an error that stack.h can’t be included is gone away if we run make again.</p>
+<p>[stack]% make … test-stack.c: In function ‘test_new_stack’: test-stack.c:9: error: ‘Stack’ undeclared (first use in this function) test-stack.c:9: error: (Each undeclared identifier is reported only once test-stack.c:9: error: for each function it appears in.) test-stack.c:9: error: ‘stack’ undeclared (first use in this function) make[1]: *** [test-stack.lo] Error 1 make[1]: Leaving directory `/tmp/stack/test’ make: *** [all-recursive] Error 1</p>
+<p>There is only an error that Stack type isn’t declared.</p>
+<p>==== Declare Stack type</p>
+<p>To build our test program, we declare Stack type in src/stack.h.</p>
+<p>src/stack.h: #ifndef <strong>STACK_H</strong> #define <strong>STACK_H</strong></p>
+<p>typedef struct _Stack Stack;</p>
+<p>#endif</p>
+<p>We get a warning because stack_new() isn’t declared but we can build a shared library.</p>
+<p>[stack]% make … test-stack.c: In function ‘test_new_stack’: test-stack.c:10: warning: assignment makes pointer from integer without a cast … [stack]% file test/.libs/test_stack.so test/.libs/test_stack.so: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, not stripped</p>
+<p>==== Declare stack_new()/stack_is_empty()</p>
+<p>To suppress a warning, we declare stack_new() and stack_is_empty().</p>
+<p>src/stack.h: … Stack <em>stack_new (void); int stack_is_empty (Stack </em>stack); …</p>
+<p>We can confirm that make don’t report any warnings now.</p>
+<p>[stack]% make</p>
+<p>=== Run test</p>
+<p>Now, we can run a test because we got a shared library.</p>
+<p>[stack]% cutter test/ cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_new</p>
+<p>Loading our test is failed due to undefined stack_new() but we can confirm that our test is loaded.</p>
+<p>==== Automate running test</p>
+<p>GNU build system use ‘make check’ to run test. We follow the convention in our stack implementation.</p>
+<p>First, we make a script test/run-test.sh that runs our test. A path of cutter command is passed from environment variable CUTTER.</p>
+<p>test/run-test.sh: #!/bin/sh</p>
+<p>export BASE_DIR=“<code>dirname $0</code>” $CUTTER -s <span class="math inline">$BASE_DIR &quot;$</span>@&quot; $BASE_DIR</p>
+<p>Don’t forget to make the test/run-test.sh executable.</p>
+<p>[stack]% chmod +x test/run-test.sh</p>
+<p>We need to specify that we use test/run-test.sh as a test runner script to test/Makefile.am.</p>
+<p>test/Makefile.am: TESTS = run-test.sh TESTS_ENVIRONMENT = CUTTER=“$(CUTTER)” …</p>
+<p>We pass a path of cutter command via environment variable CUTTER in TESTS_ENVIRONMENT. A path of cutter command is detected by AC_CHECK_CUTTER in configure.ac.</p>
+<p>We can confirm that ‘make -s check’ runs our test. -s option is for silence mode. A test result can be confirmed more easier.</p>
+<p>[stack]% make -s check Making check in test cutter: symbol lookup error: ./.libs/test_stack.so: undefined symbol: stack_new FAIL: run-test.sh ================================ 1 of 1 tests failed Please report to you@example.com ================================ …</p>
+<p>==== Make test/run-test.sh workable alone</p>
+<p>In ‘make -s check’, there are outputs that isn’t test result like build logs. They hid test result that is interested by us. So we want test/run-test.sh to work without invoking from ‘make -s check’.</p>
+<p>test/run-test.sh needs to detect a path of cutter command automatically if environment variable CUTTER isn’t set. And test/run-test.sh needs to run make to rebuild necessary files if test/run-test.sh isn’t invoked from ‘make check’.</p>
+<p>test/run-test.sh: #!/bin/sh</p>
+<p>export BASE_DIR=“<code>dirname $0</code>”</p>
+<p>if test -z “$NO_MAKE”; then make -C $BASE_DIR/../ &gt; /dev/null || exit 1 fi</p>
+<p>if test -z “$CUTTER”; then CUTTER=“<code>make -s -C $BASE_DIR echo-cutter</code>” fi</p>
+<p>$CUTTER -s <span class="math inline">$BASE_DIR &quot;$</span>@&quot; $BASE_DIR</p>
+<p>To support the test/run-test.sh, test/Makefile.am has some works.</p>
+<p>test/Makefile.am: … TESTS_ENVIRONMENT = NO_MAKE=yes CUTTER=“$(CUTTER)” … echo-cutter: <span class="citation">@echo</span> $(CUTTER)</p>
+<p>The following is the whole of test/Makefile.am.</p>
+<p>test/Makefile.am: TESTS = run-test.sh TESTS_ENVIRONMENT = NO_MAKE=yes CUTTER=“$(CUTTER)”</p>
+<p>noinst_LTLIBRARIES = test_stack.la</p>
+<p>INCLUDES = <span class="math inline">(<em>C</em><em>U</em><em>T</em><em>T</em><em>E</em><em>R</em><sub><em>C</em></sub><em>F</em><em>L</em><em>A</em><em>G</em><em>S</em>)−<em>I</em></span>(top_srcdir)/src LIBS = $(CUTTER_LIBS)</p>
+<p>LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined</p>
+<p>test_stack_la_SOURCES = test-stack.c</p>
+<p>echo-cutter: <span class="citation">@echo</span> $(CUTTER)</p>
+<p>We can confirm that test/run-test.sh runs test even if it’s not invoked from ‘make -s check’.</p>
+<p>[stack]% test/run-test.sh cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_new</p>
+<p>We will use test/run-test.sh instead of ‘make -s check’ from now. Test result that is what we are interested in will not be hid because test/run-test.sh just outputs build errors and/or warnings and test result.</p>
+<p>We spent some times to build testing environment before we implement stack. It reduces costs to run test. If costs to run test isn’t low, we will not run test gradually. It may cause quality loss.</p>
+<p>Building testing environment at first delays start time of implementing a main program. But we need to keep quality of a main program by running test until a main program is developed and maintained. We will be able to collect costs that is spent for building testing environment. It’s important that building testing environment at first to be developing a high-quality program comfortably.</p>
+<p>=== Implement stack</p>
+<p>We will start implementing stack because we built testing environment.</p>
+<p>==== A straightforward stack_new() implementation</p>
+<p>We will define stack_new() and resolve run-time error.</p>
+<p>We implement stack in src/stack.c. It’s a straightforward stack_new() implementation:</p>
+<p>src/stack.c: #include &lt;stdlib.h&gt; #include “stack.h”</p>
+<p>Stack * stack_new (void) { return NULL; }</p>
+<p>==== Build src/libstack.la</p>
+<p>We will build src/stack.c with make. src/ should be included into build targets like test/.</p>
+<p>Makefile.am: SUBDIRS = src test</p>
+<p>configure.ac: … AC_CONFIG_FILES([Makefile src/Makefile test/Makefile]) …</p>
+<p>The above configurations are for what we want to do.</p>
+<p>[stack]% test/run-test.sh configure.ac:19: required file `src/Makefile.in’ not found make: *** [Makefile.in] Error 1</p>
+<p>To resolve the above error, we need to make src/Makefile.am.</p>
+<p>[stack]% touch src/Makefile.am [stack]% test/run-test.sh cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_new</p>
+<p>make doesn’t report error but we still have an error that stack_new() is undefined. Because we don’t build src/stack.c and test program also doesn’t link libstack.so yet.</p>
+<p>The following configurations in src/Makefile.am are for build libstack.so from src/stack.c.</p>
+<p>src/Makefile.am: lib_LTLIBRARIES = libstack.la</p>
+<p>LDFLAGS = -no-undefined</p>
+<p>libstack_la_SOURCES = stack.c</p>
+<p>make will generate libstack.so.</p>
+<p>[stack]% make … make[1]: Entering directory <code>/tmp/stack/src'   Makefile:275: .deps/stack.Plo: No such file or directory   make[1]: *** No rule to make target</code>.deps/stack.Plo’. Stop. …</p>
+<p>To resolve the above error, we need to re-run configure.</p>
+<p>[stack]% ./configure</p>
+<p>make will generate src/.libs/libstack.so.0.0.0 now.</p>
+<p>[stack]% make [stack]% file src/.libs/libstack.so.0.0.0 src/.libs/libstack.so.0.0.0: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, not stripped</p>
+<p>==== Link src/libstack.la</p>
+<p>libstack.so is generated but it’s not linked into test program. So there is still run-time error.</p>
+<p>[stack]% test/run-test.sh cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_new</p>
+<p>To link libstack.so, we will change test/Makefile.am like the following.</p>
+<p>test/Makefile.am: … LIBS = $(CUTTER_LIBS) $(top_builddir)/src/libstack.la …</p>
+<p>We need to run ‘make clean’ to re-link our test program.</p>
+<p>[stack]% make clean [stack]% make [stack]% test/run-test.sh cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_is_empty</p>
+<p>An error message is changed to stack_is_empty() isn’t found from stack_new() isn’t found. We can confirm that libstack.so is linked correctly by this change.</p>
+<p>==== Implement stack_is_empty()</p>
+<p>We test a result of stack_is_empty() in our test program:</p>
+<p>test/test-stack.c: … cut_assert(stack_is_empty(stack)); …</p>
+<p>That means that stack_is_empty() should return true. So stack_is_empty() implementation in src/stack.c should return true.</p>
+<p>src/stack.c: … #define TRUE 1 #define FALSE 0 … int stack_is_empty (Stack *stack) { return TRUE; }</p>
+<p>The following is the whole of src/stack.c.</p>
+<p>src/stack.c: #include &lt;stdlib.h&gt; #include “stack.h”</p>
+<p>#define TRUE 1 #define FALSE 0</p>
+<p>Stack * stack_new (void) { return NULL; }</p>
+<p>int stack_is_empty (Stack *stack) { return TRUE; }</p>
+<p>Our test should pass because the stack_is_empty() implementation always returns true.</p>
+<p>[stack]% test/run-test.sh .</p>
+<p>Finished in 0.000028 seconds</p>
+<p>1 test(s), 1 assertion(s), 0 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 100% passed</p>
+<p>Great! This is the first success!!!</p>
+<p>Displayed a “.” means that a test is passed. The current number of tests is just one. So one “.” means all tests are passed.</p>
+<p>The above result may be displayed in green. This means that we may go the next step because our all tests are passed.</p>
+<p>We confirmed that test is worked. We will complete stack implementation with writing tests.</p>
+<p>== Implement push</p>
+<p>We will implement push. We only accept integer for values in stack in this implementation.</p>
+<p>=== Test for push</p>
+<p>A stack should have 1 item and not be empty after we push a value. The following is a test for this.</p>
+<p>test/test-stack.c: … void test_push (void); … void test_push (void) { Stack *stack;</p>
+<pre><code>  stack = stack_new();
+  cut_assert_equal_int(0, stack_get_size(stack));
+  stack_push(stack, 100);
+  cut_assert_equal_int(1, stack_get_size(stack));
+  cut_assert(!stack_is_empty(stack));</code></pre>
+<p>}</p>
+<p>We will get an error that says stack_get_size() isn’t undefined if we run test.</p>
+<p>[stack]% test/run-test.sh cutter: symbol lookup error: ./test/.libs/test_stack.so: undefined symbol: stack_get_size</p>
+<p>We will implement push to pass this test.</p>
+<p>=== Implement cut_stack_push()</p>
+<p>We will implement stack_get_size() and stack_push() to be able to run test even if tests aren’t passed.</p>
+<p>First, we add declarations to src/stack.h.</p>
+<p>src/stack.h: … int stack_get_size (Stack <em>stack); void stack_push (Stack </em>stack, int value); …</p>
+<p>And we add definitions to src/stack.c.</p>
+<p>src/stack.c: … int stack_get_size (Stack *stack) { return 0; }</p>
+<p>void stack_push (Stack *stack, int value) { }</p>
+<p>The reason why stack_get_size() returns 0 is the first stack_get_size() call is expected to return 0 like the following.</p>
+<p>test/test-stack.c: … stack = stack_new(); cut_assert_equal_int(0, stack_get_size(stack)); …</p>
+<p>We run test because push is implemented.</p>
+<p>[stack]% test/run-test.sh .F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_push &lt;1 == stack_get_size(stack)&gt; expected: &lt;1&gt; but was: &lt;0&gt; test/test-stack.c:23: test_push()</li>
+</ol>
+<p>Finished in 0.000113 seconds</p>
+<p>2 test(s), 2 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 50% passed</p>
+<p>“F” means that a test is Failed. The result may be showed in red. It indicates that it’s dangerous to go to next stage because all of the current tests aren’t passed. In other words, we should improve push implementation to pass the current tests before we implement pop.</p>
+<p>The message form cutter command shows that the test is failed because return value of stack_get_size(stack) is 0 not 1 in test_push() function at the 23th line in test/test-stack.c. The target line is the following.</p>
+<p>test/test-stack.c:23: cut_assert_equal_int(1, stack_get_size(stack));</p>
+<p>It’s failed because our stack_get_size() implementation always return 0. We should increment an internal counter after stack_push() is called.</p>
+<p>=== Free memory</p>
+<p>stack_new() always returns NULL for now. Stack needs to allocate memory to have an internal counter. Stack should free memory that is unused if stack allocate memory.</p>
+<p>For example, test_new_stack() should do like the following.</p>
+<p>void test_new_stack (void) { Stack *stack; stack = stack_new(); cut_assert(stack_is_empty(stack)); stack_free(stack); }</p>
+<p>But stack_free() will never be called if cut_assert() where it’s the above of the stack_free() fails. Because cut_assert() returns the test function immediately if the expression (stack_is_empty(stack)) is false. (It will not cause big harm because most test programs are short-lived.)</p>
+<p>Cutter supports registering functions that are surely called before/after test. They are setup() and teardown(). They are called even if test is failed. We can use them for freeing memory allocated in test surely.</p>
+<p>To freeing allocated memory for test_new_stack() surely, we can use setup() and teardown() like the following.</p>
+<p>test/test-stack.c: … static Stack *stack;</p>
+<p>void setup (void) { stack = NULL; }</p>
+<p>void teardown (void) { if (stack) stack_free(stack); }</p>
+<p>void test_new_stack (void) { stack = stack_new(); cut_assert(stack_is_empty(stack)); } …</p>
+<p>We can also modify test_push() to freeing allocated memory in tests by using static stack variable instead of local stack variable.</p>
+<p>test/test-stack.c: … void test_push (void) { stack = stack_new(); cut_assert_equal_int(0, stack_get_size(stack)); stack_push(stack, 100); cut_assert_equal_int(1, stack_get_size(stack)); cut_assert(!stack_is_empty(stack)); } …</p>
+<p>Here is whole of the test/test-stack.c that uses setup()/teardown().</p>
+<p>test/test-stack.c: #include &lt;cutter.h&gt; #include &lt;stack.h&gt;</p>
+<p>void test_new_stack (void); void test_push (void);</p>
+<p>static Stack *stack;</p>
+<p>void setup (void) { stack = NULL; }</p>
+<p>void teardown (void) { if (stack) stack_free(stack); }</p>
+<p>void test_new_stack (void) { stack = stack_new(); cut_assert(stack_is_empty(stack)); }</p>
+<p>void test_push (void) { stack = stack_new(); cut_assert_equal_int(0, stack_get_size(stack)); stack_push(stack, 100); cut_assert_equal_int(1, stack_get_size(stack)); cut_assert(!stack_is_empty(stack)); }</p>
+<p>We can confirm that a result of test isn’t changed after this change.</p>
+<p>[stack]% test/run-test.sh .F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_push &lt;1 == stack_get_size(stack)&gt; expected: &lt;1&gt; but was: &lt;0&gt; test/test-stack.c:35: test_push()</li>
+</ol>
+<p>Finished in 0.000084 seconds</p>
+<p>2 test(s), 2 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 50% passed</p>
+<p>=== Implement stack_new() and stack_free()</p>
+<p>We will implement stack_new() that allocate memory and stack_free() that free allocated memory.</p>
+<p>First, we will declares stack_free() in src/stack.h.</p>
+<p>src/stack.h: … void stack_free (Stack *stack); …</p>
+<p>Next, we will define Stack type in src/stack.c. Stack type has a field that hold stack size.</p>
+<p>src/stack.c: … struct _Stack { int size; }; …</p>
+<p>stack_new() allocates memory for Stack and stack_free() frees memory allocated by stack_new().</p>
+<p>src/stack.c: … Stack <em> stack_new (void) { Stack </em>stack;</p>
+<pre><code>  stack = malloc(sizeof(Stack));
+  if (!stack)
+      return NULL;
+
+  stack-&gt;size = 0;
+  return stack;</code></pre>
+<p>}</p>
+<p>void stack_free (Stack *stack) { free(stack); } …</p>
+<p>We can confirm that test works same as before the changes.</p>
+<p>[stack]% test/run-test.sh .F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_push &lt;1 == stack_get_size(stack)&gt; expected: &lt;1&gt; but was: &lt;0&gt; test/test-stack.c:35: test_push()</li>
+</ol>
+<p>Finished in 0.000113 seconds</p>
+<p>2 test(s), 2 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 50% passed</p>
+<p>=== Really implement stack_push()</p>
+<p>We will really implement stack_push() and stack_get_size() to pass our tests because a stack can have a stack size.</p>
+<p>src/stack.c: … int stack_get_size (Stack *stack) { return stack-&gt;size; }</p>
+<p>void stack_push (Stack *stack, int value) { stack-&gt;size++; }</p>
+<p>Stack increments it’s size each push and returns the size. A test for stack_get_size() that is failed until now will be passed.</p>
+<p>[stack]% test/run-test.sh .F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_push expected: <!stack_is_empty(stack)> is not FALSE/NULL test/test-stack.c:36: test_push()</li>
+</ol>
+<p>Finished in 0.000113 seconds</p>
+<p>2 test(s), 3 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 50% passed</p>
+<p>The test for stack_get_size() is passed as our expectation but there is still a failure. It’s a test for stack_is_empty() in test/test-stack.c at the 36th line.</p>
+<p>test/test-stack.c:36: cut_assert(!stack_is_empty(stack));</p>
+<p>A stack should not be empty after push.</p>
+<p>=== Really implement stack_is_empty()</p>
+<p>A stack should be empty only when a stack size is 0. So stack_is_empty() is changed to the following.</p>
+<p>src/stack.c: … int stack_is_empty (Stack *stack) { return stack-&gt;size == 0; } …</p>
+<p>We can run test again and confirm that all of tests are passed.</p>
+<p>% test/run-test.sh ..</p>
+<p>Finished in 0.000036 seconds</p>
+<p>2 test(s), 4 assertion(s), 0 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 100% passed</p>
+<p>A test for push is passed and the rest of tests are kept to pass. A result message is back to green because all of tests are passed. We can feel safe to go to the next stage; We will implement pop.</p>
+<p>== Implement pop</p>
+<p>We will implement pop that retrieve a value that is inserted by push.</p>
+<p>=== Test for pop</p>
+<p>Pop returns a value that is inserted by the last push. Pop reduces stack size and finally a stack is empty. The following test represents expected push/pop behavior.</p>
+<p>test/test-stack.c: … void test_pop (void); … void test_pop (void) { stack = stack_new();</p>
+<pre><code>  stack_push(stack, 10);
+  stack_push(stack, 20);
+  stack_push(stack, 30);
+
+  cut_assert_equal_int(3, stack_get_size(stack));
+  cut_assert_equal_int(30, stack_pop(stack));
+  cut_assert_equal_int(2, stack_get_size(stack));
+  cut_assert_equal_int(20, stack_pop(stack));
+  cut_assert_equal_int(1, stack_get_size(stack));
+
+  stack_push(stack, 40);
+  cut_assert_equal_int(2, stack_get_size(stack));
+  cut_assert_equal_int(40, stack_pop(stack));
+  cut_assert_equal_int(1, stack_get_size(stack));
+  cut_assert_equal_int(10, stack_pop(stack));
+  cut_assert_equal_int(0, stack_get_size(stack));
+  cut_assert(stack_is_empty(stack));</code></pre>
+<p>}</p>
+<p>We can run test.</p>
+<p>[stack]% test/run-test.sh ..cutter: symbol lookup error: test/.libs/test_stack.so: undefined symbol: stack_pop</p>
+<p>There is an error that reports stack_pop() isn’t defined. We can confirm that existed two tests are passed because there are two “.” before the error message.</p>
+<p>=== Implement stack_pop()</p>
+<p>First, we declare stack_pop() in src/stack.h.</p>
+<p>src/stack.h: … int stack_pop (Stack *stack); …</p>
+<p>Next, we define stack_pop() in src/stack.c.</p>
+<p>src/stack.c: … int stack_pop (Stack *stack) { return 30; }</p>
+<p>stack_pop() always returns 30 because the first stack_pop() call is required to return 30:</p>
+<p>test/test-stack.c:50: cut_assert_equal_int(30, stack_pop(stack));</p>
+<p>We can confirm that test can be run and a test for pop doesn’t report any error.</p>
+<p>[stack]% test/run-test.sh ..F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_pop &lt;2 == stack_get_size(stack)&gt; expected: &lt;2&gt; but was: &lt;3&gt; test/test-stack.c:51: test_pop()</li>
+</ol>
+<p>Finished in 0.000307 seconds</p>
+<p>3 test(s), 6 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 66.6667% passed</p>
+<p>A test for pop is run but failed because the current stack_pop() implementation doesn’t change stack size. The failure is occurred in test/test-stack.c at the 50th line and the reason is stack_get_size() in the target line returns 3 not expected 2.</p>
+<p>test/test-stack.c:51: cut_assert_equal_int(2, stack_get_size(stack));</p>
+<p>=== Allocate memory for data</p>
+<p>We can confirm that the test can be run. We will implement stack_pop() to pass the test.</p>
+<p>A stack needs to save pushed data to retrieve by pop. A stack needs to have a new field to hold pushed data and stack_push()/stack_pop() allocates/frees memory for pushed data dynamically.</p>
+<p>First, we will add a new field in Stack. stack_new() initializes the field and stack_free() frees the field.</p>
+<p>src/stack.c: … struct _Stack { int size; int *data; };</p>
+<p>Stack * stack_new (void) { … stack-&gt;data = NULL; … }</p>
+<p>void stack_free (Stack *stack) { free(stack-&gt;data); free(stack); } …</p>
+<p>At this point, we don’t change any process that effects external program. So we can confirm that the test should be failed the same as before.</p>
+<p>[stack]% test/run-test.sh ..F</p>
+<ol style="list-style-type: decimal">
+<li>Failure: test_pop &lt;2 == stack_get_size(stack)&gt; expected: &lt;2&gt; but was: &lt;3&gt; test/test-stack.c:51: test_pop()</li>
+</ol>
+<p>Finished in 0.000097 seconds</p>
+<p>3 test(s), 6 assertion(s), 1 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 66.6667% passed</p>
+<p>=== Really implement stack_pop()</p>
+<p>We added a new field to hold pushed data. stack_push()/stack_pop() can allocate needed memory to the field and save data.</p>
+<p>src/stack.c: … void stack_push (Stack <em>stack, int value) { int </em>new_data;</p>
+<pre><code>  stack-&gt;size++;
+  new_data = realloc(stack-&gt;data, sizeof(*stack-&gt;data) * stack-&gt;size);
+  if (!new_data) {
+      free(stack-&gt;data);
+      stack-&gt;data = NULL;
+      stack-&gt;size = 0;
+      return;
+  }
+  stack-&gt;data = new_data;
+
+  stack-&gt;data[stack-&gt;size - 1] = value;</code></pre>
+<p>}</p>
+<p>int stack_pop (Stack <em>stack) { int value; int </em>new_data;</p>
+<pre><code>  stack-&gt;size--;
+  value = stack-&gt;data[stack-&gt;size];
+
+  new_data = realloc(stack-&gt;data, sizeof(*stack-&gt;data) * stack-&gt;size);
+  if (stack-&gt;size &gt; 0 &amp;&amp; !new_data) {
+      free(stack-&gt;data);
+      stack-&gt;data = NULL;
+      stack-&gt;size = 0;
+      return value;
+  }
+  stack-&gt;data = new_data;
+
+  return value;</code></pre>
+<p>}</p>
+<p>We can confirm that the test for pop is passed.</p>
+<p>[stack]% test/run-test.sh …</p>
+<p>Finished in 0.000076 seconds</p>
+<p>3 test(s), 15 assertion(s), 0 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 100% passed</p>
+<p>== Eliminate duplications</p>
+<p>stack_push() and stack_pop() implementations has duplications that are dynamic memory allocation process and error handling process when memory allocation is failed. It’s generally not good that duplications exist because they may increase maintenance cost and so on.</p>
+<p>In this section, we will eliminate duplications without changing existing semantics. We can confirm that existing semantics aren’t changed by running our tests.</p>
+<p>=== Eliminate a duplication in memory allocation process</p>
+<p>First, we will eliminate a duplication in memory allocation process like the following:</p>
+<p>src/stack.c: new_data = realloc(stack-&gt;data, sizeof(<em>stack-&gt;data) </em> stack-&gt;size);</p>
+<p>We will extract the above part as stack_realloc().</p>
+<p>src/stack.c: … static int <em> stack_realloc (Stack </em>stack) { return realloc(stack-&gt;data, sizeof(<em>stack-&gt;data) </em> stack-&gt;size); }</p>
+<p>void stack_push (Stack *stack, int value) { … new_data = stack_realloc(stack); … }</p>
+<p>int stack_pop (Stack *stack) { … new_data = stack_realloc(stack); … }</p>
+<p>We can confirm that existing semantics aren’t changed by running tests.</p>
+<p>[stack]% test/run-test.sh …</p>
+<p>Finished in 0.000078 seconds</p>
+<p>3 test(s), 15 assertion(s), 0 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 100% passed</p>
+<p>We can go to the next because the result is green.</p>
+<p>=== Eliminate a duplication in error handling process</p>
+<p>Next, we will eliminate a duplication in error handling process for memory allocation failure. The current implementation is the following:</p>
+<p>src/stack.c: … void stack_push (Stack *stack, int value) { … new_data = stack_realloc(stack); if (!new_data) { free(stack-&gt;data); stack-&gt;data = NULL; stack-&gt;size = 0; return; } … }</p>
+<p>int stack_pop (Stack *stack) { … new_data = stack_realloc(stack); if (stack-&gt;size &gt; 0 &amp;&amp; !new_data) { free(stack-&gt;data); stack-&gt;data = NULL; stack-&gt;size = 0; return value; } … }</p>
+<p>We will move the above error handling process to stack_realloc() and stack_realloc() returns whether memory allocation is succeeded or failed instead of allocated memory.</p>
+<p>src/stack.c: … static int stack_realloc (Stack <em>stack) { int </em>new_data;</p>
+<pre><code>  new_data = realloc(stack-&gt;data, sizeof(*stack-&gt;data) * stack-&gt;size);
+  if (stack-&gt;size &gt; 0 &amp;&amp; !new_data) {
+      free(stack-&gt;data);
+      stack-&gt;data = NULL;
+      stack-&gt;size = 0;
+      return FALSE;
+  }
+  stack-&gt;data = new_data;
+
+  return TRUE;</code></pre>
+<p>}</p>
+<p>void stack_push (Stack *stack, int value) { stack-&gt;size++; if (!stack_realloc(stack)) return; stack-&gt;data[stack-&gt;size - 1] = value; }</p>
+<p>int stack_pop (Stack *stack) { int value;</p>
+<pre><code>  stack-&gt;size--;
+  value = stack-&gt;data[stack-&gt;size];
+  stack_realloc(stack);
+  return value;</code></pre>
+<p>}</p>
+<p>We should confirm that the changes doesn’t change existing semantics.</p>
+<p>[stack]% test/run-test.sh …</p>
+<p>Finished in 0.000076 seconds</p>
+<p>3 test(s), 15 assertion(s), 0 failure(s), 0 error(s), 0 pending(s), 0 omission(s), 0 notification(s) 100% passed w We confirmed that we can improve our program by eliminating duplications in our program without changing existing semantics.</p>
+<p>== Conclusion</p>
+<p>This documentation shows how to setup a build environment system with GNU build system, write tests with Cutter and improve a program that has tests by using a small stack implementation.</p>
+<p>=== Merit</p>
+<p>GNU build system provides us portability.</p>
+<p>Cutter provides us a method to write tests easily. Existing testing frameworks for C require to use macros to define a test or to register tests explicitly. We need to write many other things except writing tests. Cutter resolves this problem. Cutter doesn’t require to use original macros to define a test. We can write a test as just a normal function. We can also write no test registration code.</p>
+<p>We only used cut_assert() and cut_assert_equal_int() but Cutter provides many assertions to verify actual value is expected value like cut_assert_equal_string(). We will be able to write tests simply by them because we doesn’t need to write our assertions for primitive types.</p>
+<p>Cutter doesn’t show needless information in test result message but show useful information as much as possible. It supports that we can find useful information easily and fix problems easily and rapidly. Cutter also tries to show backtraces on segmentation fault that is often caused for a program written by C for providing many information to fix problems.</p>
+<p>It’s very helpful for maintenance that improving internal structure of a program without changing existing semantics. We can easily confirm that existing semantics isn’t changed with automated tests.</p>
+<p>Automated tests also helps us when a new feature is developed. We can confirm that existing semantics isn’t broken by codes for a new feature. Automated tests are useful for maintenance, developing new features and keeping high-quality.</p>
+<p>=== Stack test</p>
+<p>The following tests are the final version.</p>
+<p>test/test-stack.c #include &lt;cutter.h&gt; #include &lt;stack.h&gt;</p>
+<p>void test_new_stack (void); void test_push (void); void test_pop (void);</p>
+<p>static Stack *stack;</p>
+<p>void setup (void) { stack = NULL; }</p>
+<p>void teardown (void) { if (stack) stack_free(stack); }</p>
+<p>void test_new_stack (void) { stack = stack_new(); cut_assert(stack_is_empty(stack)); }</p>
+<p>void test_push (void) { stack = stack_new(); cut_assert_equal_int(0, stack_get_size(stack)); stack_push(stack, 100); cut_assert_equal_int(1, stack_get_size(stack)); cut_assert(!stack_is_empty(stack)); }</p>
+<p>void test_pop (void) { stack = stack_new();</p>
+<pre><code>  stack_push(stack, 10);
+  stack_push(stack, 20);
+  stack_push(stack, 30);
+
+  cut_assert_equal_int(3, stack_get_size(stack));
+  cut_assert_equal_int(30, stack_pop(stack));
+  cut_assert_equal_int(2, stack_get_size(stack));
+  cut_assert_equal_int(20, stack_pop(stack));
+  cut_assert_equal_int(1, stack_get_size(stack));
+
+  stack_push(stack, 40);
+  cut_assert_equal_int(2, stack_get_size(stack));
+  cut_assert_equal_int(40, stack_pop(stack));
+  cut_assert_equal_int(1, stack_get_size(stack));
+  cut_assert_equal_int(10, stack_pop(stack));
+  cut_assert_equal_int(0, stack_get_size(stack));
+  cut_assert(stack_is_empty(stack));</code></pre>
+<p>}</p>
+<p>=== Stack implementation</p>
+<p>The following codes are the final version. This stack implementation has some issues that error notification, performance tunings and so on because it’s straightforward. But the implementation has basic features that is shown by test.</p>
+<p>src/stack.c: #include &lt;stdlib.h&gt; #include “stack.h”</p>
+<p>#define TRUE 1 #define FALSE 0</p>
+<p>struct _Stack { int size; int *data; };</p>
+<p>Stack <em> stack_new (void) { Stack </em>stack;</p>
+<pre><code>  stack = malloc(sizeof(Stack));
+  if (!stack)
+      return NULL;
+
+  stack-&gt;size = 0;
+  stack-&gt;data = NULL;
+  return stack;</code></pre>
+<p>}</p>
+<p>void stack_free (Stack *stack) { free(stack-&gt;data); free(stack); }</p>
+<p>int stack_is_empty (Stack *stack) { return stack-&gt;size == 0; }</p>
+<p>int stack_get_size (Stack *stack) { return stack-&gt;size; }</p>
+<p>static int stack_realloc (Stack <em>stack) { int </em>new_data;</p>
+<pre><code>  new_data = realloc(stack-&gt;data, sizeof(*stack-&gt;data) * stack-&gt;size);
+  if (stack-&gt;size &gt; 0 &amp;&amp; !new_data) {
+      free(stack-&gt;data);
+      stack-&gt;data = NULL;
+      stack-&gt;size = 0;
+      return FALSE;
+  }
+  stack-&gt;data = new_data;
+
+  return TRUE;</code></pre>
+<p>}</p>
+<p>void stack_push (Stack *stack, int value) { stack-&gt;size++; if (!stack_realloc(stack)) return; stack-&gt;data[stack-&gt;size - 1] = value; }</p>
+<p>int stack_pop (Stack *stack) { int value;</p>
+<pre><code>  stack-&gt;size--;
+  value = stack-&gt;data[stack-&gt;size];
+  stack_realloc(stack);
+  return value;</code></pre>
+<p>}</p>
+<p>=== Support no Cutter installed environment</p>
+<p>In this tutorial, test/test-stack.c build is failed on no Cutter installed environment. That is make fails. If you are a developer, you must run test. So this behavior is reasonable.</p>
+<p>But it’s better that this stack library can be built without Cutter for users that just want to use this stack implementation as a library. They will use a released library that is tested by developers.</p>
+<p>The following is a way to support no Cutter installed environment.</p>
+<p>First, we change AC_CHECK_CUTTER call in configure.ac to work autogen.sh (to be exact, aclocal) without cutter.m4. (If autogen.sh is ran only by developers, this change isn’t needed. In the case, aclocal fails because AC_CHECK_CUTTER isn’t defined.)</p>
+<p>configure.ac: … m4_ifdef([AC_CHECK_CUTTER], [AC_CHECK_CUTTER], [ac_cv_use_cutter=“no”]) …</p>
+<p>We use ac_cv_use_cutter as a variable name because AC_CHECK_CUTTER uses the same variable name. The variable becomes “no” if configure can’t detect Cutter. On no cutter.m4 environment (no Cutter environment when autogen.sh is ran), we always can’t detect Cutter.</p>
+<p>Next, we define a condition that can be used in Makefile.am after AC_CHECK_CUTTER. The condition shows whether we detect Cutter or not.</p>
+<p>configure.ac: … m4_ifdef([AC_CHECK_CUTTER], [AC_CHECK_CUTTER], [ac_cv_use_cutter=“no”]) AM_CONDITIONAL([WITH_CUTTER], [test “$ac_cv_use_cutter” != “no”]) …</p>
+<p>Last, we build test/test-stack.c and run test/run-test.sh only if WITH_CUTTER is true:</p>
+<p>test/Makefile.am: if WITH_CUTTER TESTS = run-test.sh TESTS_ENVIRONMENT = NO_MAKE=yes CUTTER=“$(CUTTER)”</p>
+<p>noinst_LTLIBRARIES = test_stack.la endif …</p>
+<p>The followings are the whole of configure.ac and test/Makefile.am:</p>
+<p>configure.ac: AC_PREREQ(2.59)</p>
+<p>AC_INIT(stack, 0.0.1, you@example.com) AC_CONFIG_AUX_DIR([config]) AC_CONFIG_HEADER([src/config.h])</p>
+<p>AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)</p>
+<p>AC_PROG_LIBTOOL</p>
+<p>m4_ifdef([AC_CHECK_CUTTER], [AC_CHECK_CUTTER], [ac_cv_use_cutter=“no”]) AM_CONDITIONAL([WITH_CUTTER], [test “$ac_cv_use_cutter” != “no”])</p>
+<p>m4_ifdef([AC_CHECK_COVERAGE], [AC_CHECK_COVERAGE])</p>
+<p>AC_CONFIG_FILES([Makefile src/Makefile test/Makefile])</p>
+<p>AC_OUTPUT</p>
+<p>test/Makefile.am: if WITH_CUTTER TESTS = run-test.sh TESTS_ENVIRONMENT = NO_MAKE=yes CUTTER=“$(CUTTER)”</p>
+<p>noinst_LTLIBRARIES = test_stack.la endif</p>
+<p>INCLUDES = -I$(top_srcdir)/src LIBS = $(CUTTER_LIBS) $(top_builddir)/src/libstack.la</p>
+<p>AM_CFLAGS = $(CUTTER_CFLAGS)</p>
+<p>LDFLAGS = -module -rpath $(libdir) -avoid-version -no-undefined</p>
+<p>test_stack_la_SOURCES = test-stack.c</p>
+<p>echo-cutter: <span class="citation">@echo</span> $(CUTTER)</p>
+<p>=== See also</p>
+<ul>
+<li>xUnit: It’s a library that supports a test style that uses assertXXX for verifying an actual value is an expected value. It also called testing framework. Cutter is one of xUnit testing framework. xUnit is implemented in many language:
+<ul>
+<li>SUnit (Smalltalk)</li>
+<li>JUnit (Java)</li>
+<li>Test::Unit (Ruby)</li>
+<li>PyUnit (Pytnon)</li>
+<li>…</li>
+</ul></li>
+<li>Extreme Programming (XP): It’s a programming methodology to develop high-quality software. It’s heavy on testing.</li>
+</ul>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

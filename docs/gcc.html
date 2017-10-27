@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>GCC Tips and Tricks | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Hacks.html"> Hacks</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>GCC Tips and Tricks</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="gcc-tips-and-tricks">GCC Tips and Tricks</h2>
+<ol style="list-style-type: decimal">
+<li><p>To get complete listing of internal invocations of gcc, pass -v flag as below $ gcc -v -o ldwrap ldwrap.c &gt; gcc.out 2&gt;&amp;1 gcc.out has all information on different binaries that gcc internall invoked to get the job done.</p></li>
+<li>To only pre-process the C file: gcc -E</li>
+<li><p>To only generate assembly file: gcc -S</p></li>
+<li><p>Signed Integer Overflow: Use -Wstrict-overflow=N with N&gt;=3 to signal cases where code is optimized away. Use -fwrapv</p></li>
+<li><p>Unsigned Wrap Around: Compiler assumes unsigned integers do not wrap. Keep the unsigned variables in the range <code>[INT_MIN/2, INT_MAX/2]</code> to avoid surprises.</p></li>
+<li><p>“Dead Code” Removed/Elimination: If compiler deems some data location is unused at that point in code and after, it could remove that code altogether. Use #pragma optimize() directives to force the code in. Use volatile.</p></li>
+<li><p>volatile Pitfalls: Code can be moved around in unexpected ways. A flag that was supposed to be set after certain operations, might be moved to a place prior to operation. Use compiler intrinsic barriers to prevent the flag moving.</p></li>
+<li><p>Loops could be optimized into one read call only: <code>void *ptr = address; while ( *((volatile int*)ptr) &amp; flag ) {}</code></p></li>
+<li><p>Pointers: Use restrict Use -fno-delete-null-pointer-checks. Null pointer checks are deleted if placed after the first use of the pointer.</p></li>
+<li><p>Stack Corruption gcc 4.x can instrument the code to check for stack corruption. gcc will add guard variables and code to check for buffer overflows upon exiting a function. Use -fstack-protector and -fstack-protector-all</p></li>
+<li><p>Memory leak check. With Glibc2.x and Linux libc-5.4.23 onwards, setting env var <code>MALLOC_CHECK_</code> would use a special implementation which is designed to be tolerant to simple errors like double calls of free() with the same argument, or overruns of a single byte (off-by-one bugs). if set to 1, the error message is printed on stderr, but the program is not aborted; if set to 2, abort() is called immediately, but the error message is not generated; if set to 3, the error message is printed on stderr and program is aborted.</p></li>
+<li><p>Multiple Static declarations. It is observed that compilation goes fine even if same global symbol is defined multiple times. The easy way is to define global variable with same name in two different C files. Compile those files separately. Then put them into one single static archive .a file using ‘ar’. Then link another program using this library to make a binary. Now the value of global variable accessed depends on the order in which the object files are put into the archive. However, the same is not true in case of ‘static’ declarations. In which case, you’ll get following error:</p></li>
+</ol>
+<p>[root@xe30-1][~/rkks/test/lib]$ gcc -o prog prog.c test.a prog.c:3: error: multiple storage classes in declaration of <code>a' [root@xe30-1][~/rkks/test/lib]$ gcc -o prog prog.c -L. -ltest prog.c:3: error: multiple storage classes in declaration of</code>a’</p>
+<ol start="12" style="list-style-type: decimal">
+<li>To make gcc not to pick header files from standard system directories like: /usr/include/,/usr/local/include/,/usr/X11R6/include/,then use -nostdinc option. Then only the directories you have specified with -I options (and the directory of the current file, if appropriate) are searched.</li>
+</ol>
+<p>GCC Standard Include directory: /usr/include/ /usr/local/include/ /usr/X11R6/include/</p>
+<p>gcc -nostdinc Do not search the standard system directories for header files. Only the directories you have specified with -I options (and the directory of the current file, if appropriate) are searched.</p>
+<ol start="13" style="list-style-type: decimal">
+<li><p>Both -O3 and -g3 options can not be given together. It confuses gcc.</p></li>
+<li><p>Use -E option in gcc when trying to debug the compiler related issue.</p></li>
+<li><p>Know compilation flags enabled in GCC $ echo ‘main(){printf(“hello world”);}’ | gcc -E -v -</p></li>
+</ol>
+<h2 id="stripping-debug-symbols-from-binary-strip-cheatsheet">Stripping debug symbols from binary (strip cheatsheet)</h2>
+<p>$ strip -s <bin> # strip symbol table $ strip –strip-debug <bin> # strip only debug symbols $ strip -R <sect> <bin> # strip a section $ strip –strip-unneeded <bin> # strip unneeded symbols $ strip -K<sym-name> … # retain a symbol while stripping $ strip -N<sym-name> … # strip particular symbol $ strip -o <new-bin> … # produce new binary on strip $ strip @<file> # read options from filename</p>
+<h2 id="objdump">Objdump</h2>
+<p>$ objdump -DRTgrstx OR -xDrtWGgs $ objdump -d -S –file-start-context –prefix-addresses -l fp-xlr | | | | | | | | | +– print line numbers | | | +—————– print complete address on each line | | +————————————- in interlisted disassembly (-S) give file info | +——————————————— display source code intermixed with assembly +————————————————- display assembly instructions for machine code in objfile</p>
+<h2 id="readelf-cheatsheet">readelf cheatsheet</h2>
+<p>$ readelf -s <bin> # show sections $ readelf -a <bin> # show all ELF info detailed $ readelf -S <bin> # show section header</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

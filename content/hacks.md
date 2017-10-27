@@ -1,13 +1,13 @@
-% Software Development Hacks
+% Software/Tool Hacks
 % Ravikiran K.S.
 % 
 
-My notes on software development best practices, learning from mistakes, observations,
-improvements, and so on. I love to automate the boring, mundane stuff with scripts,
-tools, and day-to-day common things we're used to. In that spirit, few hacks,
-tips-n-tricks discovered over all these years of work. Noting as reference to myself
-and to anyone who may be interested. My scripts can be found here
-[My scripts](https://github.com/rkks/scripts)
+I love to automate the boring, mundane stuff with scripts & tools. In that
+spirit, few hacks, tips-n-tricks discovered over all these years of work.
+
+Notes are mostly reference to myself and to anyone who may be interested.
+
+My scripts can be found here: [My scripts](https://github.com/rkks/scripts)
 
 Posts
 -----

@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Ravikiran K.S." />
+  <title>Network Analytics | Ravikiran K.S</title>
+  <link rel="stylesheet" href="./css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="./css/web.css" type="text/css" />
+</head>
+
+
+
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span2">&nbsp;</div>
+<div class="span8">
+
+<!-- Begin _navigation.html. This is inserted using the include-before-body option in pandoc -->
+<nav class="navbar navbar-default">
+<div class="header">
+        <ul class= "nav nav-pills pull-right">
+            <li class="hidden-phone"><a href="./index.html">Home</a></li>
+            <li class="hidden-phone"><a href="./tech.html">Tech</a></li>
+            <li class="hidden-phone"><a href="./reviews.html">Reviews</a></li>
+            <li class="hidden-phone"><a href="./thoughts.html">Thoughts</a></li>
+            <li class="hidden-phone"><a href="./misc.html">Misc</a></li>
+            <li><a href="index.html"><img src="./img/author.jpg" class="pull-left"></a></li>
+        </ul>
+</div>
+</nav>
+<!-- End _navigation.html -->
+
+<article>
+
+<!-- bs-docs-section custom var "category" is set by mkweb.sh and used in pandoc template -->
+<div id="category" class="row">
+<ol class="breadcrumb">
+<li><a href="./index.html">Home /</a></li>
+<li><a href="./Netdev.html"> Netdev</a></li>
+</ol>
+</div>
+<!--The title is produced by the pandoc template using the title block at the top of the markdown file-->
+<h1>Network Analytics</h1>
+<!--The author is produced by the pandoc template using the title block at the top of the markdown file-->
+<div id="dateline">
+Posted by Ravikiran K.S.
+<!--The date is produced by the pandoc template using the title block at the top of the markdown file-->
+on January 1, 2006</div>
+
+<!--Begin content of the main markdown file for this page, which is processed by pandoc and output as html.-->
+
+<h2 id="network-analytics">Network Analytics</h2>
+<p>Communication Network is a means to connect two end-points. From Telco-to-ISP, packet-to-circuit switched, goal is to transfers bits from one node to another. Analytics is the discovery and communication of meaningful patterns in data. Simultaneous application of statistics, operations research and computer programming.</p>
+<p>Network Analytics is ability to look inside network, collect data, retrieve meaningful patterns, and present them for guided decision making.</p>
+<p>Overlay network is a virtual network built atop of another network. Example, Internet was initially built as an overlay over telecom networks. Other examples are - iSCSI (SCSI over TCP/IP), FCoE (FC over Ethernet), FCIP (FC over IP), MPLS (Eth over ATM), P2P networks (connected over Internet)</p>
+<p>Old days, Human were primary users of network. They connected to each other and to storage arrays using PCs for exchange of info. So, network elements provided - Physical port level statistics for utilization levels, etc. - Router/switch level statistics for macro utilization information.</p>
+<p>New technologies: Virtualzation, Cloud, Application Migration</p>
+<p>Main questions: * Who is talking to who? How much bandwidth are they taking? Is it consistent? * Is there a pattern in network usage among user groups? (timed/burst/pkt-size) * Is there a way to know if we’re running out of resources on network?(predict) * Is there a way to correlate different incidents to triage system easily? * Is there a way to profile resource usage per Application, per VM? * How can I do End-to-end debugging/troubleshooting of switch fabric with ease * How can I do proactive diagnosis and prevention of network slowdown (due to congestion/slow-drain/storm/etc)</p>
+<p>Mutliple types of data can be collected from network: - Statistics: Switch/LC/Port (physical), Application/Algo/Layer level (logical) - Flow info: L4 flows, overlay flows, application flows - Health info: health of switch/lc/port, health of connected nodes</p>
+<ul>
+<li>Logical flow level statiscs for resource utilization graph per connection</li>
+<li>Logical stats per App, per VM (Apps can migrate from one VM to other easily)</li>
+</ul>
+<p>Methods to collect data: * SNMP * CLI * WEB (DMTF REST API’s, VMWare vCenter) * Bump-on-Wire traffic analysis * Probe (health check of links, adapters, conf conflicts, login/logouts, utilization water-mark, under-utilized hardware)</p>
+<p>Digital Analytics with Google: Internet available at click of button, Mobile to connect each and everyone, Cloud provides cheap/infinite hardware</p>
+<p>Conclusion: Harsha’s analytics design guide caters to most of these requirements. An NPU will be added as a co-processor to both LC and SUP cards. Any interested data (SCSI controls, FC_OTHER header) will be forwarded to this AXE NPU (from LSI) using ACL rules for further processing. To keep the load of processing packets limited, these packets are stripped after header length and forwarded to AXE NPU. Accumulation of such data happens at LC levels and polled by SUP at regular intervals. On SUP, intelligent algorithm consolidates these inputs and provides as meaningful information to the DCNM tool. The job of querying servers/VMs/racks is to be taken care of by DCNM tool. DCNM is also responsible for pictorial representation of such data to the end user.</p>
+
+<!--End content from the main markdown file for this page.-->
+
+</article>
+
+<!-- Begin footer.html. This is inserted using the include-after-body option in pandoc -->
+
+<nav class="navbar navbar-default">
+  <div class="footer">
+    <ul class="nav nav-pills pull-right">
+        <li><a rel="license" href="https://choosealicense.com/no-license/"><copyleft>&copy;</copyleft> All wrongs reserved</a></li>
+        <!-- Email obfuscator by Tim Williams requires javascript (http://www.jottings.com/obfuscator/) -->
+        <!-- Below one does not need javascript. Generated at: http://robspangler.com/blog/encrypt-mailto-links-to-stop-email-spam/ -->
+        <li class="transparent"><a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x66;&#x72;&#105;&#101;&#x6e;&#x64;&#x73;&#52;&#x77;&#101;&#x62;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;" title="My Email"><img src="./img/glyph_email.png"></a></li>
+        <li class="transparent"><a href="https://www.linkedin.com/in/ravikiranks" title="LinkedIn Profile"><img src="./img/glyph_linkedin.png"></a></li>
+        <li class="transparent"><a href="http://trivialconversations.wordpress.com" title="My Blog"><img src="./img/glyph_wordpress.png"></a></li>
+        <li class="transparent"><a href="http://github.com/rkks" title="Github repo"><img src="./img/glyph_github.png"></a></li>
+        <li class="transparent"><a href="https://rkks.github.io/resume.html" title="My Resume"><img src="./img/glyph_education.png"></a></li>
+        <li class="transparent"><a type="application/rss+xml" href="./feed.xml" title="RSS Feeds"><img src="./img/glyph_rss.png"></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- StatCounter Code from Default Guide -->
+
+<script type="text/javascript">
+    var sc_project=11365917;
+    var sc_invisible=1;
+    var sc_security="58ddb939";
+    var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+    document.write("<sc"+"ript type='text/javascript' src='" +scJsHost+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter">
+<a title="web analytics" href="http://statcounter.com/" target="_blank"><img class="statcounter" src="//c.statcounter.com/11365917/0/58ddb939/1/" alt="web analytics"></a>
+</div></noscript>
+
+<!-- End of footer.html -->
+
+</div>
+
+<div class="span3">&nbsp;</div>
+
+</div>
+</div>
+</body>
+</html>

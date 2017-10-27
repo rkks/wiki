@@ -2,8 +2,7 @@
 % Ravikiran K.S.
 % January 1, 2006
 
-
-First things first:
+## First things first:
 
 1.  Expertise is a relative term - Remember excellence, not perfection.
 
@@ -20,7 +19,7 @@ First things first:
       - Offer to speak at a local college.
 
 3.  Focus: Instead of just focusing on the very next step you need to
-    take, it’s easy to be overwhelmed by the bigger picture.
+    take, it's easy to be overwhelmed by the bigger picture.
     
       - Narrow your field of expertise. You can still understand
         neighbouring things, but they aren't your expertise.
@@ -45,15 +44,15 @@ First things first:
     
       - Same time, make it a point to help others in need.
 
-5.  5\. Make mistakes. You have to be willing to make mistakes in order
+5.  Make mistakes. You have to be willing to make mistakes in order
     to learn and grow. The sooner you get comfortable with making
-    mistakes, the quicker you’ll learn your new skill.
+    mistakes, the quicker you'll learn your new skill.
     
       - Start very small.
     
       - Do only one thing at a time.
     
-      - Be present and enjoy the activity (don’t focus on results).
+      - Be present and enjoy the activity (don't focus on results).
     
       - Be grateful for every step you take.
 
@@ -70,7 +69,7 @@ Thank people:
 
 Spread the word:
 
-1.  The audience won’t come to you. You need to find them, so they will
+1.  The audience won't come to you. You need to find them, so they will
     come.
 
 2.  Understand no one cares what you need. Everybody cares what they
@@ -88,17 +87,17 @@ Spread the word:
     you prove your vision is valid, gaining recognition for visionary
     thinking is much easier.
 
-2.  If everyone agrees, you’re preaching to the choir. Most of us follow
+2.  If everyone agrees, you're preaching to the choir. Most of us follow
     basic business principles. But how we apply those principles may be
     (slightly) different. To be a groundbreaker you must take a very
     different approach, and that means many people will disagree with
-    your thinking even after you’ve proven you’re right. See push back
+    your thinking even after you've proven you're right. See push back
     as a sign you may really be on to something.
 
 3.  For a while no one will listen. Groundbreakers not only need great
     ideas, they also need to effectively communicate those ideas.
 
-4.  You must be sure the effort is worth it. You’ll invest countless
+4.  You must be sure the effort is worth it. You'll invest countless
     hours writing, speaking, promoting, and networking, possibly for
     very little return. Take a hard look at the tangible benefits you
     expect to receive.
