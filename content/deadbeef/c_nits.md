@@ -244,3 +244,6 @@ int umult32(uint32 a,uint32 b,uint32* c) {
     return 1;
 }
 
+In C99, we can use __VA_ARGS__ in macro
+For example, to print twice
+#define printf(...) printf(__VA_ARGS__); printf(__VA_ARGS__)

@@ -64,7 +64,7 @@ int main()
   printf("<html>\n");
   printf("<body>\n");
   printf("<h1>The value entered was: ")
-  printf("%s</h1>\n", getenv("QUERY_STRING"));
+  printf("%s</h1>\n", getenv(``"QUERY_STRING"``));
   printf("</body>\n");
   printf("</html>\n");
   return 0;
@@ -83,7 +83,9 @@ Couple of checklists:
 	* Query using GET is updated at QUERY_STRING environment variable. Use getenv()
 	* Query using POST is available via stdin. Use gets() in C or read in PERL
 	* On concat of all inputs into a single string, characters will be substituted, like space with +. So, translation required.
+``
 * Different environment variables available in CGI scripting - AUTH_TYPE, CONTENT_LENGTH, CONTENT_TYPE, GATEWAY_INTERFACE, HTTP_ACCEPT, HTTP_USER_AGENT, PATH_INFO, PATH_TRANSLATED, QUERY_STRING, REMOTE_ADDR, REMOTE_HOST, REMOTE_IDENT, REMOTE_USER, REQUEST_METHOD, SCRIPT_NAME, SERVER_NAME, SERVER_PORT, SERVER_PROTOCOL, SERVER_SOFTWARE
+``
 
 Multiple Form inputs:
 * Single-line text input
@@ -146,7 +148,24 @@ Location: http://www.nexturl.here
 URL Encoding/Decoding a String:
 Encoding is simple, you must replace certain special characters with their hex codes or + for space. Hex codes are prefixed with a % sign.
 
-Cookies:
-Cookies can be used to store some persistent data with client/browser. Next time when client visits server, it provides this information to server. Cookies sent to server by client are stored in HTTP_COOKIE environment variable. To set a cookie, you should emit something like below:
-Set-Cookie: name=value; expires=date; path=path; domain=domain; secure
+* Cookies:
+Cookies can be used to store some persistent data with client/browser. Next
+time when client visits server, it provides this information to server. Cookies
+sent to server by client are stored in ``HTTP_COOKIE`` environment variable. To
+set a cookie, you should emit something like below: Set-Cookie: name=value;
+expires=date; path=path; domain=domain; secure
+
+## CGI Debugging
+
+If CGI program isn't working as expected, here is a checklist.
+
+* Browser not rendering properly
+make sure you have the correct Content-Type set in your CGI program. Ex. "Content-type: text/html\n\n". Two \n are must.
+* The source code of your CGI program or a "POST Method Not Allowed" message
+means that Apache isn't properly configured to process your CGI program. Refer to http://httpd.apache.org/docs/2.4/howto/cgi.html#configuring
+* A message starting with "Forbidden"
+means there is a permissions problem. Refer to http://httpd.apache.org/docs/2.4/howto/cgi.html#errorlogs
+* A message saying "Internal Server Error"
+Check Apache error log and details in http://httpd.apache.org/docs/2.4/howto/cgi.html
+
 

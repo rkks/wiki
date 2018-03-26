@@ -289,3 +289,82 @@ IMAP 143
 awk - List all elements one-by-one
 ls | awk '{ for (i = NF; i > 0; --i) print $i }'
 
+================================AP=============================================
+
+Pipeline - Commands seperated by pipe. Ex: ls | less
+
+List - Pipelies seperated by &, ;, &&, ||. & - used for background execution (runs in subshell, env var set inside the subshell are not propagated to current shell) and return status is always 0. ; - Execure command one after other in current shell in sequence and return status is the status of last command. && - Run right command if left command returns 1. || - Run right command if left command returns 0.
+
+( list ) - Run the commands in the subs-shell
+
+(( expression )) - Arithmetic expression and return 0 if end value is 0, else return 1.
+
+[[ expression ]] - Logical expression. When == or != used right operator is expanded as Pattern matching. Use ( expression ) for precedence as in C. ! expression, expression1 && expression2 , expression1 || expression2 are allowed.
+
+$(( expression )) - Arithmetic expression evaluation.
+
+for name [ in word ] ; do list ; done - list is exectued for each item in word with name taking each item. If no word, loop is done for each $1, $2, ...
+
+if list; then list; [ else list; ] fi
+
+while list; do list1; done - execute list1 untile list returns 0.
+
+[ function ] name ( ) { list; } - Define a function. Parameters comes as $1, $2, ...
+
+\nnn - octal char
+\xHH - hex char
+\cx  - control-x char
+
+name=[value]
+
+$* - all parameters except $0 - "$*" can make it single string seperated by IFS variable
+$@ - same as above
+$# - number of params
+$? - Status of most recent command
+$- - Option supplied to "set" command
+$$ - processor id
+$! - processor id of the recent background command
+$0 - name of the command
+$_ - absolute path of command
+
+array is possible
+
+${name} - used to distingish variables properly. More usgae is present.
+
+-f file - regular file. More usage present
+-z string - True if string len is zero
+-n string - True if string len is non-zero
+
+string == string, string != string, string < string, string > string - Same, not same, lexicographically small or big
+arg1 OP arg2 - For arithmetic. OP: -eq, -ne, -lt, -le, -gt, -ge
+
+emacs commands can be used on history list Cntrl-R for reverse search
+
+continue, break - can be used inside for/while loop
+
+local [name[=value]] - Makes the name local scope to the functions in which it is declared.
+read [-p prompt] [name ... ] - Print the prompt and read the entered values and assign to name. More use present.
+
+return [n] - function to return the value n.
+
+set [arg ... ] - set the $1, $2, ... more option present.
+
+shift [n] - Shift the n position params ${n +1} becomes $1
+
+.profile - Login shell reads ~/.profile and some more but not .bashrc . So include .bashrc in the .profile
+.bashrc - Interactive shell reads ~/.bashrc only
+
+PS1 - This shell variable dictates the prompt. '\h' gives host name, '\W' gives current dir. A lot more are present.
+
+Examples:
+a=10
+b="cd"
+echo $a $b
+
+[ expr ]  - return 0 or 1 on evaluating the expr. Same as test expr
+if [ -f $i ] // regualar file
+if [ $? != 0 ] // return value of previous command is not success 
+But don't use it! It is very restricted.
+
+[[ expression ]]
+if [[ ( -n $i ) && ( $i != "y" ) ]] // non-zero length 
